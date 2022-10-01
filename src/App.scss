@@ -1,0 +1,46 @@
+@mixin possitionLeft($position, $left) {
+  position: $position;
+  left: $left;
+}
+
+@mixin dimensions($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+.App {
+  display: grid;
+  grid-template-areas: 
+  'navbar header'
+  'navbar content';
+  grid-template-columns: 16rem;
+  grid-template-rows: 7% 93%;
+
+  position: fixed;
+
+  @include dimensions(100%, 100%);
+
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 20px;
+}
+
+.header {
+  grid-area: header;
+  @include dimensions(90%, null);
+  @include possitionLeft(relative, 10px);
+  padding-top: 15px;
+  border-bottom: rgb(194, 198, 197) solid 1px;
+}
+
+.navbar {
+  grid-area: navbar;
+  position: fixed;
+  background-color: #f4f4f4;
+  @include dimensions(250px, 100%);
+  // width: 250px;
+  // height: 100%;
+}
+
+.content {
+  grid-area: content;
+}

@@ -1,0 +1,59 @@
+$amethystColor: #715678;
+$lightAmethystColor: #c1b0c8;
+$lightGrayColor: #c2c6c5;
+
+@mixin border($color, $radius) {
+    border: $color solid 1px;
+    border-radius: $radius;
+  }
+  
+  @mixin position($position, $top, $right, $bottom, $left) {
+    position: $position;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+  }
+  
+  @mixin dimensions($width, $height) {
+      width: $width;
+      height: $height;
+  }
+  
+.pictures {}
+
+.block {
+    // @include position(absolute, null, 0, 0, 0);
+
+    background:rgba(255,255,255, 0.7);
+    // padding-top: 15px;
+    // padding-bottom: 30px;
+
+    input {
+        opacity: 0;
+        // position: relative;
+        z-index: -1;
+        // overflow: hidden;
+    
+        @include dimensions(0.1px, 0.1px);
+    }
+
+    label {
+        // position: relative;
+        // left: 110px;  
+          
+        font-size: 13px;
+        padding: 5px 10px;
+    
+        justify-content: center;
+        align-items: center;
+    
+        background-color: $amethystColor;
+        color: white;
+    
+        @include border($lightGrayColor, 10px);
+    
+        cursor: pointer;
+        user-select: none;
+    }
+}
