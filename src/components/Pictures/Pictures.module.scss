@@ -19,8 +19,9 @@ $lightGrayColor: #c2c6c5;
     width: $width;
     height: $height;
 }
-  
+
 .pictures {
+    // @include dimensions(80px, 80px);
     padding: 10px;
     display: grid;
     gap: 10px;
@@ -29,19 +30,52 @@ $lightGrayColor: #c2c6c5;
         @include dimensions(80px, 80px);
         border-radius: 15px;
         overflow: hidden;
-
-        img {
-            @include dimensions(80px, 80px);
-            @include position(relative, 50%, 0, 0, 50%);
-            transform: translate(-50%,-50%);
-            object-fit: cover;
-            transition: 300ms;
-        }
-
-        img:hover {
-            @include dimensions(100px, 100px);
-        }
     }
+}
+
+.holder {
+    position: relative;
+
+    img {
+        @include dimensions(80px, 80px);
+        @include position(relative, 0, 0, 0, 50%);
+        transform: translate(-50%);
+        object-fit: cover;
+        transition: 300ms;
+    }
+
+    img:hover {
+        @include dimensions(100px, 100px);
+    }
+}
+
+.closeModal {
+    @include position(absolute, 0, 0, null, null);
+    @include dimensions(24px, 24px);
+    opacity: 0.2;
+    cursor: pointer;
+    transition: opacity ease 0.5s;
+    
+    &:hover {
+        opacity: 1;
+    }
+}
+    
+.closeModal::before,
+.closeModal::after {
+    content: '';
+    @include position(absolute, 10px, null, null, null);
+    @include dimensions(24px, 3px);
+    display: block;
+    background: white;
+}
+    
+.closeModal::before {
+    transform: rotate(45deg);
+}
+    
+.closeModal::after {
+    transform: rotate(-45deg);
 }
 
 .block {

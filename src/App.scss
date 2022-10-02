@@ -24,6 +24,10 @@
   font-size: 20px;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}  
+
 .header {
   grid-area: header;
   @include dimensions(90%, null);
@@ -43,6 +47,8 @@
   grid-area: list;
   @include dimensions(100px, 100%);
   background-color: #d5d5d5;
+  overflow-y: auto;
+  // scrollbar-width: 0.1;
 }
 
 .content {

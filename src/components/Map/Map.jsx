@@ -24,12 +24,11 @@ const VerticalLines = (props) => {
         lines.push(i);
     }
 
-    const verticalLines = lines.map(l =>
-        <Line key={l}
-            x={l}
-            y={30}
-            points={[l * 50, 0, l * 50, window.innerWidth]}
-            stroke={'white'} />)
+    const verticalLines = lines.map(l => <Line key={l}
+        x={l}
+        y={30}
+        points={[l * 50, 0, l * 50, window.innerWidth]}
+        stroke={'white'} />)
 
     return verticalLines
 }
@@ -98,29 +97,29 @@ class Background extends React.Component {
 //         // переместим в body, чтобы мяч был точно не внутри position:relative
 //         document.body.append(ball);
 //         // и установим абсолютно спозиционированный мяч под курсор
-    
+
 //         moveAt(event.pageX, event.pageY);
-    
+
 //         // передвинуть мяч под координаты курсора
 //         // и сдвинуть на половину ширины/высоты для центрирования
 //         function moveAt(pageX, pageY) {
 //           ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 //           ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 //         }
-    
+
 //         function onMouseMove(event) {
 //           moveAt(event.pageX, event.pageY);
 //         }
-    
+
 //         // (3) перемещать по экрану
 //         document.addEventListener('mousemove', onMouseMove);
-    
+
 //         // (4) положить мяч, удалить более ненужные обработчики событий
 //         ball.onmouseup = function() {
 //           document.removeEventListener('mousemove', onMouseMove);
 //           ball.onmouseup = null;
 //         };
-    
+
 //       };
 // }
 
@@ -157,43 +156,43 @@ class Background extends React.Component {
 const generateItems = () => {
     const items = [];
     for (let i = 0; i < 10; i++) {
-      items.push({
-        x: Math.random() * 800,
-        y: Math.random() * 800,
-        id: 'node-' + i,
-        color: Konva.Util.getRandomColor(),
-      });
+        items.push({
+            x: Math.random() * 800,
+            y: Math.random() * 800,
+            id: 'node-' + i,
+            color: Konva.Util.getRandomColor(),
+        });
     }
     return items;
-  }
+}
 
-  const Map = (props) => {
-      let [startItems, setItems] = React.useState(generateItems());
+const Map = (props) => {
+    let [startingItems, setItems] = React.useState(generateItems());
 
     const handleDragStart = (e) => {
-      const id = e.target.name();
-      const items = startItems.slice();
-      const item = items.find((i) => i.id === id);
-      const index = items.indexOf(item);
-      // remove from the list:
-      items.splice(index, 1);
-      // add to the top
-      items.push(item);
-      setItems(items);
+        const id = e.target.name();
+        const items = startingItems.slice();
+        const item = items.find((i) => i.id === id);
+        const index = items.indexOf(item);
+        // remove from the list:
+        items.splice(index, 1);
+        // add to the top
+        items.push(item);
+        setItems(items);
     };
 
     const handleDragEnd = (e) => {
-      const id = e.target.name();
-      const items = startItems.slice();
-      const item = startItems.find((i) => i.id === id);
-      const index = startItems.indexOf(item);
-      // update item position
-      items[index] = {
-        ...item,
-        x: e.target.x(),
-        y: e.target.y(),
-      };
-      setItems(items);
+        const id = e.target.name();
+        const items = startingItems.slice();
+        const item = startingItems.find((i) => i.id === id);
+        const index = startingItems.indexOf(item);
+        // update item position
+        items[index] = {
+            ...item,
+            x: e.target.x(),
+            y: e.target.y(),
+        };
+        setItems(items);
     };
 
     return <Stage width={window.innerWidth} height={window.innerHeight} >
@@ -202,19 +201,19 @@ const generateItems = () => {
             <HorizontalLines />
             <VerticalLines />
 
-            {startItems.map((item) => (
-            <Circle
-              key={item.id}
-              name={item.id}
-              draggable
-              x={item.x}
-              y={item.y}
-              fill={item.color}
-              radius={25}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            />
-          ))}
+            {startingItems.map((item) => (
+                <Circle
+                    key={item.id}
+                    name={item.id}
+                    draggable
+                    x={item.x}
+                    y={item.y}
+                    fill={item.color}
+                    radius={25}
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                />
+            ))}
 
         </Layer>
     </Stage>

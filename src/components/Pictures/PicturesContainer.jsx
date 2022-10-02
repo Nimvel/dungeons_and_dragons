@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveNewPicture } from '../../redux/pictures-reducer'
+import { saveNewPicture, deletePicture } from '../../redux/pictures-reducer'
 import { setNewMap } from '../../redux/map-reducer'
 import Pictures from './Pictures';
 
 const PicturesContainer = (props) => {
-    React.useEffect(() => {}, []);
+    React.useEffect(() => {}, [props.pictures]);
 
-    return <Pictures saveNewPicture={props.saveNewPicture} pictures={props.pictures} setNewMap={props.setNewMap} />
+    return <Pictures saveNewPicture={props.saveNewPicture} pictures={props.pictures} setNewMap={props.setNewMap} deletePicture={props.deletePicture} />
 }
 
 const mapStateToProps = (state) => {
@@ -16,4 +16,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { saveNewPicture, setNewMap })(PicturesContainer);
+export default connect(mapStateToProps, { saveNewPicture, setNewMap, deletePicture })(PicturesContainer);
