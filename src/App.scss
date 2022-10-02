@@ -11,9 +11,9 @@
 .App {
   display: grid;
   grid-template-areas: 
-  'navbar header'
-  'navbar content';
-  grid-template-columns: 16rem;
+  'navbar list header'
+  'navbar list content';
+  grid-template-columns: 150px 100px;
   grid-template-rows: 7% 93%;
 
   position: fixed;
@@ -36,9 +36,13 @@
   grid-area: navbar;
   position: fixed;
   background-color: #f4f4f4;
-  @include dimensions(250px, 100%);
-  // width: 250px;
-  // height: 100%;
+  @include dimensions(150px, 100%);
+}
+
+.menu {
+  grid-area: list;
+  @include dimensions(100px, 100%);
+  background-color: #d5d5d5;
 }
 
 .content {

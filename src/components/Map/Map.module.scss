@@ -1,0 +1,19 @@
+// @mixin dimensions($width, $height) {
+//     width: $width;
+//     height: $height;
+//   }
+
+@mixin possitionLeft($position, $left) {
+    position: $position;
+    left: $left;
+  }
+  
+.map {
+    padding: 30px;
+
+    img {
+        @include possitionLeft(relative, 50%);
+        transform: translate(-50%);
+        height: 800px;
+    }
+}

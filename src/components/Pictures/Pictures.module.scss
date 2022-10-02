@@ -5,27 +5,50 @@ $lightGrayColor: #c2c6c5;
 @mixin border($color, $radius) {
     border: $color solid 1px;
     border-radius: $radius;
-  }
+}
   
-  @mixin position($position, $top, $right, $bottom, $left) {
+@mixin position($position, $top, $right, $bottom, $left) {
     position: $position;
     top: $top;
     right: $right;
     bottom: $bottom;
     left: $left;
-  }
+}
   
-  @mixin dimensions($width, $height) {
-      width: $width;
-      height: $height;
-  }
+@mixin dimensions($width, $height) {
+    width: $width;
+    height: $height;
+}
   
-.pictures {}
+.pictures {
+    padding: 10px;
+    display: grid;
+    gap: 10px;
+
+    .picture {
+        @include dimensions(80px, 80px);
+        border-radius: 15px;
+        overflow: hidden;
+
+        img {
+            @include dimensions(80px, 80px);
+            @include position(relative, 50%, 0, 0, 50%);
+            transform: translate(-50%,-50%);
+            object-fit: cover;
+            transition: 300ms;
+        }
+
+        img:hover {
+            @include dimensions(100px, 100px);
+        }
+    }
+}
 
 .block {
     // @include position(absolute, null, 0, 0, 0);
+    @include dimensions(80px, 25px);
 
-    background:rgba(255,255,255, 0.7);
+    // background:rgba(255,255,255, 0.7);
     // padding-top: 15px;
     // padding-bottom: 30px;
 
@@ -41,6 +64,7 @@ $lightGrayColor: #c2c6c5;
     label {
         // position: relative;
         // left: 110px;  
+
           
         font-size: 13px;
         padding: 5px 10px;

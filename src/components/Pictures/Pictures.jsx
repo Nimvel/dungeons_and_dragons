@@ -8,18 +8,18 @@ const Pictures = (props) => {
         }
     }
 
-    let picturesElements = props.pictures.map(p => <Picture picture={p.picture} key={p.id} />)
+    let picturesElements = props.pictures.map(p => <Picture picture={p.picture} key={p.id} setNewMap={props.setNewMap} />)
 
     return <div className={s.pictures}>
+        Menu
             <div className={s.block}>
                 <label>
                     <input onChange={addNewPicture}
                         type={'file'} accept='.jpg, .jpeg, .tiff, .png, .gif, .bmp, jp2' />
-                    <span>Send picture</span>
+                    <span>Add</span>
                 </label>
             </div>
             {picturesElements}
-            {/* <img src={props.img} alt='game map' /> */}
     </div>
 }
 
