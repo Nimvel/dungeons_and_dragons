@@ -1,4 +1,4 @@
-import img1 from './../assets/pictures/img_1.jpg';
+import img1 from '../assets/pictures/img_1.jpg';
 
 const SET_NEW_MAP = 'map/SET_NEW_MAP'
 

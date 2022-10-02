@@ -17,3 +17,10 @@
         height: 800px;
     }
 }
+
+.drag {
+    button {
+        @include possitionLeft(relative, -100px);
+        z-index: 9;
+    }
+}
