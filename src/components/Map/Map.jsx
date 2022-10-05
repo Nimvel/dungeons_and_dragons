@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layer, Line, Stage, Image, Circle } from 'react-konva';
 
-const HorizontalLines = (props) => {
+const HorizontalLines = ({gridColor}) => {
     const lines = [];
     for (let i = 1; i <= 16; i++) {
         lines.push(i);
@@ -11,13 +11,13 @@ const HorizontalLines = (props) => {
         x={30}
         y={l}
         points={[0, l * 50, 700, l * 50]}
-        stroke={'white'}
+        stroke={gridColor}
     />)
 
     return horizontalLines
 }
 
-const VerticalLines = (props) => {
+const VerticalLines = ({gridColor}) => {
     const lines = [];
     for (let i = 1; i <= 14; i++) {
         lines.push(i);
@@ -27,7 +27,7 @@ const VerticalLines = (props) => {
         x={l}
         y={30}
         points={[l * 50, 0, l * 50, window.innerWidth]}
-        stroke={'white'} />)
+        stroke={gridColor} />)
 
     return verticalLines
 }
@@ -129,8 +129,13 @@ const Map = ({ items, setItems, ...props }) => {
     return <Stage width={window.innerWidth} height={window.innerHeight} >
         <Layer>
             <Background src={props.map} />
-            <HorizontalLines />
-            <VerticalLines />
+
+            {props.grid &&
+                <div>
+                    <HorizontalLines gridColor={props.gridColor} />
+                    <VerticalLines gridColor={props.gridColor} />
+                </div>
+            }
 
             {items.map((item) => (
                 <Circle

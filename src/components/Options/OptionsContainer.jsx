@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addNewCircle, updateItems } from '../../redux/map-reducer'
+import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor } from '../../redux/map-reducer'
 import Options from './Options';
 
 const OptionsContainer = (props) => {
@@ -36,8 +36,21 @@ const OptionsContainer = (props) => {
         props.updateItems(generateItems(props.items, quantity, color));
     }
 
+    const onShowGrid = () => {
+        props.showGrid();
+    }
+
+    const onHideGrid = () => {
+        props.hideGrid();
+    }
+
+    const onChangeGridColor = (e) => {
+        props.changeGridColor(e.target.value);
+    }
+
     return <Options color={color} quantity={quantity}
-    onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} />
+    onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} 
+    onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid} />
 }
 
 const mapStateToProps = (state) => {
@@ -48,4 +61,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { addNewCircle, updateItems })(OptionsContainer);
+export default connect(mapStateToProps, { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor })(OptionsContainer);
