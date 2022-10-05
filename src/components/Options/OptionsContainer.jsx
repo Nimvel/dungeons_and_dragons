@@ -48,7 +48,7 @@ const OptionsContainer = (props) => {
         props.changeGridColor(e.target.value);
     }
 
-    return <Options color={color} quantity={quantity}
+    return <Options color={color} quantity={quantity} gridColor={props.gridColor}
     onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} 
     onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid} />
 }
@@ -56,6 +56,7 @@ const OptionsContainer = (props) => {
 const mapStateToProps = (state) => {
     return {
         color: state.mapPage.color,
+        gridColor: state.mapPage.gridColor,
         quantity: state.mapPage.quantity,
         items: state.mapPage.items
     }
