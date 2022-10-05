@@ -4,9 +4,14 @@ import s from './Navbar.module.scss';
 const Navbar = () => {
     return <div className='navbar'>
         <div className={s.navbar_links}>
-        <NavLink to='/pictures' className={linkActive => linkActive.isActive ? s.active : s.item} >Pictures</NavLink>
+            <div>
+                <NavLink to='/pictures' className={linkActive => linkActive.isActive ? s.active : s.item} >Pictures</NavLink>
+            </div>
+            <div>
+                <NavLink to='/options' className={linkActive => linkActive.isActive ? s.active : s.item} >Options</NavLink>
+            </div>
         </div>
-      </div>
-  }
-  
-  export default Navbar;
+    </div>
+}
+
+export default Navbar;

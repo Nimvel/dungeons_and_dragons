@@ -1,4 +1,3 @@
-import Konva from 'konva';
 import React from 'react';
 import { Layer, Line, Stage, Image, Circle } from 'react-konva';
 
@@ -87,91 +86,24 @@ class Background extends React.Component {
     }
 }
 
-// export const Drag = () => {
-//     ball.onmousedown = function(event) { // (1) отследить нажатие
-
-//         // (2) подготовить к перемещению:
-//         // разместить поверх остального содержимого и в абсолютных координатах
-//         ball.style.position = 'absolute';
-//         ball.style.zIndex = 1000;
-//         // переместим в body, чтобы мяч был точно не внутри position:relative
-//         document.body.append(ball);
-//         // и установим абсолютно спозиционированный мяч под курсор
-
-//         moveAt(event.pageX, event.pageY);
-
-//         // передвинуть мяч под координаты курсора
-//         // и сдвинуть на половину ширины/высоты для центрирования
-//         function moveAt(pageX, pageY) {
-//           ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
-//           ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
-//         }
-
-//         function onMouseMove(event) {
-//           moveAt(event.pageX, event.pageY);
-//         }
-
-//         // (3) перемещать по экрану
-//         document.addEventListener('mousemove', onMouseMove);
-
-//         // (4) положить мяч, удалить более ненужные обработчики событий
-//         ball.onmouseup = function() {
-//           document.removeEventListener('mousemove', onMouseMove);
-//           ball.onmouseup = null;
-//         };
-
-//       };
-// }
-
-// tension={1}
-
-// class ColoredRect extends React.Component {
-//     // state = {
-//     //     color: 'green'
-//     // };
-
-//     // handleClick = () => {
-//     //     this.setState({
-//     //         color: Konva.Util.getRandomColor()
-//     //     });
-//     // };
-
-//     render() {
-//         return (
-//             <Rect
-//                 x={0}
-//                 y={0}
-//                 width={500}
-//                 height={500}
-//                 // width={this.props.map.width}
-//                 // height={this.props.map.height}
-//                 // fill={this.state.color}
-//                 shadowBlur={5}
-//                 // onClick={this.handleClick}
-//             />
-//         );
+// const generateItems = () => {
+//     const items = [];
+//     for (let i = 0; i < 10; i++) {
+//         items.push({
+//             x: Math.random() * 800,
+//             y: Math.random() * 800,
+//             id: 'node-' + i,
+//             color: Konva.Util.getRandomColor(),
+//         });
 //     }
+//     return items;
 // }
 
-const generateItems = () => {
-    const items = [];
-    for (let i = 0; i < 10; i++) {
-        items.push({
-            x: Math.random() * 800,
-            y: Math.random() * 800,
-            id: 'node-' + i,
-            color: Konva.Util.getRandomColor(),
-        });
-    }
-    return items;
-}
 
-const Map = (props) => {
-    let [startingItems, setItems] = React.useState(generateItems());
+const Map = ({ items, setItems, ...props }) => {
 
     const handleDragStart = (e) => {
         const id = e.target.name();
-        const items = startingItems.slice();
         const item = items.find((i) => i.id === id);
         const index = items.indexOf(item);
         // remove from the list:
@@ -183,9 +115,8 @@ const Map = (props) => {
 
     const handleDragEnd = (e) => {
         const id = e.target.name();
-        const items = startingItems.slice();
-        const item = startingItems.find((i) => i.id === id);
-        const index = startingItems.indexOf(item);
+        const item = items.find((i) => i.id === id);
+        const index = items.indexOf(item);
         // update item position
         items[index] = {
             ...item,
@@ -201,7 +132,7 @@ const Map = (props) => {
             <HorizontalLines />
             <VerticalLines />
 
-            {startingItems.map((item) => (
+            {items.map((item) => (
                 <Circle
                     key={item.id}
                     name={item.id}

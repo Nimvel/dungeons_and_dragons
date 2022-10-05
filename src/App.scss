@@ -13,7 +13,7 @@
   grid-template-areas: 
   'navbar list header'
   'navbar list content';
-  grid-template-columns: 150px 100px;
+  grid-template-columns: 125px 125px;
   grid-template-rows: 7% 93%;
 
   position: fixed;
@@ -40,12 +40,12 @@
   grid-area: navbar;
   position: fixed;
   background-color: #f4f4f4;
-  @include dimensions(150px, 100%);
+  @include dimensions(125px, 100%);
 }
 
 .menu {
   grid-area: list;
-  @include dimensions(100px, 100%);
+  @include dimensions(125px, 100%);
   background-color: #d5d5d5;
   overflow-y: auto;
   // scrollbar-width: 0.1;
