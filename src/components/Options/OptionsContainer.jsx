@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor } from '../../redux/map-reducer'
+import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor } from '../../redux/map-reducer.ts'
 import Options from './Options';
 
 const OptionsContainer = (props) => {
@@ -24,8 +24,8 @@ const OptionsContainer = (props) => {
             circles.push({
                 x: Math.random() * 650 + 50,
                 y: Math.random() * 750 + 50,
-                id: 'node-' + items.lenght,
-                color: color,
+                id: 'node-' + (items.length + i),
+                color: color
             });
         }
         return items.concat(circles);

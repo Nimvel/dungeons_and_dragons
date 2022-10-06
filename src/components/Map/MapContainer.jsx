@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Map from './Map';
-import { setNewMap, updateItems } from '../../redux/map-reducer'
+import Map from './Map.tsx';
+import { setNewMap, updateItems } from '../../redux/map-reducer.ts'
 import React from 'react';
 
 const MapContainer = (props) => {
@@ -14,7 +14,7 @@ const MapContainer = (props) => {
 
     return <div>
         <Map map={props.map} items={items} grid={props.grid} gridColor={props.gridColor}
-            setNewMap={props.setNewMap} setItems={setItems} />
+            updateItems={props.updateItems} setNewMap={props.setNewMap} setItems={setItems} />
     </div>
 }
 

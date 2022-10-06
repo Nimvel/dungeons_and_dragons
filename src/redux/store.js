@@ -1,6 +1,6 @@
 import { combineReducers, legacy_createStore as createStore } from "redux";
-import mapReducer from "./map-reducer";
-import picturesReducer from "./pictures-reducer";
+import mapReducer from "./map-reducer.ts";
+import picturesReducer from "./pictures-reducer.ts";
 
 const reducers = combineReducers({
     picturesPage: picturesReducer,

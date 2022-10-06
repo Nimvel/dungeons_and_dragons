@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveNewPicture, deletePicture } from '../../redux/pictures-reducer'
-import { setNewMap } from '../../redux/map-reducer'
+import { saveNewPicture, deletePicture } from '../../redux/pictures-reducer.ts'
+import { setNewMap } from '../../redux/map-reducer.ts'
 import Pictures from './Pictures';
 
 const PicturesContainer = (props) => {

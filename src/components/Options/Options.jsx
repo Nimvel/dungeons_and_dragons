@@ -3,7 +3,7 @@ import s from './Options.module.scss';
 const Options = (props) => {
     return <div className={s.options}>
         <div className={s.circles}>
-            <input onChange={props.onChangeQuantity} className={s.quantity} value={props.quantity} />
+            <input onChange={props.onChangeQuantity} className={s.quantity} placeholder='Enter quantity of circles' />
             <input onChange={props.onChangeColor} className={s.color} type='color' value={props.color} />
             <button onClick={props.onAddNewCircle}>
                 Add

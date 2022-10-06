@@ -7,7 +7,12 @@
     position: $position;
     left: $left;
   }
-  
+
+@mixin dimensions($width, $height) {
+    width: $width;
+    height: $height;
+}
+
 .map {
     padding: 30px;
 
@@ -24,3 +29,9 @@
         z-index: 9;
     }
 }
+
+// .circle_menu {
+//     background-color: black;
+//     @include dimensions(100px, 100px);
+//     z-index: 10;
+// }
