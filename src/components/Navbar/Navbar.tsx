@@ -4,6 +4,7 @@ import s from './Navbar.module.scss'
 const Navbar = (props) => {
     const onCrossClick = () => {
         props.closeNavbar()
+        props.closeMenu()
     }
 
     const onMenuClick = () => {

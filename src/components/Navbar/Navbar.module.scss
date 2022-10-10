@@ -35,7 +35,7 @@
 
 .open {
     cursor: pointer;
-    @include dimensions(100px, 100px);
+    @include dimensions(50px, 50px);
     z-index: 3;
 }
 
