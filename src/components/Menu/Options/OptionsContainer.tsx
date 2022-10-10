@@ -1,7 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor } from '../../redux/map-reducer.ts'
-import Options from './Options';
+import React from 'react'
+import { connect } from 'react-redux'
+
+import { closeMenu, openMenu } from '../../../redux/app-reducer.ts'
+import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor } from '../../../redux/map-reducer.ts'
+
+import Options from './Options.tsx'
 
 const OptionsContainer = (props) => {
     let [quantity, setQuantity] = React.useState(props.quantity);
@@ -49,12 +52,14 @@ const OptionsContainer = (props) => {
     }
 
     return <Options color={color} quantity={quantity} gridColor={props.gridColor}
+    closeMenu={props.closeMenu} openMenu={props.openMenu}
     onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} 
     onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid} />
 }
 
 const mapStateToProps = (state) => {
     return {
+        isMenuActive: state.app.isMenuActive,
         color: state.mapPage.color,
         gridColor: state.mapPage.gridColor,
         quantity: state.mapPage.quantity,
@@ -62,4 +67,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor })(OptionsContainer);
+export default connect(mapStateToProps, { closeMenu, openMenu, addNewCircle, updateItems, showGrid, hideGrid, changeGridColor })(OptionsContainer);

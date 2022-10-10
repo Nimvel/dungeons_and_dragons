@@ -1,4 +1,4 @@
-import Picture from './Picture';
+import Picture from './Picture.tsx';
 import s from './Pictures.module.scss';
 
 const Pictures = (props) => {

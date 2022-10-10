@@ -10,11 +10,11 @@
 
 .App {
   display: grid;
-  grid-template-areas: 
-  'navbar list header'
-  'navbar list content';
-  grid-template-columns: 125px 125px;
-  grid-template-rows: 7% 93%;
+  // grid-template-areas: 
+  // 'navbar list header'
+  // 'navbar list content';
+  // grid-template-columns: 125px 125px;
+  // grid-template-rows: 7% 93%;
 
   position: fixed;
 
@@ -29,7 +29,7 @@
 }  
 
 .header {
-  grid-area: header;
+  // grid-area: header;
   @include dimensions(90%, null);
   @include possitionLeft(relative, 10px);
   padding-top: 15px;
@@ -37,20 +37,25 @@
 }
 
 .navbar {
-  grid-area: navbar;
+  // grid-area: navbar;
   position: fixed;
+  z-index: 1;
   background-color: #f4f4f4;
   @include dimensions(125px, 100%);
 }
 
 .menu {
-  grid-area: list;
+  // grid-area: list;
   @include dimensions(125px, 100%);
+  @include possitionLeft(fixed, 125px);
+
+  z-index: 2;
   background-color: #d5d5d5;
   overflow-y: auto;
   // scrollbar-width: 0.1;
 }
 
 .content {
-  grid-area: content;
+  // grid-area: content;
+  position: fixed;
 }
