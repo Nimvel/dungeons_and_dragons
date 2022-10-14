@@ -34,17 +34,16 @@ const OptionsContainer = (props) => {
     }
 
     const generateItems = (items: any[], quantity: number, color: string) => {
-        const circles = [];
+        const circles = []
         for (let i = 1; i <= quantity; i++) {
             circles.push({
-                x: Math.random() * 650 + 50,
-                y: Math.random() * 750 + 50,
-                // radius: size,
+                x: Math.random() * (window.innerWidth - 100) + 50,
+                y: Math.random() * (window.innerHeight - 100) + 50,
                 id: 'node-' + (items.length + i),
                 color: color
             });
         }
-        return items.concat(circles);
+        return items.concat(circles)
     }
 
     const onAddNewCircle = () => {

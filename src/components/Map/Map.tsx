@@ -80,12 +80,13 @@ const Map = ({ items, setItems, ...props }) => {
     const touchContextMenu = (e: any) => {
         e.evt.preventDefault()
         const id = e.target.name()
-        const { clientX, clientY } = e.evt
+        const clientX = e.touches[0].clientX
+        const clientY = e.touches[0].clientY
         items.find((i: any) => {
             if (i.id === id) {
                 setActiveCircleId(id)
                 // console.log('setActiveCircleId: ', activeCircleId)
-                setContextMenu(contextMenu, [Touch.clientX, Touch.clientY])
+                setContextMenu(contextMenu, [clientX, clientY])
             }
         })
     }
