@@ -14,7 +14,6 @@ const Pictures = (props) => {
         setNewMap={props.setNewMap} />)
 
     return <div className={s.pictures}>
-        Menu
             <div className={s.block}>
                 <label>
                     <input onChange={addNewPicture}

@@ -1,7 +1,5 @@
-import { Canvas } from 'konva/lib/Canvas'
 import * as React from 'react'
 import { Image } from 'react-konva'
-import { threadId } from 'worker_threads'
 
 type BackgroundType = {
     image: null | string
@@ -54,9 +52,11 @@ class Background extends React.Component<BackgroundType> {
             <Image
                 x={0}
                 y={0}
-                width={this.props.width}
-                height={this.props.height}
-                // height={window.innerHeight}
+                // width={this.props.width}
+                // height={this.props.height}
+                
+                // this.props.height this.clientHeight
+                // this.props.width this.clientWidth
                 image={this.state.image}
                 // ref={(node) => {
                 //     console.log(this.state.imageNode)
@@ -67,21 +67,15 @@ class Background extends React.Component<BackgroundType> {
     }
 }
 
-export default Background
-
-// interface BackgroundType {
-//     image?: any
-//     imageNode?: any
-//     src: string
-// }
+// const img1 = require('../../../assets/pictures/img_1.jpg');
 
 // const Background: React.FC<BackgroundType> = (props: any) => {
-//     const [image, setImage]: any = useState(null)
+//     const [image, setImage]: any = React.useState(img1)
 //     // const [imageNode, setImageNode]: any = useState(null)
 
-//     useEffect(() => { loadImage() }, []);
-//     useEffect(() => { loadImage() }, [props.src]);
-//     useEffect(() => { image.removeEventListener('load', handleLoad) }, []);
+//     React.useEffect(() => { loadImage() }, []);
+//     React.useEffect(() => { loadImage() }, [props.src]);
+//     React.useEffect(() => { image.removeEventListener('load', handleLoad) }, []);
 
 //     const loadImage = () => {
 //         // save to "this" to remove "load" handler on unmount
@@ -109,3 +103,5 @@ export default Background
 //                 // }}
 //             />
 // }
+
+export default Background

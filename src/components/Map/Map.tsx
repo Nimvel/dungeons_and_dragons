@@ -21,8 +21,15 @@ import Background from './Background/Background'
 // }
 
 const Map = ({ items, setItems, ...props }) => {
-    let [activeCircleId, setActiveCircleId] = useState(null)
-    const [size, setSize] = React.useState({ width: window.innerWidth, height: window.innerHeight });
+    const [fullScreen, setFullScreen] = useState(false)
+    const [activeCircleId, setActiveCircleId] = useState(null)
+    const [size, setSize] = React.useState({ width: window.innerWidth, height: window.innerHeight })
+
+    // do your calculations for stage properties
+    let stageWidth = size.width % 2 !== 0 ? size.width - 1 : size.width;
+    let stageHeight = size.height % 2 !== 0 ? size.height - 1 : size.height;
+
+    const { setContextMenu } = useContextMenu()
 
     React.useEffect(() => {
         const checkSize = () => {
@@ -36,12 +43,6 @@ const Map = ({ items, setItems, ...props }) => {
         return () => window.removeEventListener('resize', checkSize);
 
     }, []);
-
-    // do your calculations for stage properties
-    let stageWidth = size.width % 2 !== 0 ? size.width - 1 : size.width;
-    let stageHeight = size.height % 2 !== 0 ? size.height - 1 : size.height;
-
-    const { setContextMenu } = useContextMenu()
 
     React.useEffect(() => { }, [props.width, props.height]);
 
@@ -119,10 +120,39 @@ const Map = ({ items, setItems, ...props }) => {
         })
     }
 
-    return (
-        <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}  >
+    const onDoubleClick = () => {
+        setFullScreen(!fullScreen)
+        fullScreen ? openFullscreen() : closeFullscreen()
+    }
+
+    const elem = document.documentElement;
+
+    const openFullscreen = () => {
+        if (elem.requestFullScreen) {
+            elem.requestFullScreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullScreen) {
+            elem.webkitRequestFullScreen();
+        }
+    }
+
+    const closeFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+
+    return (<div onDoubleClick={onDoubleClick} >
+        <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
             <Layer>
-                <Background src={props.map} width={stageWidth} height={stageHeight} />
+                <div>
+                    <Background src={props.map} width={stageWidth} height={stageHeight} />
+                </div>
 
                 {props.grid &&
                     <div>
@@ -143,7 +173,7 @@ const Map = ({ items, setItems, ...props }) => {
                         shadowColor='black'
                         shadowBlur={10}
                         shadowOpacity={0.7}
-                        radius={props.gridSize/2}
+                        radius={props.gridSize / 2}
                         onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
                         // onContextmenu={onContextmenu}
@@ -153,6 +183,7 @@ const Map = ({ items, setItems, ...props }) => {
                 ))}
             </Layer>
         </Stage>
+    </div>
     )
 }
 
