@@ -48,7 +48,7 @@ const Map = ({ items, setItems, ...props }) => {
 
     const contextMenu = useMemo(() => ([
         {
-            name: 'Delete',
+            name: 'Delete All',
             onClick: () => {
                 // console.log("Items: ", items)
                 // console.log('activeCircleId: ', activeCircleId)
@@ -71,8 +71,21 @@ const Map = ({ items, setItems, ...props }) => {
         items.find((i: any) => {
             if (i.id === id) {
                 setActiveCircleId(id)
-                console.log('setActiveCircleId: ', activeCircleId)
+                // console.log('setActiveCircleId: ', activeCircleId)
                 setContextMenu(contextMenu, [clientX, clientY])
+            }
+        })
+    }
+
+    const touchContextMenu = (e: any) => {
+        e.evt.preventDefault()
+        const id = e.target.name()
+        const { clientX, clientY } = e.evt
+        items.find((i: any) => {
+            if (i.id === id) {
+                setActiveCircleId(id)
+                // console.log('setActiveCircleId: ', activeCircleId)
+                setContextMenu(contextMenu, [Touch.clientX, Touch.clientY])
             }
         })
     }
@@ -180,7 +193,7 @@ const Map = ({ items, setItems, ...props }) => {
                         // onContextmenu={onContextmenu}
                         // onMouseDown={OnCircleClick}
                         onContextMenu={handleContextMenu}
-                        onTouchEnd={handleContextMenu}
+                        onTouchStart={touchContextMenu}
                     />
                 ))}
             </Layer>
