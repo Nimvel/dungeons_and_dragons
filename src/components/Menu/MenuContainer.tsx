@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 
-import { closeMenu, openMenu } from '../../redux/app-reducer.ts'
+import { closeMenu, openMenu } from '../../redux/app-reducer'
 
-import OptionsContainer from './Options/OptionsContainer.tsx'
-import PicturesContainer from './Pictures/PicturesContainer.tsx'
+import OptionsContainer from './Options/OptionsContainer'
+import PicturesContainer from './Pictures/PicturesContainer'
 
 import s from '../Navbar/Navbar.module.scss';
 

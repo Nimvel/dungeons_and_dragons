@@ -57,5 +57,11 @@
 
 .content {
   // grid-area: content;
-  position: fixed;
+  @include dimensions(100%, 100%);
+  @include possitionLeft(fixed, 0);
+
+//   @media (max-width: 1100px) {
+//     @include dimensions(100px, 500px);
+// }
+  // transform: translate(-50%);
 }

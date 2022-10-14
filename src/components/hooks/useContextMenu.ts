@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ContextMenu } from '../context/ContextMenu/ContextMenu.ts';
+import { ContextMenu } from '../ContextMenu/ContextMenu';
 
 const useContextMenu = () => useContext(ContextMenu);
 

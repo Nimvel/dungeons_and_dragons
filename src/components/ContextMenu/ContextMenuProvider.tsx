@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { ContextMenu } from './ContextMenu.ts';
-import { ContextMenuItem } from './ContextMenu.ts';
+import { ContextMenu } from './ContextMenu';
+import { ContextMenuItem } from './ContextMenu';
 import s from './ContextMenu.module.scss'
 
 export const ContextMenuProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
@@ -8,7 +8,7 @@ export const ContextMenuProvider: FC<PropsWithChildren<{}>> = ({ children }) => 
     const [position, setPosition] = useState<number[]>([]);
 
     const setContextMenu = useCallback((items: ContextMenuItem[], position: number[]) => {
-        console.log(items, position)
+        // console.log(items, position)
         setContextMenuItems(items);
         setPosition(position);
     }, [])

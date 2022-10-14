@@ -12,6 +12,10 @@ const Options = (props) => {
 
         <div className={s.grid}>
             <div>Grid</div>
+            <input onChange={props.onChangeSize} placeholder='Enter size' />
+            <button onClick={props.onChangeGridSize}>
+                Update
+            </button>
             <input type='radio' onClick={props.onShowGrid} name='grid' />
             <label>On</label>
             <input type='radio' onClick={props.onHideGrid} name='grid' />

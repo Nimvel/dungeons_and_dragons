@@ -1,37 +1,30 @@
+// @mixin possitionLeft($position, $left) {
+//     position: $position;
+//     left: $left;
+//   }
+
 // @mixin dimensions($width, $height) {
 //     width: $width;
 //     height: $height;
-//   }
+// }
 
-@mixin possitionLeft($position, $left) {
-    position: $position;
-    left: $left;
-  }
+// // .map {
+// //     // padding: 30px;
+// //     // @include dimensions(1000px, 1000px);
+// //     // @include possitionLeft(relative, 50%);
+// //     // transform: translate(-50%);
+// //     // background-color: black;
 
-@mixin dimensions($width, $height) {
-    width: $width;
-    height: $height;
-}
+// //     img {
+// //         // @include possitionLeft(relative, 50%);
+// //         // transform: translate(-50%);
+// //         // height: 800px;
+// //     }
+// // }
 
-.map {
-    padding: 30px;
-
-    img {
-        @include possitionLeft(relative, 50%);
-        transform: translate(-50%);
-        height: 800px;
-    }
-}
-
-.drag {
-    button {
-        @include possitionLeft(relative, -100px);
-        z-index: 9;
-    }
-}
-
-// .circle_menu {
-//     background-color: black;
-//     @include dimensions(100px, 100px);
-//     z-index: 10;
+// .drag {
+//     button {
+//         @include possitionLeft(relative, -100px);
+//         z-index: 9;
+//     }
 // }

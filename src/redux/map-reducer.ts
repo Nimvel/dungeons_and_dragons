@@ -79,6 +79,7 @@ const UPDATE_ITEMS = 'map/UPDATE_ITEMS';
 const SHOW_GRID = 'map/SHOW_GRID';
 const HIDE_GRID = 'map/HIDE_GRID';
 const CHANGE_GRID_COLOR = 'map/CHANGE_GRID_COLOR';
+const CHANGE_GRID_SIZE = 'map/CHANGE_GRID_SIZE';
 
 export type initialStateType = {
     map: string
@@ -87,6 +88,7 @@ export type initialStateType = {
     quantity: number
     grid: boolean
     gridColor: string
+    gridSize: number
 }
 
 const initialState: initialStateType = {
@@ -95,10 +97,11 @@ const initialState: initialStateType = {
     color: '#cb9d9d',
     quantity: 0,
     grid: false,
-    gridColor: '#ffffff'
+    gridColor: '#ffffff',
+    gridSize: 50
 }
 
-const mapReducer = (state = initialState, action: any) : initialStateType => {
+const mapReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
         case SET_NEW_MAP:
             return {
@@ -136,21 +139,50 @@ const mapReducer = (state = initialState, action: any) : initialStateType => {
                 ...state,
                 gridColor: action.color
             }
+
+        case CHANGE_GRID_SIZE:
+            return {
+                ...state,
+                gridSize: action.size
+            }
     }
     return state
 }
 
-type setNewMapType = {
+type SetNewMapType = {
     type: typeof SET_NEW_MAP
     map: string
 }
+export const setNewMap = (map: string): SetNewMapType => ({ type: SET_NEW_MAP, map })
+type AddNewCircleType = {
+    type: typeof ADD_NEW_CIRCLES
+    quantity: number
+    color: string
+}
+export const addNewCircle = (quantity: number, color: string): AddNewCircleType => ({ type: ADD_NEW_CIRCLES, quantity, color })
+type UpdateItemsType = {
+    type: typeof UPDATE_ITEMS
+    items: any[]
+}
+export const updateItems = (items: any[]): UpdateItemsType => ({ type: UPDATE_ITEMS, items })
 
-export const setNewMap = (map: string): setNewMapType => ({ type: SET_NEW_MAP, map });
-export const addNewCircle = (quantity: number, color: string) => ({type: ADD_NEW_CIRCLES, quantity, color});
-export const updateItems = (items: any[]) => ({type: UPDATE_ITEMS, items});
-
-export const showGrid = () => ({type: SHOW_GRID });
-export const hideGrid = () => ({type: HIDE_GRID });
-export const changeGridColor = (color: string) => ({type: CHANGE_GRID_COLOR, color });
+type ShowGridType = {
+    type: typeof SHOW_GRID
+}
+export const showGrid = (): ShowGridType => ({ type: SHOW_GRID })
+type HideGridType = {
+    type: typeof HIDE_GRID
+}
+export const hideGrid = (): HideGridType => ({ type: HIDE_GRID })
+type ChangeGridColorType = {
+    type: typeof CHANGE_GRID_COLOR
+    color: string
+}
+export const changeGridColor = (color: string): ChangeGridColorType => ({ type: CHANGE_GRID_COLOR, color })
+type ChangeGridSizeType = {
+    type: typeof CHANGE_GRID_SIZE
+    size: number
+}
+export const changeGridSize = (size: number): ChangeGridSizeType => ({ type: CHANGE_GRID_SIZE, size })
 
 export default mapReducer;
