@@ -128,6 +128,7 @@ const Map = ({ items, setItems, ...props }) => {
     const elem = document.documentElement;
 
     const openFullscreen = () => {
+        window.scrollTo(0,1)
         if (elem.requestFullScreen) {
             elem.requestFullScreen();
         } else if (elem.mozRequestFullScreen) {
