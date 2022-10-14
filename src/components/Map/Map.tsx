@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Layer, Stage, Circle } from 'react-konva'
 import Konva from 'konva'
 import useContextMenu from '../hooks/useContextMenu'
@@ -23,7 +23,7 @@ import Background from './Background/Background'
 const Map = ({ items, setItems, ...props }) => {
     const [fullScreen, setFullScreen] = useState(false)
     const [activeCircleId, setActiveCircleId] = useState(null)
-    const [size, setSize] = React.useState({ width: window.innerWidth, height: window.innerHeight })
+    const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
 
     // do your calculations for stage properties
     let stageWidth = size.width % 2 !== 0 ? size.width - 1 : size.width;
@@ -31,7 +31,7 @@ const Map = ({ items, setItems, ...props }) => {
 
     const { setContextMenu } = useContextMenu()
 
-    React.useEffect(() => {
+    useEffect(() => {
         const checkSize = () => {
             setSize({
                 width: window.innerWidth,
@@ -162,7 +162,7 @@ const Map = ({ items, setItems, ...props }) => {
         }
     }
 
-    return (<div  onDoubleClick={onDoubleClick} >
+    return (<div onDoubleClick={onDoubleClick} >
         <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
             <Layer>
                 <div>
@@ -194,7 +194,7 @@ const Map = ({ items, setItems, ...props }) => {
                         // onContextmenu={onContextmenu}
                         // onMouseDown={OnCircleClick}
                         onContextMenu={handleContextMenu}
-                        onTouchStart={touchContextMenu}
+                        onTouchEnd={handleContextMenu}
                     />
                 ))}
             </Layer>
