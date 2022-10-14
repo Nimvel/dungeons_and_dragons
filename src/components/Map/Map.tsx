@@ -148,7 +148,7 @@ const Map = ({ items, setItems, ...props }) => {
         }
     }
 
-    return (<div onDoubleClick={onDoubleClick} >
+    return (<div  onDoubleClick={onDoubleClick} >
         <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
             <Layer>
                 <div>
@@ -180,6 +180,7 @@ const Map = ({ items, setItems, ...props }) => {
                         // onContextmenu={onContextmenu}
                         // onMouseDown={OnCircleClick}
                         onContextMenu={handleContextMenu}
+                        onTouchEnd={handleContextMenu}
                     />
                 ))}
             </Layer>
