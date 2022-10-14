@@ -162,7 +162,7 @@ const Map = ({ items, setItems, ...props }) => {
         }
     }
 
-    return (<div onDoubleClick={onDoubleClick} >
+    return (<div onTouchEnd={onDoubleClick} onDoubleClick={onDoubleClick} >
         <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
             <Layer>
                 <div>
