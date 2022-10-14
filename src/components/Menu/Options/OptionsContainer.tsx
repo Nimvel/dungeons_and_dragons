@@ -86,4 +86,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { closeMenu, openMenu, addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize })(OptionsContainer);
+export default connect(mapStateToProps, 
+    { closeMenu, openMenu, addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize }
+    )(OptionsContainer);
