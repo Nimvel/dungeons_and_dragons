@@ -194,7 +194,7 @@ const Map = ({ items, setItems, ...props }) => {
                         // onContextmenu={onContextmenu}
                         // onMouseDown={OnCircleClick}
                         onContextMenu={handleContextMenu}
-                        onTouchEnd={handleContextMenu}
+                        onTouchEnd={touchContextMenu}
                     />
                 ))}
             </Layer>
