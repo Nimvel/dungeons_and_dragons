@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/dungeons_and_dragons/static/css/main.3547d4a9.css",
-    "main.js": "/dungeons_and_dragons/static/js/main.4a25b876.js",
+    "main.js": "/dungeons_and_dragons/static/js/main.82941f63.js",
     "static/js/787.ef748355.chunk.js": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js",
     "static/media/img_3.jpg": "/dungeons_and_dragons/static/media/img_3.3c3b46708bc16dcbee57.jpg",
     "static/media/img_1.jpg": "/dungeons_and_dragons/static/media/img_1.312341ab2a67fbbdcf07.jpg",
@@ -11,11 +11,11 @@
     "static/media/img_2.jpg": "/dungeons_and_dragons/static/media/img_2.5403188cd8a8aec67007.jpg",
     "index.html": "/dungeons_and_dragons/index.html",
     "main.3547d4a9.css.map": "/dungeons_and_dragons/static/css/main.3547d4a9.css.map",
-    "main.4a25b876.js.map": "/dungeons_and_dragons/static/js/main.4a25b876.js.map",
+    "main.82941f63.js.map": "/dungeons_and_dragons/static/js/main.82941f63.js.map",
     "787.ef748355.chunk.js.map": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3547d4a9.css",
-    "static/js/main.4a25b876.js"
+    "static/js/main.82941f63.js"
   ]
 }
