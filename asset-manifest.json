@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/dungeons_and_dragons/static/css/main.f19ad3ef.css",
-    "main.js": "/dungeons_and_dragons/static/js/main.f01fc38b.js",
+    "main.css": "/dungeons_and_dragons/static/css/main.779f08e6.css",
+    "main.js": "/dungeons_and_dragons/static/js/main.d21528e0.js",
     "static/js/787.ef748355.chunk.js": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js",
-    "static/media/img_2.jpg": "/dungeons_and_dragons/static/media/img_2.4ef8d069ec3644065467.jpg",
-    "static/media/img_6.jpg": "/dungeons_and_dragons/static/media/img_6.317b4403cb41c1fd0886.jpg",
-    "static/media/img_1.jpg": "/dungeons_and_dragons/static/media/img_1.5ae9b942172343db7849.jpg",
-    "static/media/img_3.jpg": "/dungeons_and_dragons/static/media/img_3.01c46d3ee5c55129769d.jpg",
-    "static/media/img_4.jpg": "/dungeons_and_dragons/static/media/img_4.fd74d94035e04fac0f01.jpg",
-    "static/media/img_5.jpg": "/dungeons_and_dragons/static/media/img_5.85b99fb78283af5b5815.jpg",
+    "static/media/img_3.jpg": "/dungeons_and_dragons/static/media/img_3.3c3b46708bc16dcbee57.jpg",
+    "static/media/img_1.jpg": "/dungeons_and_dragons/static/media/img_1.312341ab2a67fbbdcf07.jpg",
+    "static/media/img_5.jpg": "/dungeons_and_dragons/static/media/img_5.c2053260e0da08fbdf90.jpg",
+    "static/media/img_6.jpg": "/dungeons_and_dragons/static/media/img_6.e851c3903302745ebd02.jpg",
+    "static/media/img_4.jpg": "/dungeons_and_dragons/static/media/img_4.3042a7306b6dc8a98a3d.jpg",
+    "static/media/img_2.jpg": "/dungeons_and_dragons/static/media/img_2.5403188cd8a8aec67007.jpg",
     "index.html": "/dungeons_and_dragons/index.html",
-    "main.f19ad3ef.css.map": "/dungeons_and_dragons/static/css/main.f19ad3ef.css.map",
-    "main.f01fc38b.js.map": "/dungeons_and_dragons/static/js/main.f01fc38b.js.map",
+    "main.779f08e6.css.map": "/dungeons_and_dragons/static/css/main.779f08e6.css.map",
+    "main.d21528e0.js.map": "/dungeons_and_dragons/static/js/main.d21528e0.js.map",
     "787.ef748355.chunk.js.map": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f19ad3ef.css",
-    "static/js/main.f01fc38b.js"
+    "static/css/main.779f08e6.css",
+    "static/js/main.d21528e0.js"
   ]
 }
