@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Layer, Stage, Circle } from 'react-konva'
 import Konva from 'konva'
 import useContextMenu from '../hooks/useContextMenu'
@@ -21,9 +21,9 @@ import Background from './Background/Background'
 // }
 
 const Map = ({ items, setItems, ...props }) => {
-    const [fullScreen, setFullScreen] = useState(false)
+    // const [fullScreen, setFullScreen] = useState(false)
     const [activeCircleId, setActiveCircleId] = useState(null)
-    const [size, setSize] = React.useState({ width: window.innerWidth, height: window.innerHeight })
+    const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
 
     // do your calculations for stage properties
     let stageWidth = size.width % 2 !== 0 ? size.width - 1 : size.width;
@@ -31,7 +31,7 @@ const Map = ({ items, setItems, ...props }) => {
 
     const { setContextMenu } = useContextMenu()
 
-    React.useEffect(() => {
+    useEffect(() => {
         const checkSize = () => {
             setSize({
                 width: window.innerWidth,
@@ -44,7 +44,7 @@ const Map = ({ items, setItems, ...props }) => {
 
     }, []);
 
-    React.useEffect(() => { }, [props.width, props.height]);
+    useEffect(() => { }, [props.width, props.height]);
 
     const contextMenu = useMemo(() => ([
         {
@@ -134,35 +134,37 @@ const Map = ({ items, setItems, ...props }) => {
         })
     }
 
-    const onMapClick = () => {
-        setFullScreen(!fullScreen)
-        fullScreen ? openFullscreen() : closeFullscreen()
-    }
+    // const onMapClick = () => {
+    //     setFullScreen(!fullScreen)
+    //     fullScreen ? openFullscreen() : closeFullscreen()
+    // }
 
-    const elem = document.documentElement;
+    // const elem = document.documentElement;
 
-    const openFullscreen = () => {
-        window.scrollTo(0,1)
-        if (elem.requestFullScreen) {
-            elem.requestFullScreen();
-        } else if (elem.mozRequestFullScreen) {
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullScreen) {
-            elem.webkitRequestFullScreen();
-        }
-    }
+    // const openFullscreen = () => {
+    //     window.scrollTo(0,1)
+    //     if (elem.requestFullScreen) {
+    //         elem.requestFullScreen();
+    //     } else if (elem.mozRequestFullScreen) {
+    //         elem.mozRequestFullScreen();
+    //     } else if (elem.webkitRequestFullScreen) {
+    //         elem.webkitRequestFullScreen();
+    //     }
+    // }
 
-    const closeFullscreen = () => {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { /* Safari */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE11 */
-            document.msExitFullscreen();
-        }
-    }
+    // const closeFullscreen = () => {
+    //     if (document.exitFullscreen) {
+    //         document.exitFullscreen();
+    //     } else if (document.webkitExitFullscreen) { /* Safari */
+    //         document.webkitExitFullscreen();
+    //     } else if (document.msExitFullscreen) { /* IE11 */
+    //         document.msExitFullscreen();
+    //     }
+    // }
 
-    return (<div onTouchEnd={onMapClick} onDoubleClick={onMapClick} >
+    return (<div 
+    // onTouchEnd={onMapClick} onDoubleClick={onMapClick}
+     >
         <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
             <Layer>
                 <div>

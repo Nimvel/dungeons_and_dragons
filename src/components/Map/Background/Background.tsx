@@ -52,9 +52,9 @@ class Background extends React.Component<BackgroundType> {
             <Image
                 x={0}
                 y={0}
-                // width={this.props.width}
+                // width={this.state.image.clientWidth}
                 // height={this.props.height}
-                
+
                 // this.props.height this.clientHeight
                 // this.props.width this.clientWidth
                 image={this.state.image}

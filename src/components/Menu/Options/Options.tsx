@@ -19,6 +19,14 @@ const Options = (props) => {
             <label>Off</label><br />
             <input onChange={props.onChangeGridColor} className={s.color} type='color' value={props.gridColor} />
         </div>
+
+        <div>
+            <div>Fullscreen</div>
+            <input type='radio' onClick={props.onFullscreen} name='fullscreen' />
+            <label>On</label><br />
+            <input type='radio' onClick={props.offFullscreen} name='fullscreen' />
+            <label>Off</label><br />
+        </div>
     </div>
 }
 

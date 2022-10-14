@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { closeMenu, openMenu } from '../../../redux/app-reducer'
@@ -13,13 +14,14 @@ import Options from './Options'
 // }
 
 const OptionsContainer = (props) => {
-    let [quantity, setQuantity] = React.useState(props.quantity);
-    let [color, setColor] = React.useState(props.color);
-    let [size, setSize] = React.useState(props.size);
+    const [quantity, setQuantity] = useState(props.quantity);
+    const [color, setColor] = useState(props.color);
+    const [size, setSize] = useState(props.size);
+    const [fullScreen, setFullScreen] = useState(false)
 
-    React.useEffect(() => { setQuantity(props.quantity) }, [props.quantity]);
-    React.useEffect(() => { setColor(props.color) }, [props.color]);
-    React.useEffect(() => { setSize(props.size) }, [props.size]);
+    useEffect(() => { setQuantity(props.quantity) }, [props.quantity]);
+    useEffect(() => { setColor(props.color) }, [props.color]);
+    useEffect(() => { setSize(props.size) }, [props.size]);
 
     const onChangeQuantity = (e) => {
         setQuantity(e.target.value);
@@ -67,12 +69,46 @@ const OptionsContainer = (props) => {
         props.changeGridSize(size);
     }
 
+    const elem = document.documentElement;
+
+    const openFullscreen = () => {
+        // window.scrollTo(0,1)
+        if (elem.requestFullScreen) {
+            elem.requestFullScreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullScreen) {
+            elem.webkitRequestFullScreen();
+        }
+    }
+
+    const closeFullscreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+
+    const onFullscreen = () => {
+        setFullScreen(true)
+        openFullscreen()
+    }
+
+    const offFullscreen = () => {
+        setFullScreen(false)
+        closeFullscreen()
+    }
+
     return <Options color={color} quantity={quantity} 
     gridColor={props.gridColor} gridSize={props.gridSize}
     closeMenu={props.closeMenu} openMenu={props.openMenu}
     onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity} 
     onChangeColor={onChangeColor} onChangeSize={onChangeSize} onChangeGridSize={onChangeGridSize}
-    onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid} />
+    onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid}
+    onFullscreen={onFullscreen} offFullscreen={offFullscreen} />
 }
 
 const mapStateToProps = (state) => {
