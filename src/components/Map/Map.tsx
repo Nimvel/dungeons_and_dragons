@@ -134,7 +134,7 @@ const Map = ({ items, setItems, ...props }) => {
         })
     }
 
-    const onDoubleClick = () => {
+    const onMapClick = () => {
         setFullScreen(!fullScreen)
         fullScreen ? openFullscreen() : closeFullscreen()
     }
@@ -162,7 +162,7 @@ const Map = ({ items, setItems, ...props }) => {
         }
     }
 
-    return (<div onTouchEnd={onDoubleClick} onDoubleClick={onDoubleClick} >
+    return (<div onTouchEnd={onMapClick} onDoubleClick={onMapClick} >
         <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
             <Layer>
                 <div>
