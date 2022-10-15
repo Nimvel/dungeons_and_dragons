@@ -39,8 +39,8 @@ const OptionsContainer = (props) => {
         const circles = []
         for (let i = 1; i <= quantity; i++) {
             circles.push({
-                x: Math.random() * (window.innerWidth - 100) + 50,
-                y: Math.random() * (window.innerHeight - 100) + 50,
+                x: Math.random() * (props.mapWidth - 100) + 50,
+                y: Math.random() * (props.mapHeight - 100) + 50,
                 id: 'node-' + (items.length + i),
                 color: color
             });
@@ -72,7 +72,6 @@ const OptionsContainer = (props) => {
     const elem = document.documentElement;
 
     const openFullscreen = () => {
-        // window.scrollTo(0,1)
         if (elem.requestFullScreen) {
             elem.requestFullScreen();
         } else if (elem.mozRequestFullScreen) {
@@ -113,6 +112,8 @@ const OptionsContainer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        mapWidth: state.mapPage.mapWidth,
+        mapHeight: state.mapPage.mapHeight,
         isMenuActive: state.app.isMenuActive,
         color: state.mapPage.color,
         gridColor: state.mapPage.gridColor,

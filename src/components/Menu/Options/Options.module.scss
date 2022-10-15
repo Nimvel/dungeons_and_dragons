@@ -21,24 +21,12 @@ $lightGrayColor: #c2c6c5;
 }
 
 .options {
-    // .circles {
         @include dimensions(100px, 80px);
         padding: 10px;
-
-        // button {
-        //     @include dimensions(100px, 25px);
-        // }
 
         .enterNumber {
             @include dimensions(92px, 20px);
         }
-    // }
-
-    // .grid {
-    //     .size {
-    //         @include dimensions(92px, 20px)
-    //     }
-    // }
 }
 
 .grid {

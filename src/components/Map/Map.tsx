@@ -7,23 +7,11 @@ import HorizontalLines from './Grid/HorizontalLines'
 import VerticalLines from './Grid/VerticalLines'
 import Background from './Background/Background'
 
-// const generateItems = () => {
-//     const items = [];
-//     for (let i = 0; i < 10; i++) {
-//         items.push({
-//             x: Math.random() * 800,
-//             y: Math.random() * 800,
-//             id: 'node-' + i,
-//             color: Konva.Util.getRandomColor(),
-//         });
-//     }
-//     return items;
-// }
-
 const Map = ({ items, setItems, ...props }) => {
-    // const [fullScreen, setFullScreen] = useState(false)
     const [activeCircleId, setActiveCircleId] = useState(null)
     const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+
+    useEffect(() => { }, [props.mapWidth, props.mapHeight])
 
     // do your calculations for stage properties
     let stageWidth = size.width % 2 !== 0 ? size.width - 1 : size.width;
@@ -43,8 +31,6 @@ const Map = ({ items, setItems, ...props }) => {
         return () => window.removeEventListener('resize', checkSize);
 
     }, []);
-
-    useEffect(() => { }, [props.width, props.height]);
 
     const contextMenu = useMemo(() => ([
         {
@@ -71,7 +57,6 @@ const Map = ({ items, setItems, ...props }) => {
         items.find((i: any) => {
             if (i.id === id) {
                 setActiveCircleId(id)
-                // console.log('setActiveCircleId: ', activeCircleId)
                 setContextMenu(contextMenu, [clientX, clientY])
             }
         })
@@ -80,8 +65,8 @@ const Map = ({ items, setItems, ...props }) => {
     const touchContextMenu = (e: any) => {
         e.evt.preventDefault()
         const id = e.target.name()
-        const clientX = e.touches[0].clientX
-        const clientY = e.touches[0].clientY
+        const clientX = Touch.clientX
+        const clientY = Touch.clientY
         items.find((i: any) => {
             if (i.id === id) {
                 setActiveCircleId(id)
@@ -90,6 +75,63 @@ const Map = ({ items, setItems, ...props }) => {
             }
         })
     }
+
+    // const onScaling = (e) => {
+    //     e = e || window.event;
+
+    //  // wheelDelta не даёт возможность узнать количество пикселей
+    //     let delta = e.deltaY || e.detail || e.wheelDelta;
+
+    //     let info = document.getElementById('canvas');
+
+    //     info.innerHTML = +info.innerHTML + delta;
+
+    //     e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+
+    //     // let obj = document.getElementById('canvas')
+
+    //     // obj.style.transform = obj.style.transform = obj.style.transform = 'scale(1.5)'
+    //     console.log('scaling', info)
+    // }
+
+    const elem = document.documentElement;
+    const canvas = document.getElementById('canvas')
+
+    const addOnWheel = (elem, handler) => {
+        if (elem.addEventListener) {
+          if ('onwheel' in document) {
+            // IE9+, FF17+
+            elem.addEventListener("wheel", handler);
+          } else if ('onmousewheel' in document) {
+            // устаревший вариант события
+            elem.addEventListener("mousewheel", handler);
+          } else {
+            // 3.5 <= Firefox < 17, более старое событие DOMMouseScroll пропустим
+            elem.addEventListener("MozMousePixelScroll", handler);
+          }
+        } else { // IE8-
+            canvas.attachEvent("onmousewheel", handler);
+        }
+      }
+  
+      let scale = 1;
+  
+      const onScaling = () => {
+        addOnWheel(elem, function(e: any) {
+  
+            let delta = e.deltaY || e.detail || e.wheelDelta;
+      
+            // отмасштабируем при помощи CSS
+            if (delta > 0) scale += 0.05;
+            else {if (scale > 1) scale -= 0.05};
+      
+            canvas.style.transform = canvas.style.WebkitTransform = canvas.style.MsTransform = `scale(${scale})`;
+      
+            // отменим прокрутку
+            e.preventDefault();
+          });
+      }
+      
 
     const handleDragStart = (e: any) => {
         const id = e.target.name()
@@ -134,74 +176,48 @@ const Map = ({ items, setItems, ...props }) => {
         })
     }
 
-    // const onMapClick = () => {
-    //     setFullScreen(!fullScreen)
-    //     fullScreen ? openFullscreen() : closeFullscreen()
-    // }
-
-    // const elem = document.documentElement;
-
-    // const openFullscreen = () => {
-    //     window.scrollTo(0,1)
-    //     if (elem.requestFullScreen) {
-    //         elem.requestFullScreen();
-    //     } else if (elem.mozRequestFullScreen) {
-    //         elem.mozRequestFullScreen();
-    //     } else if (elem.webkitRequestFullScreen) {
-    //         elem.webkitRequestFullScreen();
-    //     }
-    // }
-
-    // const closeFullscreen = () => {
-    //     if (document.exitFullscreen) {
-    //         document.exitFullscreen();
-    //     } else if (document.webkitExitFullscreen) { /* Safari */
-    //         document.webkitExitFullscreen();
-    //     } else if (document.msExitFullscreen) { /* IE11 */
-    //         document.msExitFullscreen();
-    //     }
-    // }
-
-    return (<div 
-    // onTouchEnd={onMapClick} onDoubleClick={onMapClick}
-     >
-        <Stage width={stageWidth} height={stageHeight} onContextMenu={handleContextMenu}>
-            <Layer>
-                <div>
-                    <Background src={props.map} width={stageWidth} height={stageHeight} />
-                </div>
-
-                {props.grid &&
+    return (
+        <div id='canvas'>
+            <Stage onWheel={onScaling} 
+            width={props.mapWidth} height={props.mapHeight} 
+            // width={stageWidth} height={stageHeight} 
+            onContextMenu={handleContextMenu}>
+                <Layer>
                     <div>
-                        <HorizontalLines gridColor={props.gridColor} width={stageWidth} height={stageHeight} gridSize={props.gridSize} />
-                        <VerticalLines gridColor={props.gridColor} width={stageWidth} height={stageHeight} gridSize={props.gridSize} />
+                        <Background src={props.map} stageWidth={stageWidth} stageHeight={stageHeight} mapHeight={props.mapHeight} mapWidth={props.mapWidth} />
                     </div>
-                }
 
-                {items.map((item) => (
-                    <Circle
-                        key={item.id}
-                        name={item.id}
-                        draggable
-                        x={item.x}
-                        y={item.y}
-                        fill={item.color}
-                        // opacity={0.9}
-                        shadowColor='black'
-                        shadowBlur={10}
-                        shadowOpacity={0.7}
-                        radius={props.gridSize / 2}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                        // onContextmenu={onContextmenu}
-                        // onMouseDown={OnCircleClick}
-                        onContextMenu={handleContextMenu}
-                        onTouchEnd={touchContextMenu}
-                    />
-                ))}
-            </Layer>
-        </Stage>
-    </div>
+                    {props.grid &&
+                        <div>
+                            <HorizontalLines gridColor={props.gridColor} width={stageWidth} height={stageHeight} gridSize={props.gridSize} />
+                            <VerticalLines gridColor={props.gridColor} width={stageWidth} height={stageHeight} gridSize={props.gridSize} />
+                        </div>
+                    }
+
+                    {items.map((item) => (
+                        <Circle
+                            key={item.id}
+                            name={item.id}
+                            draggable
+                            x={item.x}
+                            y={item.y}
+                            fill={item.color}
+                            // opacity={0.9}
+                            shadowColor='black'
+                            shadowBlur={10}
+                            shadowOpacity={0.7}
+                            radius={props.gridSize / 2}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                            // onContextmenu={onContextmenu}
+                            // onMouseDown={OnCircleClick}
+                            onContextMenu={handleContextMenu}
+                            onTouchEnd={touchContextMenu}
+                        />
+                    ))}
+                </Layer>
+            </Stage>
+        </div>
     )
 }
 

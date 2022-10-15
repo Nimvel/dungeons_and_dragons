@@ -5,6 +5,10 @@ type BackgroundType = {
     image: null | string
     imageNode: null | string
     src: string
+    stageWidth: number
+    stageHeight: number
+    mapWidth: number
+    mapHeight: number
     width: number
     height: number
 }
@@ -12,7 +16,9 @@ type BackgroundType = {
 class Background extends React.Component<BackgroundType> {
     state = {
         image: null,
-        imageNode: null
+        imageNode: null,
+        width: null,
+        height: null
     };
 
     componentDidMount() {
@@ -47,21 +53,35 @@ class Background extends React.Component<BackgroundType> {
         // this.imageNode.getLayer().batchDraw();
     };
 
+    onMouseWheel = () => {
+
+    }
+
     render() {
+        // console.log(this.props.stageWidth - this.props.mapWidth)
+        // console.log(this.props.stageHeight - this.props.mapHeight)
+        // if (this.props.stageWidth - this.props.mapWidth <= this.props.stageHeight - this.props.mapHeight) {
+        //     this.state.width = this.props.stageWidth
+        //     this.state.height = this.props.mapHeight + (this.props.stageWidth - this.props.mapWidth)
+        // } else {
+        //     this.state.width = this.props.mapWidth + (this.props.stageHeight - this.props.mapHeight)
+        //     this.state.height = this.props.stageHeight
+        // }
+
         return (
             <Image
                 x={0}
                 y={0}
-                // width={this.state.image.clientWidth}
-                // height={this.props.height}
-
+                // width={this.props.stageWidth}
+                // height={this.props.stageHeight}
+                resizeMode={'contain'}
                 // this.props.height this.clientHeight
                 // this.props.width this.clientWidth
                 image={this.state.image}
-                // ref={(node) => {
-                //     console.log(this.state.imageNode)
-                //     this.state.imageNode = node;
-                // }}
+            // ref={(node) => {
+            //     console.log(this.state.imageNode)
+            //     this.state.imageNode = node;
+            // }}
             />
         );
     }

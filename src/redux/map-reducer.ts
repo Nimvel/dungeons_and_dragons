@@ -69,10 +69,13 @@
 
 // export default mapReducer;
 
+// const { JSDOM } = require("jsdom");
+// const { window } = new JSDOM("");
+// const $ = require("jquery")
 
 const img1 = require('../assets/pictures/img_1.jpg');
-
 const SET_NEW_MAP = 'map/SET_NEW_MAP';
+const UPDATE_MAP_DIMENSIONS = 'map/UPDATE_MAP_DIMENSIONS';
 const ADD_NEW_CIRCLES = 'map/ADD_NEW_CIRCLES';
 const UPDATE_ITEMS = 'map/UPDATE_ITEMS';
 
@@ -83,6 +86,8 @@ const CHANGE_GRID_SIZE = 'map/CHANGE_GRID_SIZE';
 
 export type initialStateType = {
     map: string
+    mapWidth: null | number
+    mapHeight: null | number
     items: any[]
     color: string
     quantity: number
@@ -93,6 +98,8 @@ export type initialStateType = {
 
 const initialState: initialStateType = {
     map: img1,
+    mapWidth: null,
+    mapHeight: null,
     items: [],
     color: '#cb9d9d',
     quantity: 0,
@@ -102,11 +109,19 @@ const initialState: initialStateType = {
 }
 
 const mapReducer = (state = initialState, action: any): initialStateType => {
+
     switch (action.type) {
         case SET_NEW_MAP:
             return {
                 ...state,
                 map: action.map
+            }
+
+        case UPDATE_MAP_DIMENSIONS:
+            return {
+                ...state,
+                mapWidth: action.width,
+                mapHeight: action.height
             }
 
         case ADD_NEW_CIRCLES:
@@ -154,6 +169,12 @@ type SetNewMapType = {
     map: string
 }
 export const setNewMap = (map: string): SetNewMapType => ({ type: SET_NEW_MAP, map })
+type UpdateMapDimensionsType = {
+    type: typeof UPDATE_MAP_DIMENSIONS
+    width: number
+    height: number
+}
+export const updateMapDimensions = (width: number, height: number): UpdateMapDimensionsType => ({ type: UPDATE_MAP_DIMENSIONS, width, height })
 type AddNewCircleType = {
     type: typeof ADD_NEW_CIRCLES
     quantity: number
