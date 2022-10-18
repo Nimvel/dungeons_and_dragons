@@ -176,66 +176,66 @@ const Map = ({ items, setItems, ...props }) => {
         })
     }
 
-    // const [touchStart, setTouchStart] = useState(null) //Точка начала касания
-    // const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
+    const [touchStart, setTouchStart] = useState(null) //Точка начала касания
+    const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
 
-    // const sensitivity = 15 //Чувствительность — количество пикселей, после которого жест будет считаться свайпом
+    const sensitivity = 15 //Чувствительность — количество пикселей, после которого жест будет считаться свайпом
 
-//     const TouchStart = (e) => {
-//     //Получаем текущую позицию касания
-//     setTouchStart({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY })
-//     setTouchPosition({ x: touchStart.x, y: touchStart.y })
+    const TouchStart = (e) => {
+    //Получаем текущую позицию касания
+    setTouchStart({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY })
+    setTouchPosition({ x: touchStart.x, y: touchStart.y })
 
-//     // touchStart = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-//     // touchPosition = { x: touchStart.x, y: touchStart.y };
+    // touchStart = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+    // touchPosition = { x: touchStart.x, y: touchStart.y };
 
-//     // Draw(touchPosition.x, touchPosition.y, 6, "blue"); //Рисуем точку начала касания
-// }
+    // Draw(touchPosition.x, touchPosition.y, 6, "blue"); //Рисуем точку начала касания
+}
 
-//     const CheckAction = () => {
-//     const d = //Получаем расстояния от начальной до конечной точек по обеим осям
-//     {
-//    	 x: touchStart.x - touchPosition.x,
-//    	 y: touchStart.y - touchPosition.y
-//     };
+    const CheckAction = () => {
+    const d = //Получаем расстояния от начальной до конечной точек по обеим осям
+    {
+   	 x: touchStart.x - touchPosition.x,
+   	 y: touchStart.y - touchPosition.y
+    };
 
-//     // if(Math.abs(d.x) > Math.abs(d.y)) //Проверяем, движение по какой оси было длиннее
-//     // {
-//    	 if(Math.abs(d.x) > sensitivity && Math.abs(d.y) > sensitivity) //Проверяем, было ли движение достаточно длинным
-//    	 {
-//         d.x > 0 && d.y < 0 ? alert('zoom in') : alert('zoom out')
-//         }
-//    		//  if(d.x > 0 && d.y < 0) //Если значение больше нуля, значит пользователь двигал пальцем справа налево
-//    		//  {
-//         //     alert('zoom in')
-//    		//  }
-//    		//  else //Иначе он двигал им слева направо
-//    		//  {
-//    		// 	alert('zoom out')
-//    		//  }
-//    	//  }
-//     // }
-//     // else //Аналогичные проверки для вертикальной оси
-//     // {
-//    	//  if(Math.abs(d.y) > sensitivity)
-//    	//  {
-//    	// 	 if(d.y > 0) //Свайп вверх
-//    	// 	 {
-//    	// 		 msg = "Swipe up";
-//    	// 	 }
-//    	// 	 else //Свайп вниз
-//    	// 	 {
-//    	// 		 msg = "Swipe down";
-//    	// 	 }
-//    	//  }
-//     // }
+    // if(Math.abs(d.x) > Math.abs(d.y)) //Проверяем, движение по какой оси было длиннее
+    // {
+   	 if(Math.abs(d.x) > sensitivity && Math.abs(d.y) > sensitivity) //Проверяем, было ли движение достаточно длинным
+   	 {
+        d.x > 0 && d.y < 0 ? alert('zoom in') : alert('zoom out')
+        }
+   		//  if(d.x > 0 && d.y < 0) //Если значение больше нуля, значит пользователь двигал пальцем справа налево
+   		//  {
+        //     alert('zoom in')
+   		//  }
+   		//  else //Иначе он двигал им слева направо
+   		//  {
+   		// 	alert('zoom out')
+   		//  }
+   	//  }
+    // }
+    // else //Аналогичные проверки для вертикальной оси
+    // {
+   	//  if(Math.abs(d.y) > sensitivity)
+   	//  {
+   	// 	 if(d.y > 0) //Свайп вверх
+   	// 	 {
+   	// 		 msg = "Swipe up";
+   	// 	 }
+   	// 	 else //Свайп вниз
+   	// 	 {
+   	// 		 msg = "Swipe down";
+   	// 	 }
+   	//  }
+    // }
 
-// }
+}
 
     return (
         <div id='canvas'>
             <Stage onWheel={onScaling} 
-            // onTouchStart={TouchStart} onTouchMove={CheckAction}
+            onTouchStart={TouchStart} onTouchMove={CheckAction}
             width={props.mapWidth} height={props.mapHeight} 
             // width={stageWidth} height={stageHeight} 
             onContextMenu={handleContextMenu}>
