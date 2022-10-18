@@ -101,35 +101,35 @@ const Map = ({ items, setItems, ...props }) => {
         if (elem.addEventListener) {
           if ('onwheel' in document) {
             // IE9+, FF17+
-            elem.addEventListener("wheel", handler);
+            elem.addEventListener("wheel", handler)
           } else if ('onmousewheel' in document) {
             // устаревший вариант события
-            elem.addEventListener("mousewheel", handler);
+            elem.addEventListener("mousewheel", handler)
           } else {
             // 3.5 <= Firefox < 17, более старое событие DOMMouseScroll пропустим
-            elem.addEventListener("MozMousePixelScroll", handler);
+            elem.addEventListener("MozMousePixelScroll", handler)
           }
         } else { // IE8-
-            canvas.attachEvent("onmousewheel", handler);
+            canvas.attachEvent("onmousewheel", handler)
         }
       }
   
-      let scale = 1;
+      let scale = 1
   
       const onScaling = () => {
         addOnWheel(elem, function(e: any) {
   
-            let delta = e.deltaY || e.detail || e.wheelDelta;
+            let delta = e.deltaY || e.detail || e.wheelDelta
       
             // отмасштабируем при помощи CSS
-            if (delta > 0) scale += 0.05;
-            else {if (scale > 1) scale -= 0.05};
+            if (delta > 0) scale += 0.05
+            else {if (scale > 1) scale -= 0.05}
       
-            canvas.style.transform = canvas.style.WebkitTransform = canvas.style.MsTransform = `scale(${scale})`;
+            canvas.style.transform = canvas.style.WebkitTransform = canvas.style.MsTransform = `scale(${scale})`
       
             // отменим прокрутку
-            e.preventDefault();
-          });
+            e.preventDefault()
+          })
       }
       
 
@@ -176,9 +176,66 @@ const Map = ({ items, setItems, ...props }) => {
         })
     }
 
+    const [touchStart, setTouchStart] = useState(null) //Точка начала касания
+    const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
+
+    const sensitivity = 15 //Чувствительность — количество пикселей, после которого жест будет считаться свайпом
+
+    const TouchStart = (e) => {
+    //Получаем текущую позицию касания
+    setTouchStart({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY })
+    setTouchPosition({ x: touchStart.x, y: touchStart.y })
+
+    // touchStart = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+    // touchPosition = { x: touchStart.x, y: touchStart.y };
+
+    // Draw(touchPosition.x, touchPosition.y, 6, "blue"); //Рисуем точку начала касания
+}
+
+    const CheckAction = () => {
+    const d = //Получаем расстояния от начальной до конечной точек по обеим осям
+    {
+   	 x: touchStart.x - touchPosition.x,
+   	 y: touchStart.y - touchPosition.y
+    };
+
+    // if(Math.abs(d.x) > Math.abs(d.y)) //Проверяем, движение по какой оси было длиннее
+    // {
+   	 if(Math.abs(d.x) > sensitivity && Math.abs(d.y) > sensitivity) //Проверяем, было ли движение достаточно длинным
+   	 {
+        d.x > 0 && d.y < 0 ? alert('zoom in') : alert('zoom out')
+        }
+   		//  if(d.x > 0 && d.y < 0) //Если значение больше нуля, значит пользователь двигал пальцем справа налево
+   		//  {
+        //     alert('zoom in')
+   		//  }
+   		//  else //Иначе он двигал им слева направо
+   		//  {
+   		// 	alert('zoom out')
+   		//  }
+   	//  }
+    // }
+    // else //Аналогичные проверки для вертикальной оси
+    // {
+   	//  if(Math.abs(d.y) > sensitivity)
+   	//  {
+   	// 	 if(d.y > 0) //Свайп вверх
+   	// 	 {
+   	// 		 msg = "Swipe up";
+   	// 	 }
+   	// 	 else //Свайп вниз
+   	// 	 {
+   	// 		 msg = "Swipe down";
+   	// 	 }
+   	//  }
+    // }
+
+}
+
     return (
         <div id='canvas'>
             <Stage onWheel={onScaling} 
+            onTouchStart={TouchStart} onTouchMove={CheckAction}
             width={props.mapWidth} height={props.mapHeight} 
             // width={stageWidth} height={stageHeight} 
             onContextMenu={handleContextMenu}>
@@ -209,8 +266,6 @@ const Map = ({ items, setItems, ...props }) => {
                             radius={props.gridSize / 2}
                             onDragStart={handleDragStart}
                             onDragEnd={handleDragEnd}
-                            // onContextmenu={onContextmenu}
-                            // onMouseDown={OnCircleClick}
                             onContextMenu={handleContextMenu}
                             onTouchEnd={touchContextMenu}
                         />
