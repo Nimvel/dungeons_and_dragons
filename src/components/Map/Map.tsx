@@ -234,8 +234,7 @@ const Map = ({ items, setItems, ...props }) => {
 
     return (
         <div id='canvas'>
-            <Stage 
-            // onWheel={onScaling} 
+            <Stage onWheel={onScaling} 
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             width={props.mapWidth} height={props.mapHeight} 
             // width={stageWidth} height={stageHeight} 
