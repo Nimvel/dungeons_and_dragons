@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { connect } from 'react-redux'
 import { closeNavbar, openNavbar, openMenu, closeMenu } from '../../redux/app-reducer'
-import { getIsMenuActive } from '../../redux/app-selectors'
+import { getIsNavbarActive } from '../../redux/app-selectors'
 import { AppStateType } from '../../redux/store'
 import Navbar from './Navbar'
 
@@ -39,7 +39,7 @@ const NavbarContainer: FC<NavbarContainerProps> = ({isNavbarActive, closeNavbar,
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        isNavbarActive: getIsMenuActive(state)
+        isNavbarActive: getIsNavbarActive(state)
     }
 }
 
