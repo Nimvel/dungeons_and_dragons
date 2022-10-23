@@ -1,26 +1,26 @@
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { ContextMenu } from './ContextMenu';
-import { ContextMenuItem } from './ContextMenu';
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
+import { ContextMenu } from './ContextMenu'
+import { ContextMenuItem } from './ContextMenu'
 import s from './ContextMenu.module.scss'
 
 export const ContextMenuProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-    const [contextMenuItems, setContextMenuItems] = useState<ContextMenuItem[]>([]);
-    const [position, setPosition] = useState<number[]>([]);
+    const [contextMenuItems, setContextMenuItems] = useState<ContextMenuItem[]>([])
+    const [position, setPosition] = useState<number[]>([])
 
     const setContextMenu = useCallback((items: ContextMenuItem[], position: number[]) => {
         // console.log(items, position)
-        setContextMenuItems(items);
-        setPosition(position);
+        setContextMenuItems(items)
+        setPosition(position)
     }, [])
 
     const closeContextMenu = useCallback(() => {
-        setPosition(undefined);
+        setPosition(undefined)
     }, [])
 
     useEffect(() => {
-        document.body.addEventListener('click', closeContextMenu);
+        document.body.addEventListener('click', closeContextMenu)
         return () => {
-            document.body.removeEventListener('click', closeContextMenu);
+            document.body.removeEventListener('click', closeContextMenu)
         }
     }, [closeContextMenu])
 

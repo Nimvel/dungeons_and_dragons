@@ -1,13 +1,14 @@
-import { Line } from "react-konva"
+import { FC } from 'react'
+import { Line } from 'react-konva'
 
-type VerticalLinesType = {
-    gridColor: null | string
+type VerticalLinesProps = {
+    gridColor: string
     gridSize: number
     width: number
     height: number
 }
 
-const VerticalLines = ({ gridColor, gridSize, width, height }: VerticalLinesType) => {
+const VerticalLines: FC<VerticalLinesProps> = ({ gridColor, gridSize, width, height }) => {
     const lines = []
     const size = width >= height ? width : height
     for (let i = 1; i <= size / gridSize; i++) {
@@ -20,7 +21,7 @@ const VerticalLines = ({ gridColor, gridSize, width, height }: VerticalLinesType
         points={[l * gridSize, 0, l * gridSize, size]}
         stroke={gridColor} />)
 
-    return verticalLines
+    return <>{verticalLines}</>
 }
 
 export default VerticalLines

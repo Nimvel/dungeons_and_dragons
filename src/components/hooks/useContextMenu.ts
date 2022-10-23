@@ -1,6 +1,6 @@
-import { useContext } from 'react';
-import { ContextMenu } from '../ContextMenu/ContextMenu';
+import { useContext } from 'react'
+import { ContextMenu } from '../ContextMenu/ContextMenu'
 
-const useContextMenu = () => useContext(ContextMenu);
+const useContextMenu = () => useContext(ContextMenu)
 
-export default useContextMenu;
+export default useContextMenu

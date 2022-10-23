@@ -73,24 +73,31 @@
 // const { window } = new JSDOM("");
 // const $ = require("jquery")
 
-const img1 = require('../assets/pictures/img_1.jpg');
-const SET_NEW_MAP = 'map/SET_NEW_MAP';
-const UPDATE_MAP_DIMENSIONS = 'map/UPDATE_MAP_DIMENSIONS';
-const ADD_NEW_CIRCLES = 'map/ADD_NEW_CIRCLES';
-const UPDATE_ITEMS = 'map/UPDATE_ITEMS';
+const img1 = require('../assets/pictures/img_1.jpg')
+const SET_NEW_MAP = 'map/SET_NEW_MAP'
+const UPDATE_MAP_DIMENSIONS = 'map/UPDATE_MAP_DIMENSIONS'
+const ADD_NEW_CIRCLES = 'map/ADD_NEW_CIRCLES'
+const UPDATE_ITEMS = 'map/UPDATE_ITEMS'
 
-const SHOW_GRID = 'map/SHOW_GRID';
-const HIDE_GRID = 'map/HIDE_GRID';
-const CHANGE_GRID_COLOR = 'map/CHANGE_GRID_COLOR';
-const CHANGE_GRID_SIZE = 'map/CHANGE_GRID_SIZE';
+const SHOW_GRID = 'map/SHOW_GRID'
+const HIDE_GRID = 'map/HIDE_GRID'
+const CHANGE_GRID_COLOR = 'map/CHANGE_GRID_COLOR'
+const CHANGE_GRID_SIZE = 'map/CHANGE_GRID_SIZE'
+
+export type ItemType = {
+    x: number 
+    y: number 
+    id: string
+    color: string
+}
 
 export type initialStateType = {
     map: string
     mapWidth: null | number
     mapHeight: null | number
-    items: any[]
-    color: string
-    quantity: number
+    items: Array<ItemType>
+    itemColor: string
+    itemsQuantity: number
     grid: boolean
     gridColor: string
     gridSize: number
@@ -101,14 +108,14 @@ const initialState: initialStateType = {
     mapWidth: null,
     mapHeight: null,
     items: [],
-    color: '#cb9d9d',
-    quantity: 0,
+    itemColor: '#cb9d9d',
+    itemsQuantity: 0,
     grid: false,
     gridColor: '#ffffff',
     gridSize: 50
 }
 
-const mapReducer = (state = initialState, action: any): initialStateType => {
+const mapReducer = (state = initialState, action: ActionsTypes): initialStateType => {
 
     switch (action.type) {
         case SET_NEW_MAP:
@@ -127,8 +134,8 @@ const mapReducer = (state = initialState, action: any): initialStateType => {
         case ADD_NEW_CIRCLES:
             return {
                 ...state,
-                quantity: action.quantity,
-                color: action.color
+                itemsQuantity: action.quantity,
+                itemColor: action.color
             }
 
         case UPDATE_ITEMS:
@@ -160,50 +167,61 @@ const mapReducer = (state = initialState, action: any): initialStateType => {
                 ...state,
                 gridSize: action.size
             }
+
+        default:
+            return state
     }
-    return state
 }
+
+type ActionsTypes = SetNewMapType | UpdateMapDimensionsType | AddNewCircleType | 
+UpdateItemsType | ShowGridType | HideGridType | ChangeGridColorType | ChangeGridSizeType
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP
     map: string
 }
 export const setNewMap = (map: string): SetNewMapType => ({ type: SET_NEW_MAP, map })
+
 type UpdateMapDimensionsType = {
     type: typeof UPDATE_MAP_DIMENSIONS
     width: number
     height: number
 }
 export const updateMapDimensions = (width: number, height: number): UpdateMapDimensionsType => ({ type: UPDATE_MAP_DIMENSIONS, width, height })
+
 type AddNewCircleType = {
     type: typeof ADD_NEW_CIRCLES
     quantity: number
     color: string
 }
 export const addNewCircle = (quantity: number, color: string): AddNewCircleType => ({ type: ADD_NEW_CIRCLES, quantity, color })
+
 type UpdateItemsType = {
     type: typeof UPDATE_ITEMS
-    items: any[]
+    items: Array<ItemType>
 }
-export const updateItems = (items: any[]): UpdateItemsType => ({ type: UPDATE_ITEMS, items })
+export const updateItems = (items: Array<ItemType>): UpdateItemsType => ({ type: UPDATE_ITEMS, items })
 
 type ShowGridType = {
     type: typeof SHOW_GRID
 }
 export const showGrid = (): ShowGridType => ({ type: SHOW_GRID })
+
 type HideGridType = {
     type: typeof HIDE_GRID
 }
 export const hideGrid = (): HideGridType => ({ type: HIDE_GRID })
+
 type ChangeGridColorType = {
     type: typeof CHANGE_GRID_COLOR
     color: string
 }
 export const changeGridColor = (color: string): ChangeGridColorType => ({ type: CHANGE_GRID_COLOR, color })
+
 type ChangeGridSizeType = {
     type: typeof CHANGE_GRID_SIZE
     size: number
 }
 export const changeGridSize = (size: number): ChangeGridSizeType => ({ type: CHANGE_GRID_SIZE, size })
 
-export default mapReducer;
+export default mapReducer

@@ -1,13 +1,14 @@
+import { FC } from 'react'
 import { Line } from 'react-konva'
 
-type HorizontalLinesType = {
-    gridColor: null | string
+type HorizontalLinesProps = {
+    gridColor: string
     gridSize: number
     width: number
     height: number
 }
 
-const HorizontalLines = ({ gridColor, gridSize, width, height } : HorizontalLinesType) => {
+const HorizontalLines: FC<HorizontalLinesProps> = ({ gridColor, gridSize, width, height }) => {
     const lines = []
     const size = width >= height ? width : height
     for (let i = 1; i <= size / gridSize; i++) {
@@ -21,7 +22,7 @@ const HorizontalLines = ({ gridColor, gridSize, width, height } : HorizontalLine
         stroke={gridColor}
     />)
 
-    return horizontalLines
+    return <>{horizontalLines}</>
 }
 
 export default HorizontalLines

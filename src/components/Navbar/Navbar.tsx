@@ -1,14 +1,24 @@
+import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
+
+//@ts-ignore
 import s from './Navbar.module.scss'
 
-const Navbar = (props) => {
+type NavbarProps = {
+    closeNavbar: () => void
+    openMenu: () => void
+    closeMenu: () => void
+}
+
+const Navbar: FC<NavbarProps> = ({ closeNavbar, openMenu, closeMenu }) => {
+
     const onCrossClick = () => {
-        props.closeNavbar()
-        props.closeMenu()
+        closeNavbar()
+        closeMenu()
     }
 
     const onMenuClick = () => {
-        props.openMenu()
+        openMenu()
     }
 
     return <div className='navbar'>
@@ -24,4 +34,4 @@ const Navbar = (props) => {
             </div>
 }
 
-export default Navbar;
+export default Navbar

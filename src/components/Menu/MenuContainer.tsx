@@ -1,24 +1,36 @@
+import { FC } from 'react'
 import { connect } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 
-import { closeMenu, openMenu } from '../../redux/app-reducer'
+import { closeMenu } from '../../redux/app-reducer'
+import { AppStateType } from '../../redux/store'
 
 import OptionsContainer from './Options/OptionsContainer'
 import PicturesContainer from './Pictures/PicturesContainer'
 
-import s from '../Navbar/Navbar.module.scss';
+import { getIsMenuActive } from '../../redux/app-selectors'
 
-const MenuContainer = (props): any => {
-    // const onMenuClick = () => {
-    //     props.openMenu()
-    // }
+//@ts-ignore
+import s from '../Navbar/Navbar.module.scss'
+
+type MapStateToProps = {
+    isMenuActive: boolean
+}
+
+type MapDispatchToProps = {
+    closeMenu: () => void
+}
+
+type MenuContainerProps = MapStateToProps & MapDispatchToProps
+
+const MenuContainer: FC<MenuContainerProps> = ({isMenuActive, closeMenu}) => {
 
     const onCrossClick = () => {
-        props.closeMenu()
+        closeMenu()
     }
 
     return <>
-        {props.isMenuActive
+        {isMenuActive
             && <div className='menu'>
                 <div className={s.closeModal} onClick={onCrossClick} />
                 <Routes>
@@ -26,15 +38,14 @@ const MenuContainer = (props): any => {
                     <Route path='/options' element={<OptionsContainer />} />
                 </Routes>
             </div>
-            // : <div onClick={onMenuClick} >Open Menu</div>
         }
     </>
 }
 
-const mapStateToProps = (state): any => {
+const mapStateToProps = (state: AppStateType) => {
     return {
-        isMenuActive: state.app.isMenuActive
+        isMenuActive: getIsMenuActive(state)
     }
 }
 
-export default connect(mapStateToProps, { closeMenu, openMenu })(MenuContainer);
+export default connect(mapStateToProps, { closeMenu })(MenuContainer)

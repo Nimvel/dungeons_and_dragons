@@ -14,37 +14,45 @@ const initialState = {
     isMenuActive: false
 }
 
-const appReducer = (state = initialState, action: any): initialStateType => {
+const appReducer = (state = initialState, action: ActionsTypes): initialStateType => {
     switch (action.type) {
         case CLOSE_NAVBAR:
-            return {...state, isNavbarActive: false }
+            return { ...state, isNavbarActive: false }
+
         case OPEN_NAVBAR:
-            return {...state, isNavbarActive: true }
+            return { ...state, isNavbarActive: true }
 
         case CLOSE_MENU:
-            return {...state, isMenuActive: false }
+            return { ...state, isMenuActive: false }
+
         case OPEN_MENU:
-            return {...state, isMenuActive: true }
+            return { ...state, isMenuActive: true }
+
+        default:
+            return state
     }
-    return state
 }
+
+type ActionsTypes = closeNavbarType | openNavbarType | closeMenuType | openMenuType
 
 type closeNavbarType = {
     type: typeof CLOSE_NAVBAR
 }
+export const closeNavbar = (): closeNavbarType => ({ type: CLOSE_NAVBAR })
+
 type openNavbarType = {
     type: typeof OPEN_NAVBAR
 }
-export const closeNavbar = (): closeNavbarType => ({type: CLOSE_NAVBAR});
-export const openNavbar = (): openNavbarType => ({type: OPEN_NAVBAR});
+export const openNavbar = (): openNavbarType => ({ type: OPEN_NAVBAR })
 
 type closeMenuType = {
     type: typeof CLOSE_MENU
 }
+export const closeMenu = (): closeMenuType => ({ type: CLOSE_MENU })
+
 type openMenuType = {
     type: typeof OPEN_MENU
 }
-export const closeMenu = (): closeMenuType => ({type: CLOSE_MENU});
-export const openMenu = (): openMenuType => ({type: OPEN_MENU});
+export const openMenu = (): openMenuType => ({ type: OPEN_MENU })
 
-export default appReducer;
+export default appReducer

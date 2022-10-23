@@ -1,128 +1,143 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { FC } from 'react'
+import { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { closeMenu, openMenu } from '../../../redux/app-reducer'
-import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize } from '../../../redux/map-reducer'
+import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize, ItemType } from '../../../redux/map-reducer'
+import { getItemColor, getGridColor, getGridSize, getItems, getMapHeight, getMapWidth, getItemsQuantity } from '../../../redux/map-selectors'
+import { AppStateType } from '../../../redux/store'
 
 import Options from './Options'
 
-// type GenerateItemsType = {
-//     items: any[] 
-//     quantity: number
-//     color: string
-// }
+type MapStateToPropsType = {
+    mapWidth: number
+    mapHeight: number
 
-const OptionsContainer = (props) => {
-    const [quantity, setQuantity] = useState(props.quantity);
-    const [color, setColor] = useState(props.color);
-    const [size, setSize] = useState(props.size);
-    const [fullScreen, setFullScreen] = useState(false)
+    items: Array<ItemType>
+    itemColor: string
+    itemsQuantity: number
 
-    useEffect(() => { setQuantity(props.quantity) }, [props.quantity]);
-    useEffect(() => { setColor(props.color) }, [props.color]);
-    useEffect(() => { setSize(props.size) }, [props.size]);
+    gridColor: string
+    gridSize: number
+}
+
+type GenerateItemsType = (items: Array<ItemType>, newQuantity: number, newColor: string) => Array<ItemType>
+
+type MapDispatchToPropsType = {
+    addNewCircle: (quantity: number, color: string) => void
+    updateItems: (GenerateItemsType) => void
+    showGrid: () => void
+    hideGrid: () => void
+    changeGridColor: (e: any) => void
+    changeGridSize: (newSize: number) => void
+}
+
+type OwnPropsType = {
+}
+
+type OptionsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
+
+const OptionsContainer: FC<OptionsContainerProps> = (
+    { mapWidth, mapHeight, itemColor, gridColor, gridSize, itemsQuantity, items,
+        addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize }) => {
+
+    const [newQuantity, setQuantity] = useState(itemsQuantity)
+    const [newColor, setColor] = useState(itemColor)
+    const [newSize, setSize] = useState(gridSize)
 
     const onChangeQuantity = (e) => {
-        setQuantity(e.target.value);
+        setQuantity(e.target.value)
     }
 
     const onChangeColor = (e) => {
-        setColor(e.target.value);
+        setColor(e.target.value)
     }
 
-    const onChangeSize = (e) => {
-        setSize(e.target.value);
+    const onChangeGridSize = (e) => {
+        setSize(e.target.value)
     }
 
-    const generateItems = (items: any[], quantity: number, color: string) => {
+    const generateItems = (items: Array<ItemType>, newQuantity: number, newColor: string) => {
         const circles = []
-        for (let i = 1; i <= quantity; i++) {
+        for (let i = 1; i <= newQuantity; i++) {
             circles.push({
-                x: Math.random() * (props.mapWidth - 100) + 50,
-                y: Math.random() * (props.mapHeight - 100) + 50,
+                x: Math.random() * (mapWidth - 100) + 50,
+                y: Math.random() * (mapHeight - 100) + 50,
                 id: 'node-' + (items.length + i),
-                color: color
-            });
+                color: newColor
+            })
         }
         return items.concat(circles)
     }
 
     const onAddNewCircle = () => {
-        props.addNewCircle(quantity, color);
-        props.updateItems(generateItems(props.items, quantity, color));
+        addNewCircle(newQuantity, newColor)
+        updateItems(generateItems(items, newQuantity, newColor))
     }
 
     const onShowGrid = () => {
-        props.showGrid();
+        showGrid()
     }
 
     const onHideGrid = () => {
-        props.hideGrid();
+        hideGrid()
     }
 
     const onChangeGridColor = (e) => {
-        props.changeGridColor(e.target.value);
+        changeGridColor(e.target.value)
     }
 
-    const onChangeGridSize = () => {
-        props.changeGridSize(size);
+    const updateGridSize = () => {
+        changeGridSize(newSize)
     }
 
-    const elem = document.documentElement;
+    const elem = document.documentElement
 
     const openFullscreen = () => {
-        if (elem.requestFullScreen) {
-            elem.requestFullScreen();
-        } else if (elem.mozRequestFullScreen) {
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullScreen) {
-            elem.webkitRequestFullScreen();
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen()
+            // } else if (elem.mozRequestFullscreen) {
+            //     elem.mozRequestFullscreen()
+            // } else if (elem.webkitRequestFullscreen) {
+            //     elem.webkitRequestFullscreen()
         }
     }
 
     const closeFullscreen = () => {
         if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { /* Safari */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE11 */
-            document.msExitFullscreen();
+            document.exitFullscreen()
+            // } else if (document.webkitExitFullscreen) { /* Safari */
+            //     document.webkitExitFullscreen()
+            // } else if (document.msExitFullscreen) { /* IE11 */
+            //     document.msExitFullscreen()
         }
     }
 
     const onFullscreen = () => {
-        setFullScreen(true)
         openFullscreen()
     }
 
     const offFullscreen = () => {
-        setFullScreen(false)
         closeFullscreen()
     }
 
-    return <Options color={color} quantity={quantity} 
-    gridColor={props.gridColor} gridSize={props.gridSize}
-    closeMenu={props.closeMenu} openMenu={props.openMenu}
-    onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity} 
-    onChangeColor={onChangeColor} onChangeSize={onChangeSize} onChangeGridSize={onChangeGridSize}
-    onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid}
-    onFullscreen={onFullscreen} offFullscreen={offFullscreen} />
+    return <Options itemColor={newColor} gridColor={gridColor} onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity}
+        onChangeColor={onChangeColor} onChangeGridSize={onChangeGridSize} updateGridSize={updateGridSize}
+        onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid}
+        onFullscreen={onFullscreen} offFullscreen={offFullscreen} />
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        mapWidth: state.mapPage.mapWidth,
-        mapHeight: state.mapPage.mapHeight,
-        isMenuActive: state.app.isMenuActive,
-        color: state.mapPage.color,
-        gridColor: state.mapPage.gridColor,
-        gridSize: state.mapPage.gridSize,
-        quantity: state.mapPage.quantity,
-        items: state.mapPage.items
+        mapWidth: getMapWidth(state),
+        mapHeight: getMapHeight(state),
+        itemColor: getItemColor(state),
+        itemsQuantity: getItemsQuantity(state),
+        gridColor: getGridColor(state),
+        gridSize: getGridSize(state),
+        items: getItems(state)
     }
 }
 
-export default connect(mapStateToProps, 
-    { closeMenu, openMenu, addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize }
-    )(OptionsContainer);
+export default connect(mapStateToProps,
+    { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize }
+)(OptionsContainer)

@@ -1,29 +1,46 @@
+import { FC } from 'react'
 import { connect } from 'react-redux'
-import { closeNavbar, openNavbar, openMenu, closeMenu } from '../../redux/app-reducer.ts'
-import Navbar from './Navbar.tsx'
+import { closeNavbar, openNavbar, openMenu, closeMenu } from '../../redux/app-reducer'
+import { getIsMenuActive } from '../../redux/app-selectors'
+import { AppStateType } from '../../redux/store'
+import Navbar from './Navbar'
+
+//@ts-ignore
 import s from './Navbar.module.scss'
 
 const navbar = require('../../assets/pictures/navbar.png')
 
-const NavbarContainer = (props): any => {
+type MapStateToPropsType = {
+    isNavbarActive: boolean
+}
+
+type MapDispatchToPropsType = {
+    closeNavbar: () => void
+    openNavbar: () => void
+    openMenu: () => void
+    closeMenu: () => void
+}
+
+type NavbarContainerProps = MapStateToPropsType & MapDispatchToPropsType
+
+const NavbarContainer: FC<NavbarContainerProps> = ({isNavbarActive, closeNavbar, openNavbar, openMenu, closeMenu}) => {
+
     const onNavbarClick = () => {
-        props.openNavbar()
+        openNavbar()
     }
 
     return <>
-        {props.isNavbarActive
-            ? <Navbar closeNavbar={props.closeNavbar} openNavbar={props.openNavbar}
-                openMenu={props.openMenu} closeMenu={props.closeMenu} />
+        {isNavbarActive
+            ? <Navbar closeNavbar={closeNavbar} openMenu={openMenu} closeMenu={closeMenu} />
             : <img src={navbar} onClick={onNavbarClick} className={s.open} />
         }
     </>
 }
 
-const mapStateToProps = (state): any => {
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        isNavbarActive: state.app.isNavbarActive
-        // isMenuActive: state.app.isMenuActive
+        isNavbarActive: getIsMenuActive(state)
     }
 }
 
-export default connect(mapStateToProps, { closeNavbar, openNavbar, openMenu, closeMenu })(NavbarContainer);
+export default connect(mapStateToProps, { closeNavbar, openNavbar, openMenu, closeMenu })(NavbarContainer)

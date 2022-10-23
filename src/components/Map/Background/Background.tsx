@@ -1,19 +1,15 @@
 import * as React from 'react'
 import { Image } from 'react-konva'
 
-type BackgroundType = {
-    image: null | string
-    imageNode: null | string
+type BackgroundProps = {
     src: string
-    stageWidth: number
-    stageHeight: number
+    // stageWidth: number
+    // stageHeight: number
     mapWidth: number
     mapHeight: number
-    width: number
-    height: number
 }
 
-class Background extends React.Component<BackgroundType> {
+class Background extends React.Component<BackgroundProps> {
     state = {
         image: null,
         imageNode: null,
