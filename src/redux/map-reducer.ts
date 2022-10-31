@@ -78,6 +78,7 @@ const SET_NEW_MAP = 'map/SET_NEW_MAP'
 const UPDATE_MAP_DIMENSIONS = 'map/UPDATE_MAP_DIMENSIONS'
 const ADD_NEW_CIRCLES = 'map/ADD_NEW_CIRCLES'
 const UPDATE_ITEMS = 'map/UPDATE_ITEMS'
+// const UPDATE_ACTIVE_CIRCLE_ID = 'map/UPDATE_ACTIVE_CIRCLE_ID'
 
 const SHOW_GRID = 'map/SHOW_GRID'
 const HIDE_GRID = 'map/HIDE_GRID'
@@ -93,11 +94,12 @@ export type ItemType = {
 
 export type initialStateType = {
     map: string
-    mapWidth: null | number
-    mapHeight: null | number
+    mapWidth: number
+    mapHeight: number
     items: Array<ItemType>
     itemColor: string
     itemsQuantity: number
+    // activeCircleId: null | string
     grid: boolean
     gridColor: string
     gridSize: number
@@ -105,11 +107,12 @@ export type initialStateType = {
 
 const initialState: initialStateType = {
     map: img1,
-    mapWidth: null,
-    mapHeight: null,
+    mapWidth: 0,
+    mapHeight: 0,
     items: [],
     itemColor: '#cb9d9d',
     itemsQuantity: 0,
+    // activeCircleId: null,
     grid: false,
     gridColor: '#ffffff',
     gridSize: 50
@@ -144,6 +147,12 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 items: action.items
             }
 
+        // case UPDATE_ACTIVE_CIRCLE_ID:
+        //     return {
+        //         ...state,
+        //         activeCircleId: action.activeCircleId
+        //     }
+
         case SHOW_GRID:
             return {
                 ...state,
@@ -174,7 +183,9 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 }
 
 type ActionsTypes = SetNewMapType | UpdateMapDimensionsType | AddNewCircleType | 
-UpdateItemsType | ShowGridType | HideGridType | ChangeGridColorType | ChangeGridSizeType
+UpdateItemsType | 
+// updateActiveCircleIdType | 
+ShowGridType | HideGridType | ChangeGridColorType | ChangeGridSizeType
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP
@@ -201,6 +212,12 @@ type UpdateItemsType = {
     items: Array<ItemType>
 }
 export const updateItems = (items: Array<ItemType>): UpdateItemsType => ({ type: UPDATE_ITEMS, items })
+
+// type updateActiveCircleIdType = {
+//     type: typeof UPDATE_ACTIVE_CIRCLE_ID
+//     activeCircleId: string
+// }
+// export const updateActiveCircleId = (activeCircleId: string): updateActiveCircleIdType => ({ type: UPDATE_ACTIVE_CIRCLE_ID, activeCircleId })
 
 type ShowGridType = {
     type: typeof SHOW_GRID

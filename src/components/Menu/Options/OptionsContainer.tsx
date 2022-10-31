@@ -20,11 +20,11 @@ type MapStateToPropsType = {
     gridSize: number
 }
 
-type GenerateItemsType = (items: Array<ItemType>, newQuantity: number, newColor: string) => Array<ItemType>
+// type GenerateItemsType = (items: Array<ItemType>, newQuantity: number, newColor: string) => Array<ItemType>
 
 type MapDispatchToPropsType = {
     addNewCircle: (quantity: number, color: string) => void
-    updateItems: (GenerateItemsType) => void
+    updateItems: (items: Array<ItemType>) => void
     showGrid: () => void
     hideGrid: () => void
     changeGridColor: (e: any) => void
@@ -44,20 +44,25 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     const [newColor, setColor] = useState(itemColor)
     const [newSize, setSize] = useState(gridSize)
 
-    const onChangeQuantity = (e) => {
+    // React.useEffect(() => { setColor(itemColor) }, [itemColor]);
+    // React.useEffect(() => { setQuantity(itemsQuantity) }, [itemsQuantity]);
+
+    // React.useEffect(() => { updateItems(generateItems(items, newQuantity, newColor)) }, [itemsQuantity, itemColor])
+
+    const onChangeQuantity = (e: any) => {
         setQuantity(e.target.value)
     }
 
-    const onChangeColor = (e) => {
+    const onChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         setColor(e.target.value)
     }
 
-    const onChangeGridSize = (e) => {
+    const onChangeGridSize = (e: any) => {
         setSize(e.target.value)
     }
 
     const generateItems = (items: Array<ItemType>, newQuantity: number, newColor: string) => {
-        const circles = []
+        const circles: Array<ItemType> = []
         for (let i = 1; i <= newQuantity; i++) {
             circles.push({
                 x: Math.random() * (mapWidth - 100) + 50,
@@ -66,12 +71,12 @@ const OptionsContainer: FC<OptionsContainerProps> = (
                 color: newColor
             })
         }
-        return items.concat(circles)
+        updateItems(items.concat(circles))
     }
 
     const onAddNewCircle = () => {
         addNewCircle(newQuantity, newColor)
-        updateItems(generateItems(items, newQuantity, newColor))
+        generateItems(items, newQuantity, newColor)
     }
 
     const onShowGrid = () => {
@@ -82,7 +87,7 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         hideGrid()
     }
 
-    const onChangeGridColor = (e) => {
+    const onChangeGridColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         changeGridColor(e.target.value)
     }
 

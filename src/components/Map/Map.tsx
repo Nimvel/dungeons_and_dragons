@@ -13,6 +13,7 @@ import { KonvaEventObject } from 'konva/lib/Node'
 type MapProps = {
     map: string
     items: Array<ItemType>
+    // activeCircleId: null | string
     grid: boolean
     gridColor: string
     gridSize: number
@@ -20,9 +21,15 @@ type MapProps = {
     mapHeight: number
 
     updateItems: (items: Array<ItemType>) => void
+    // updateActiveCircleId: (activeCircleId: string) => void
 }
 
-const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, grid, gridColor, gridSize, updateItems }) => {
+const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, 
+    // activeCircleId,
+     grid, gridColor, gridSize, updateItems, 
+    //  updateActiveCircleId
+     }) => {
+
     const [activeCircleId, setActiveCircleId] = useState(null)
     const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
 
@@ -44,22 +51,23 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, grid, gridColor, g
 
         window.addEventListener('resize', checkSize)
         return () => window.removeEventListener('resize', checkSize)
-
     }, [])
+
+    console.log('activeCircleId: ', activeCircleId)
 
     const contextMenu = useMemo(() => ([
         {
             name: 'Delete All',
-            onClick: () => {
-                // console.log("Items: ", items)
-                // console.log('activeCircleId: ', activeCircleId)
+            onClick: (e) => {
+                const id = e.target.name()
+                setActiveCircleId(id)
+                console.log('activeCircleId2: ', activeCircleId)
 
-                // const item = items.find((i) => i.id === activeCircleId)
-                // const index = items.indexOf(item)
-                // items.splice(index, 1)
-                // props.updateItems(items)
+                const item = items.find((i) => i.id === activeCircleId)
+                const index = items.indexOf(item)
+                items.splice(index, 1)
 
-                items.splice(items.indexOf(activeCircleId), 1)
+                // items.splice(items.indexOf(activeCircleId), 1)
                 updateItems(items)
             }
         }
@@ -77,14 +85,17 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, grid, gridColor, g
         })
     }
 
+
     const touchContextMenu = (e: any) => {
         e.evt.preventDefault()
         const id = e.target.name()
-        const clientX = Touch.clientX
-        const clientY = Touch.clientY
+        // const clientX = Touch.clientX
+        // const clientY = Touch.clientY
+        const { clientX, clientY } = e.evt
+
         items.find((i: any) => {
             if (i.id === id) {
-                setActiveCircleId(id)
+            setActiveCircleId(id)
                 // console.log('setActiveCircleId: ', activeCircleId)
                 setContextMenu(contextMenu, [clientX, clientY])
             }
@@ -150,7 +161,16 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, grid, gridColor, g
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
+        setActiveCircleId(id)
+        // const item = null
         const item = items.find((i) => i.id === id)
+        // items.find((i: any) => {
+        //     if (i.id === id) {
+        //         updateActiveCircleId(id)
+        //         // console.log('setActiveCircleId: ', activeCircleId)
+        //         setContextMenu(contextMenu, [clientX, clientY])
+        //     }
+        // })
         const index = items.indexOf(item)
         // remove from the list:
         items.splice(index, 1)
@@ -170,6 +190,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, grid, gridColor, g
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
+        setActiveCircleId(id)
         const item = items.find((i) => i.id === id)
         const index = items.indexOf(item)
         // update item position
@@ -261,10 +282,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items, grid, gridColor, g
                     </div>
 
                     {grid &&
-                        <div>
+                        <>
                             <HorizontalLines gridColor={gridColor} width={stageWidth} height={stageHeight} gridSize={gridSize} />
                             <VerticalLines gridColor={gridColor} width={stageWidth} height={stageHeight} gridSize={gridSize} />
-                        </div>
+                        </>
                     }
 
                     {items.map((item) => (

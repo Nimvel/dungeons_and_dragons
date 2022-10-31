@@ -28,6 +28,10 @@ export const getItemsQuantity = (state: AppStateType) => {
     return state.mapPage.itemsQuantity
 }
 
+// export const getActiveCircleId = (state: AppStateType) => {
+//     return state.mapPage.activeCircleId
+// }
+
 export const getGrid = (state: AppStateType) => {
     return state.mapPage.grid
 }
