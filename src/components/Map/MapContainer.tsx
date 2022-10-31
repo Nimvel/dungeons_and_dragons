@@ -6,6 +6,8 @@ import { ItemType, updateItems,
      updateMapDimensions } from '../../redux/map-reducer'
 import './../../App.scss'
 import {
+    getD10, getD100, getD12, getD20,
+    getD4, getD6, getD8,
     // getActiveCircleId,
     getGrid, getGridColor, getGridSize,
     getItems, getMap, getMapHeight, getMapWidth
@@ -25,6 +27,14 @@ type MapStateToPropsType = {
     grid: boolean
     gridColor: string
     gridSize: number
+
+    D4: boolean
+    D6: boolean
+    D8: boolean
+    D10: boolean
+    D12: boolean
+    D20: boolean
+    D100: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -40,9 +50,11 @@ type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnProps
 
 const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, items, 
     // activeCircleId,
-    grid, gridColor, gridSize, updateItems, 
+    grid, gridColor, gridSize, 
+    D4, D6, D8, D10, D12, D20, D100,
+    updateItems, updateMapDimensions
     // updateActiveCircleId, 
-    updateMapDimensions }) => {
+     }) => {
 
     const mapDimensions = () => {
         const $ = require("jquery")
@@ -59,6 +71,7 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, items,
         //  activeCircleId={activeCircleId}
           grid={grid} gridColor={gridColor} gridSize={gridSize}
             mapWidth={mapWidth} mapHeight={mapHeight} updateItems={updateItems}
+            D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100}
             //  updateActiveCircleId={updateActiveCircleId}
               />
     </div>
@@ -76,7 +89,15 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         grid: getGrid(state),
         gridColor: getGridColor(state),
 
-        gridSize: getGridSize(state)
+        gridSize: getGridSize(state),
+
+        D4: getD4(state),
+    D6: getD6(state),
+    D8: getD8(state),
+    D10: getD10(state),
+    D12: getD12(state),
+    D20: getD20(state),
+    D100: getD100(state)
     }
 }
 

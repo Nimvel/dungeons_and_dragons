@@ -2,7 +2,11 @@ import React, { FC } from 'react'
 import { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize, ItemType } from '../../../redux/map-reducer'
+import {
+    addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize, ItemType,
+    addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
+    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100
+} from '../../../redux/map-reducer'
 import { getItemColor, getGridColor, getGridSize, getItems, getMapHeight, getMapWidth, getItemsQuantity } from '../../../redux/map-selectors'
 import { AppStateType } from '../../../redux/store'
 
@@ -29,6 +33,20 @@ type MapDispatchToPropsType = {
     hideGrid: () => void
     changeGridColor: (e: any) => void
     changeGridSize: (newSize: number) => void
+    addD4: () => void
+    deleteD4: () => void
+    addD6: () => void
+    deleteD6: () => void
+    addD8: () => void
+    deleteD8: () => void
+    addD10: () => void
+    deleteD10: () => void
+    addD12: () => void
+    deleteD12: () => void
+    addD20: () => void
+    deleteD20: () => void
+    addD100: () => void
+    deleteD100: () => void
 }
 
 type OwnPropsType = {
@@ -38,7 +56,9 @@ type OptionsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnP
 
 const OptionsContainer: FC<OptionsContainerProps> = (
     { mapWidth, mapHeight, itemColor, gridColor, gridSize, itemsQuantity, items,
-        addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize }) => {
+        addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize,
+        addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
+        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100 }) => {
 
     const [newQuantity, setQuantity] = useState(itemsQuantity)
     const [newColor, setColor] = useState(itemColor)
@@ -128,7 +148,10 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     return <Options itemColor={newColor} gridColor={gridColor} onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity}
         onChangeColor={onChangeColor} onChangeGridSize={onChangeGridSize} updateGridSize={updateGridSize}
         onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid}
-        onFullscreen={onFullscreen} offFullscreen={offFullscreen} />
+        onFullscreen={onFullscreen} offFullscreen={offFullscreen}
+        addD4={addD4} deleteD4={deleteD4} addD6={addD6} deleteD6={deleteD6} addD8={addD8} deleteD8={deleteD8}
+        addD10={addD10} deleteD10={deleteD10} addD12={addD12} deleteD12={deleteD12} addD20={addD20}
+        deleteD20={deleteD20} addD100={addD100} deleteD100={deleteD100} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
@@ -144,5 +167,9 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default connect(mapStateToProps,
-    { addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize }
+    {
+        addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize,
+        addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
+        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100
+    }
 )(OptionsContainer)
