@@ -1,59 +1,22 @@
 import * as React from 'react'
 import { useMemo, useState, useEffect } from 'react'
-import { Layer, Stage, Circle, Rect, Text } from 'react-konva'
-import Konva from 'konva'
+import { FC } from 'react'
 
-// import { AnimateOnChange } from 'react-animation'
-// import styled, { css } from 'styled-components'
+import { Layer, Stage, Circle } from 'react-konva'
+import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
 import HorizontalLines from './Grid/HorizontalLines'
 import VerticalLines from './Grid/VerticalLines'
 import Background from './Background/Background'
 import { ItemType } from '../../redux/map-reducer'
-import { FC } from 'react'
 import { KonvaEventObject } from 'konva/lib/Node'
 import Dice from './Dice/Dice'
 
-// const Number = styled.div`
-//   position: relative;
-//   margin-right: 16px;
-//   width: auto;
-
-//   &:first-child {
-//     flex-shrink: 0;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     width: 60px;
-//     height: 60px;
-//     background-image: linear-gradient(-26deg, #d9afd9 0%, #97d9e1 100%);
-//     clip-path: polygon(0 24%, 49% 0, 100% 24%, 100% 78%, 47% 100%, 0 79%);
-//   }
-//   &:first-child > span {
-//     display: block;
-//     font-size: 2em;
-//   }
-// `;
-
-// const Numbers = styled.div`
-//   overflow-y: hidden;
-//   overflow-x: auto;
-//   white-space: nowrap;
-//   ::-webkit-scrollbar {
-//     display: none;
-//   }
-//   /* Hide scrollbar for IE, Edge and Firefox */
-//   -ms-overflow-style: none; /* IE and Edge */
-//   scrollbar-width: none; /* Firefox */
-//   display: flex;
-//   align-items: center;
-// `;
 
 type MapProps = {
     map: string
     items: Array<ItemType>
-    // activeCircleId: null | string
     grid: boolean
     gridColor: string
     gridSize: number
@@ -69,23 +32,15 @@ type MapProps = {
     D100: boolean
 
     updateItems: (items: Array<ItemType>) => void
-    // updateActiveCircleId: (activeCircleId: string) => void
 }
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
-    // activeCircleId,
     D4, D6, D8, D10, D12, D20, D100,
-    grid, gridColor, gridSize, updateItems,
-    //  updateActiveCircleId
+    grid, gridColor, gridSize, updateItems
 }) => {
 
     const [activeCircleId, setActiveCircleId] = useState(null)
     const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
-
-    // const [D6X, setD6X] = useState(window.innerWidth - 100)
-    // const [D6Y, setD6Y] = useState(50)
-
-    // const [rolls, setRolls] = useState([1, 2, 3, 4, 5, 6])
 
     useEffect(() => { }, [mapWidth, mapHeight])
 
@@ -107,8 +62,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
         return () => window.removeEventListener('resize', checkSize)
     }, [])
 
-    // console.log('activeCircleId: ', activeCircleId)
-
     const contextMenu = useMemo(() => ([
         {
             name: 'Delete All',
@@ -120,7 +73,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
                 const item = items.find((i) => i.id === activeCircleId)
                 const index = items.indexOf(item)
 
-                // items.splice(items.indexOf(activeCircleId), 1)
                 updateItems(items.splice(index, 1))
             }
         }
@@ -138,7 +90,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
         })
     }
 
-
     const touchContextMenu = (e: any) => {
         e.evt.preventDefault()
         const id = e.target.name()
@@ -149,29 +100,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
         items.find((i: any) => {
             if (i.id === id) {
                 setActiveCircleId(id)
-                // console.log('setActiveCircleId: ', activeCircleId)
                 setContextMenu(contextMenu, [clientX, clientY])
             }
         })
     }
-
-    // const onScaling = (e) => {
-    //     e = e || window.event;
-
-    //  // wheelDelta не даёт возможность узнать количество пикселей
-    //     let delta = e.deltaY || e.detail || e.wheelDelta;
-
-    //     let info = document.getElementById('canvas');
-
-    //     info.innerHTML = +info.innerHTML + delta;
-
-    //     e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-
-    //     // let obj = document.getElementById('canvas')
-
-    //     // obj.style.transform = obj.style.transform = obj.style.transform = 'scale(1.5)'
-    //     console.log('scaling', info)
-    // }
 
     const elem = document.documentElement
     const canvas = document.getElementById('canvas')
@@ -215,15 +147,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
         setActiveCircleId(id)
-        // const item = null
         const item = items.find((i) => i.id === id)
-        // items.find((i: any) => {
-        //     if (i.id === id) {
-        //         updateActiveCircleId(id)
-        //         // console.log('setActiveCircleId: ', activeCircleId)
-        //         setContextMenu(contextMenu, [clientX, clientY])
-        //     }
-        // })
         const index = items.indexOf(item)
         // remove from the list:
         items.splice(index, 1)
@@ -320,20 +244,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
 
     // }
 
-    // const AnimatedNumber = ({ number }) => {
-    //     return (
-    //       <Number>
-    //         <AnimateOnChange
-    //           animationIn="fadeInUp"
-    //           animationOut="bounceOut"
-    //           durationOut={250}
-    //         >
-    //           <Typography variant="p">{number}</Typography>
-    //         </AnimateOnChange>
-    //       </Number>
-    //     )
-    //   }
-
     return (
         <div id='canvas'>
             <Stage onWheel={onScaling}
@@ -343,9 +253,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
                 onContextMenu={handleContextMenu}>
                 <Layer>
                     <div>
-                        <Background src={map}
-                            // stageWidth={stageWidth} stageHeight={stageHeight} 
-                            mapHeight={mapHeight} mapWidth={mapWidth} />
+                        <Background src={map} mapHeight={mapHeight} mapWidth={mapWidth} />
                     </div>
 
                     {grid &&
@@ -363,7 +271,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
                             x={item.x}
                             y={item.y}
                             fill={item.color}
-                            // opacity={0.9}
                             shadowColor='black'
                             shadowBlur={10}
                             shadowOpacity={0.7}
@@ -383,16 +290,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
                     { D20 && <Dice number={20} x={window.innerWidth - 100} y={370} width={50} text={'D20'} /> }
                     { D100 && <Dice number={100} x={window.innerWidth - 100} y={440} width={50} text={'D100'} /> }
 
-                    {/* <Numbers>
-          <AnimatedNumber number={rolls[0]} />
-          {rolls.slice(1).map((roll, i) => (
-            <Number key={`roll-${i}-${roll}`}>
-              <Typography variant="p" component="span">
-                {roll}
-              </Typography>
-            </Number>
-          ))}
-        </Numbers> */}
+                    
 
                 </Layer>
             </Stage>
@@ -402,7 +300,3 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
 }
 
 export default Map
-
-// Тип "(e: React.ChangeEvent<HTMLInputElement>) => void" не может быть назначен для типа "(evt: KonvaEventObject<DragEvent>) => void".
-//   Типы параметров "e" и "evt" несовместимы.
-//     В типе "KonvaEventObject<DragEvent>" отсутствуют следующие свойства из типа "ChangeEvent<HTMLInputElement>": nativeEvent, bubbles, cancelable, defaultPrevented и еще 8.
