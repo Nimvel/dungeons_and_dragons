@@ -44,27 +44,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
 }) => {
 
     const [activeCircleId, setActiveCircleId] = useState(null)
-    const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
 
     useEffect(() => { }, [mapWidth, mapHeight])
 
-    // do your calculations for stage properties
-    let stageWidth = size.width % 2 !== 0 ? size.width - 1 : size.width
-    let stageHeight = size.height % 2 !== 0 ? size.height - 1 : size.height
-
     const { setContextMenu } = useContextMenu()
-
-    useEffect(() => {
-        const checkSize = () => {
-            setSize({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            })
-        }
-
-        window.addEventListener('resize', checkSize)
-        return () => window.removeEventListener('resize', checkSize)
-    }, [])
 
     const contextMenu = useMemo(() => ([
         {
@@ -72,7 +55,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
             onClick: (e) => {
                 const id = e.target.name
                 setActiveCircleId(id)
-                console.log('activeCircleId2: ', activeCircleId)
 
                 const item = items.find((i) => i.id === activeCircleId)
                 const index = items.indexOf(item)
@@ -253,7 +235,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
             <Stage onWheel={onScaling}
                 // onTouchStart={TouchStart} onTouchMove={CheckAction}
                 width={window.innerWidth} height={window.innerHeight}
-                // width={stageWidth} height={stageHeight} 
                 onContextMenu={handleContextMenu}>
                 <Layer>
                     <div>
@@ -262,8 +243,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
 
                     {grid &&
                         <>
-                            <HorizontalLines gridColor={gridColor} width={stageWidth} height={stageHeight} gridSize={gridSize} />
-                            <VerticalLines gridColor={gridColor} width={stageWidth} height={stageHeight} gridSize={gridSize} />
+                            <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
+                            <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
                         </>
                     }
 
@@ -300,8 +281,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
                     diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
                     { D100 && <Dice number={100} x={window.innerWidth - 100} y={440} width={50} text={'D100'} 
                     diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-
-                    
 
                 </Layer>
             </Stage>

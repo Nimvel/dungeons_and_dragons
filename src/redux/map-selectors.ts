@@ -12,10 +12,6 @@ export const getMapHeight = (state: AppStateType) => {
     return state.mapPage.mapHeight
 }
 
-// export const getIsMenuActive = (state: AppStateType) => {
-//     return state.app.isMenuActive
-// }
-
 export const getItems = (state: AppStateType) => {
     return state.mapPage.items
 }
@@ -27,10 +23,6 @@ export const getItemColor = (state: AppStateType) => {
 export const getItemsQuantity = (state: AppStateType) => {
     return state.mapPage.itemsQuantity
 }
-
-// export const getActiveCircleId = (state: AppStateType) => {
-//     return state.mapPage.activeCircleId
-// }
 
 export const getGrid = (state: AppStateType) => {
     return state.mapPage.grid

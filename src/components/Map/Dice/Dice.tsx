@@ -1,7 +1,6 @@
-import Konva from 'konva'
 import * as React from 'react'
 import { FC } from 'react'
-import { Circle, Rect, Shape, Text } from 'react-konva'
+import { Rect, Shape, Text } from 'react-konva'
 
 type DiceProps = {
   number: number
