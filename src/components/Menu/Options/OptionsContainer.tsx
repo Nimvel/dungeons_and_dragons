@@ -78,7 +78,7 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize,
         addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
         addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
-        changeDiceColor, changeDiceNumberColor }) => {
+        changeDiceColor, changeDiceColorFace, changeDiceNumberColor }) => {
 
     const [newQuantity, setQuantity] = useState(itemsQuantity)
     const [newColor, setColor] = useState(itemColor)
@@ -115,14 +115,6 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         generateItems(items, newQuantity, newColor)
     }
 
-    const onShowGrid = () => {
-        showGrid()
-    }
-
-    const onHideGrid = () => {
-        hideGrid()
-    }
-
     const onChangeGridColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         changeGridColor(e.target.value)
     }
@@ -155,14 +147,6 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         }
     }
 
-    const onFullscreen = () => {
-        openFullscreen()
-    }
-
-    const offFullscreen = () => {
-        closeFullscreen()
-    }
-
     const onChangeDiceColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         changeDiceColor(e.target.value)
     }
@@ -179,8 +163,8 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100}
     onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity}
         onChangeColor={onChangeColor} onChangeGridSize={onChangeGridSize} updateGridSize={updateGridSize}
-        onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid}
-        onFullscreen={onFullscreen} offFullscreen={offFullscreen}
+        onChangeGridColor={onChangeGridColor} onShowGrid={showGrid} onHideGrid={hideGrid}
+        onFullscreen={openFullscreen} offFullscreen={closeFullscreen}
         addD4={addD4} deleteD4={deleteD4} addD6={addD6} deleteD6={deleteD6} addD8={addD8} deleteD8={deleteD8}
         addD10={addD10} deleteD10={deleteD10} addD12={addD12} deleteD12={deleteD12} addD20={addD20}
         deleteD20={deleteD20} addD100={addD100} deleteD100={deleteD100}
