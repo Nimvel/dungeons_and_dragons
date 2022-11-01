@@ -46,26 +46,6 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
       }
     })
   }
-  // const onNumberClick = (e) => {
-  //   const shape = e.target
-
-  //   shape.to({
-  //     x: window.innerWidth - 75,
-  //     y: y + 30,
-  //     scaleX: 0,
-  //     scaleY: 0,
-
-  //     onFinish: () => {
-  //       setNumberDice(String(Math.round(Math.random() * number + 1)))
-  //       shape.to({
-  //         x: window.innerWidth - 100,
-  //         y: y + 10,
-  //         scaleX: 1,
-  //         scaleY: 1,
-  //       })
-  //     }
-  //   })
-  // }
 
   return <div>
     {number === 4 && <Shape
@@ -177,6 +157,7 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
       align='center'
       width={width}
       onClick={onNumberClick}
+      onTouchStart={onNumberClick}
     />
 
     <Text
