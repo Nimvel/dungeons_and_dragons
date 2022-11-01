@@ -106,6 +106,10 @@ const DELETE_D20 = 'map/DELETE_D20'
 const ADD_D100 = 'map/ADD_D100'
 const DELETE_D100 = 'map/DELETE_D100'
 
+const CHANGE_DICE_COLOR = 'map/CHANGE_DICE_COLOR'
+const CHANGE_DICE_COLOR_FACE = 'map/CHANGE_DICE_COLOR_FACE'
+const CHANGE_DICE_NUMBER_COLOR = 'map/CHANGE_DICE_NUMBER_COLOR'
+
 export type ItemType = {
     x: number
     y: number
@@ -120,7 +124,6 @@ export type initialStateType = {
     items: Array<ItemType>
     itemColor: string
     itemsQuantity: number
-    // activeCircleId: null | string
     grid: boolean
     gridColor: string
     gridSize: number
@@ -132,6 +135,10 @@ export type initialStateType = {
     D12: boolean
     D20: boolean
     D100: boolean
+
+    diceColor: string
+    diceColorFace: string
+    diceNumberColor: string
 }
 
 const initialState: initialStateType = {
@@ -141,7 +148,6 @@ const initialState: initialStateType = {
     items: [],
     itemColor: '#cb9d9d',
     itemsQuantity: 0,
-    // activeCircleId: null,
     grid: false,
     gridColor: '#ffffff',
     gridSize: 50,
@@ -152,7 +158,11 @@ const initialState: initialStateType = {
     D10: true,
     D12: true,
     D20: true,
-    D100: true
+    D100: true,
+
+    diceColor: '#cb9d9d',
+    diceColorFace: '#ffffff',
+    diceNumberColor: '#ffffff'
 }
 
 const mapReducer = (state = initialState, action: ActionsTypes): initialStateType => {
@@ -183,12 +193,6 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 ...state,
                 items: action.items
             }
-
-        // case UPDATE_ACTIVE_CIRCLE_ID:
-        //     return {
-        //         ...state,
-        //         activeCircleId: action.activeCircleId
-        //     }
 
         case SHOW_GRID:
             return {
@@ -291,17 +295,34 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 D100: false
             }
 
+        case CHANGE_DICE_COLOR:
+            return {
+                ...state,
+                diceColor: action.color
+            }
+
+        case CHANGE_DICE_COLOR_FACE:
+            return {
+                ...state,
+                diceColorFace: action.color
+            }
+
+        case CHANGE_DICE_NUMBER_COLOR:
+            return {
+                ...state,
+                diceNumberColor: action.color
+            }
+
         default:
             return state
     }
 }
 
-type ActionsTypes = SetNewMapType | UpdateMapDimensionsType | AddNewCircleType |
-    UpdateItemsType |
-    // updateActiveCircleIdType | 
-    ShowGridType | HideGridType | ChangeGridColorType | ChangeGridSizeType |
+type ActionsTypes = SetNewMapType | UpdateMapDimensionsType | AddNewCircleType | UpdateItemsType | 
+ShowGridType | HideGridType | ChangeGridColorType | ChangeGridSizeType |
     addD4Type | deleteD4Type | addD6Type | deleteD6Type | addD8Type | deleteD8Type | addD10Type | deleteD10Type |
-    addD12Type | deleteD12Type | addD20Type | deleteD20Type | addD100Type | deleteD100Type 
+    addD12Type | deleteD12Type | addD20Type | deleteD20Type | addD100Type | deleteD100Type | 
+    changeDiceColorType | changeDiceColorFaceType | changeDiceNumberColorType
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP
@@ -328,12 +349,6 @@ type UpdateItemsType = {
     items: Array<ItemType>
 }
 export const updateItems = (items: Array<ItemType>): UpdateItemsType => ({ type: UPDATE_ITEMS, items })
-
-// type updateActiveCircleIdType = {
-//     type: typeof UPDATE_ACTIVE_CIRCLE_ID
-//     activeCircleId: string
-// }
-// export const updateActiveCircleId = (activeCircleId: string): updateActiveCircleIdType => ({ type: UPDATE_ACTIVE_CIRCLE_ID, activeCircleId })
 
 type ShowGridType = {
     type: typeof SHOW_GRID
@@ -426,5 +441,23 @@ type deleteD100Type = {
     type: typeof DELETE_D100
 }
 export const deleteD100 = (): deleteD100Type => ({ type: DELETE_D100 })
+
+type changeDiceColorType = {
+    type: typeof CHANGE_DICE_COLOR
+    color: string
+}
+export const changeDiceColor = (color: string): changeDiceColorType => ({ type: CHANGE_DICE_COLOR, color })
+
+type changeDiceColorFaceType = {
+    type: typeof CHANGE_DICE_COLOR_FACE
+    color: string
+}
+export const changeDiceColorFace = (color: string): changeDiceColorFaceType => ({ type: CHANGE_DICE_COLOR_FACE, color })
+
+type changeDiceNumberColorType = {
+    type: typeof CHANGE_DICE_NUMBER_COLOR
+    color: string
+}
+export const changeDiceNumberColor = (color: string): changeDiceNumberColorType => ({ type: CHANGE_DICE_NUMBER_COLOR, color })
 
 export default mapReducer

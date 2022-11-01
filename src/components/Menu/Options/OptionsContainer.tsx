@@ -5,9 +5,13 @@ import { connect } from 'react-redux'
 import {
     addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize, ItemType,
     addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100
+    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+    changeDiceColor, changeDiceColorFace, changeDiceNumberColor
 } from '../../../redux/map-reducer'
-import { getItemColor, getGridColor, getGridSize, getItems, getMapHeight, getMapWidth, getItemsQuantity } from '../../../redux/map-selectors'
+import { 
+    getItemColor, getGridColor, getGridSize, getItems, getMapHeight, getMapWidth, getItemsQuantity, 
+    getDiceColor, getDiceNumberColor, getD100, getD20, getD12, getD10, getD8, getD6, getD4, getGrid, getDiceColorFace 
+} from '../../../redux/map-selectors'
 import { AppStateType } from '../../../redux/store'
 
 import Options from './Options'
@@ -20,11 +24,22 @@ type MapStateToPropsType = {
     itemColor: string
     itemsQuantity: number
 
+    grid: boolean
     gridColor: string
     gridSize: number
-}
 
-// type GenerateItemsType = (items: Array<ItemType>, newQuantity: number, newColor: string) => Array<ItemType>
+    D4: boolean
+    D6: boolean
+    D8: boolean
+    D10: boolean
+    D12: boolean
+    D20: boolean
+    D100: boolean
+
+    diceColor: string
+    diceColorFace: string
+    diceNumberColor: string
+}
 
 type MapDispatchToPropsType = {
     addNewCircle: (quantity: number, color: string) => void
@@ -47,6 +62,9 @@ type MapDispatchToPropsType = {
     deleteD20: () => void
     addD100: () => void
     deleteD100: () => void
+    changeDiceColor: (color: string) => void 
+    changeDiceColorFace: (color: string) => void
+    changeDiceNumberColor: (color: string) => void
 }
 
 type OwnPropsType = {
@@ -55,19 +73,17 @@ type OwnPropsType = {
 type OptionsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const OptionsContainer: FC<OptionsContainerProps> = (
-    { mapWidth, mapHeight, itemColor, gridColor, gridSize, itemsQuantity, items,
+    { mapWidth, mapHeight, itemColor, grid, gridColor, gridSize, itemsQuantity, items, 
+        diceColor, diceColorFace, diceNumberColor, D4, D6, D8, D10, D12, D20, D100,
         addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize,
         addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100 }) => {
+        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+        changeDiceColor, changeDiceNumberColor }) => {
 
     const [newQuantity, setQuantity] = useState(itemsQuantity)
     const [newColor, setColor] = useState(itemColor)
     const [newSize, setSize] = useState(gridSize)
-
-    // React.useEffect(() => { setColor(itemColor) }, [itemColor]);
-    // React.useEffect(() => { setQuantity(itemsQuantity) }, [itemsQuantity]);
-
-    // React.useEffect(() => { updateItems(generateItems(items, newQuantity, newColor)) }, [itemsQuantity, itemColor])
+    const [fullscreen, setFullscreen] = useState(false)
 
     const onChangeQuantity = (e: any) => {
         setQuantity(e.target.value)
@@ -120,6 +136,7 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     const openFullscreen = () => {
         if (elem.requestFullscreen) {
             elem.requestFullscreen()
+            setFullscreen(true)
             // } else if (elem.mozRequestFullscreen) {
             //     elem.mozRequestFullscreen()
             // } else if (elem.webkitRequestFullscreen) {
@@ -130,6 +147,7 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     const closeFullscreen = () => {
         if (document.exitFullscreen) {
             document.exitFullscreen()
+            setFullscreen(false)
             // } else if (document.webkitExitFullscreen) { /* Safari */
             //     document.webkitExitFullscreen()
             // } else if (document.msExitFullscreen) { /* IE11 */
@@ -145,13 +163,28 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         closeFullscreen()
     }
 
-    return <Options itemColor={newColor} gridColor={gridColor} onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity}
+    const onChangeDiceColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+        changeDiceColor(e.target.value)
+    }
+
+    const onChangeDiceColorFace = (e: React.ChangeEvent<HTMLInputElement>) => {
+        changeDiceColorFace(e.target.value)
+    }
+
+    const onChangeDiceNumberColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+        changeDiceNumberColor(e.target.value)
+    }
+
+    return <Options itemColor={newColor} grid={grid} gridColor={gridColor} fullscreen={fullscreen}
+    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100}
+    onAddNewCircle={onAddNewCircle} onChangeQuantity={onChangeQuantity}
         onChangeColor={onChangeColor} onChangeGridSize={onChangeGridSize} updateGridSize={updateGridSize}
         onChangeGridColor={onChangeGridColor} onShowGrid={onShowGrid} onHideGrid={onHideGrid}
         onFullscreen={onFullscreen} offFullscreen={offFullscreen}
         addD4={addD4} deleteD4={deleteD4} addD6={addD6} deleteD6={deleteD6} addD8={addD8} deleteD8={deleteD8}
         addD10={addD10} deleteD10={deleteD10} addD12={addD12} deleteD12={deleteD12} addD20={addD20}
-        deleteD20={deleteD20} addD100={addD100} deleteD100={deleteD100} />
+        deleteD20={deleteD20} addD100={addD100} deleteD100={deleteD100}
+        onChangeDiceColor={onChangeDiceColor} onChangeDiceColorFace={onChangeDiceColorFace} onChangeDiceNumberColor={onChangeDiceNumberColor} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
@@ -160,9 +193,20 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         mapHeight: getMapHeight(state),
         itemColor: getItemColor(state),
         itemsQuantity: getItemsQuantity(state),
+        grid: getGrid(state),
         gridColor: getGridColor(state),
         gridSize: getGridSize(state),
-        items: getItems(state)
+        items: getItems(state),
+        D4: getD4(state),
+        D6: getD6(state),
+        D8: getD8(state),
+        D10: getD10(state),
+        D12: getD12(state),
+        D20: getD20(state),
+        D100: getD100(state),
+        diceColor: getDiceColor(state),
+        diceColorFace: getDiceColorFace(state),
+        diceNumberColor: getDiceNumberColor(state)
     }
 }
 
@@ -170,6 +214,7 @@ export default connect(mapStateToProps,
     {
         addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize,
         addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100
+        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+        changeDiceColor, changeDiceColorFace, changeDiceNumberColor
     }
 )(OptionsContainer)

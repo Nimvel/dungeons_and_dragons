@@ -7,6 +7,21 @@ type OptionsType = {
     itemColor: string
     gridColor: string
 
+    diceColor: string
+    diceColorFace: string
+    diceNumberColor: string
+
+    grid: boolean
+    fullscreen: boolean
+
+    D4: boolean
+    D6: boolean
+    D8: boolean
+    D10: boolean
+    D12: boolean
+    D20: boolean
+    D100: boolean
+
     onAddNewCircle: () => void
     onChangeQuantity: (e: any) => void
     onChangeColor: (e: any) => void
@@ -34,13 +49,20 @@ type OptionsType = {
     deleteD20: () => void
     addD100: () => void
     deleteD100: () => void
+
+    onChangeDiceColor: (e: any) => void
+    onChangeDiceColorFace: (e: any) => void
+    onChangeDiceNumberColor: (e: any) => void
 }
 
-const Options: FC<OptionsType> = ({ itemColor, gridColor, onAddNewCircle, onChangeQuantity, onChangeColor, onChangeGridSize,
+const Options: FC<OptionsType> = ({ itemColor, gridColor, diceColor, diceColorFace, diceNumberColor,
+    D4, D6, D8, D10, D12, D20, D100, fullscreen, grid,
+    onAddNewCircle, onChangeQuantity, onChangeColor, onChangeGridSize,
     updateGridSize, onChangeGridColor, onShowGrid, onHideGrid, onFullscreen, offFullscreen,
     addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100 }) => {
-        
+    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+    onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
+
     return <div className={s.options}>
         <div>
             <div>Circles</div>
@@ -53,65 +75,56 @@ const Options: FC<OptionsType> = ({ itemColor, gridColor, onAddNewCircle, onChan
             <div>Grid</div>
             <input onChange={onChangeGridSize} className={s.enterNumber} placeholder='Enter size' /><br />
             <button onClick={updateGridSize}>Update</button><br />
-            <input type='radio' onClick={onShowGrid} name='grid' />
-            <label>On</label><br />
-            <input type='radio' onClick={onHideGrid} name='grid' />
-            <label>Off</label><br />
             <input onChange={onChangeGridColor} className={s.color} type='color' value={gridColor} />
+            {grid
+                ? <><button onClick={onHideGrid} >Off</button><br /></>
+                : <><button onClick={onShowGrid} >On</button><br /></>
+            }
         </div>
 
         <div>
             <div>Fullscreen</div>
-            <input type='radio' onClick={onFullscreen} name='fullscreen' />
-            <label>On</label><br />
-            <input type='radio' onClick={offFullscreen} name='fullscreen' />
-            <label>Off</label><br />
+            {fullscreen
+                ? <><button onClick={offFullscreen} >Off</button><br /></>
+                : <><button onClick={onFullscreen} >On</button><br /></>
+            }
         </div>
 
         <div>
             <div>Dice</div>
+            <input onChange={onChangeDiceColor} className={s.color} type='color' value={diceColor} />
+            <input onChange={onChangeDiceColorFace} className={s.color} type='color' value={diceColorFace} />
+            <input onChange={onChangeDiceNumberColor} className={s.color} type='color' value={diceNumberColor} />
 
-            <div>D4</div>
-            <input type='radio' onClick={addD4} name='D4' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD4} name='D4' />
-            <label>Off</label><br />
+            {D4
+                ? <><button onClick={deleteD4} >D4 Off</button><br /></>
+                : <><button onClick={addD4} >D4 On</button><br /></>
+            }
 
-            <div>D6</div>
-            <input type='radio' onClick={addD6} name='D6' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD6} name='D6' />
-            <label>Off</label><br />
-
-            <div>D8</div>
-            <input type='radio' onClick={addD8} name='D8' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD8} name='D8' />
-            <label>Off</label><br />
-
-            <div>D10</div>
-            <input type='radio' onClick={addD10} name='D10' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD10} name='D10' />
-            <label>Off</label><br />
-
-            <div>D12</div>
-            <input type='radio' onClick={addD12} name='D12' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD12} name='D12' />
-            <label>Off</label><br />
-
-            <div>D20</div>
-            <input type='radio' onClick={addD20} name='D20' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD20} name='D20' />
-            <label>Off</label><br />
-
-            <div>D100</div>
-            <input type='radio' onClick={addD100} name='D100' />
-            <label>On</label>
-            <input type='radio' onClick={deleteD100} name='D100' />
-            <label>Off</label><br />
+            {D6
+                ? <><button onClick={deleteD6} >D6 Off</button><br /></>
+                : <><button onClick={addD6} >D6 On</button><br /></>
+            }
+            {D8
+                ? <><button onClick={deleteD8} >D8 Off</button><br /></>
+                : <><button onClick={addD8} >D8 On</button><br /></>
+            }
+            {D10
+                ? <><button onClick={deleteD10} >D10 Off</button><br /></>
+                : <><button onClick={addD10} >D10 On</button><br /></>
+            }
+            {D12
+                ? <><button onClick={deleteD12} >D12 Off</button><br /></>
+                : <><button onClick={addD12} >D12 On</button><br /></>
+            }
+            {D20
+                ? <><button onClick={deleteD20} >D20 Off</button><br /></>
+                : <><button onClick={addD20} >D20 On</button><br /></>
+            }
+            {D100
+                ? <><button onClick={deleteD100} >D100 Off</button><br /></>
+                : <><button onClick={addD100} >D100 On</button><br /></>
+            }
         </div>
     </div>
 }

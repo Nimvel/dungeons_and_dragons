@@ -71,3 +71,15 @@ export const getD20 = (state: AppStateType) => {
 export const getD100 = (state: AppStateType) => {
     return state.mapPage.D100
 }
+
+export const getDiceColor = (state: AppStateType) => {
+    return state.mapPage.diceColor
+}
+
+export const getDiceColorFace = (state: AppStateType) => {
+    return state.mapPage.diceColorFace
+}
+
+export const getDiceNumberColor = (state: AppStateType) => {
+    return state.mapPage.diceNumberColor
+}
