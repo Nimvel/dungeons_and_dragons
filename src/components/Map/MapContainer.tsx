@@ -1,42 +1,30 @@
 import * as React from 'react'
+import { FC, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Map from './Map'
-import {
-    ItemType, updateItems, updateMapDimensions
-} from '../../redux/map-reducer'
-import './../../App.scss'
-import {
-    getD10, getD100, getD12, getD20,
-    getD4, getD6, getD8,
-    getDiceColor, getDiceColorFace, getDiceNumberColor,
-    getGrid, getGridColor, getGridSize,
-    getItems, getMap, getMapHeight, getMapWidth
-} from '../../redux/map-selectors'
+
 import { AppStateType } from '../../redux/store'
-import { FC } from 'react'
+
+import { ItemType, updateItems, updateMapDimensions } from '../../redux/map-reducer'
+
+import { getItems, getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
+
+import { getGridSize } from '../../redux/options-selectors'
+
+import './../../App.scss'
+import { getLineMode, getPaintbrushColor, getPensilMode } from '../../redux/paint-selectors'
 
 type MapStateToPropsType = {
     map: string
     mapWidth: number
     mapHeight: number
+    gridSize: number
 
     items: Array<ItemType>
 
-    grid: boolean
-    gridColor: string
-    gridSize: number
-
-    D4: boolean
-    D6: boolean
-    D8: boolean
-    D10: boolean
-    D12: boolean
-    D20: boolean
-    D100: boolean
-
-    diceColor: string
-    diceColorFace: string
-    diceNumberColor: string
+    paintbrushColor: string
+    pensilMode: boolean
+    lineMode: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -49,11 +37,8 @@ type OwnPropsType = {
 
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, items,
-    grid, gridColor, gridSize,
-    D4, D6, D8, D10, D12, D20, D100,
-    diceColor, diceColorFace, diceNumberColor,
-    updateItems, updateMapDimensions
+const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateItems, updateMapDimensions,
+    paintbrushColor, pensilMode, lineMode
 }) => {
 
     const mapDimensions = () => {
@@ -64,15 +49,12 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, items,
             })
     }
 
-    React.useEffect(() => { mapDimensions() }, [map])
+    useEffect(() => {}, [mapWidth, mapHeight])
+    useEffect(() => { mapDimensions() }, [map])
 
     return <div className='map'>
-        <Map map={map} items={items}
-            grid={grid} gridColor={gridColor} gridSize={gridSize}
-            mapWidth={mapWidth} mapHeight={mapHeight} updateItems={updateItems}
-            D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
-        />
+        <Map map={map} items={items} mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
+        paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
     </div>
 }
 
@@ -83,26 +65,12 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         mapHeight: getMapHeight(state),
 
         items: getItems(state),
-
-        grid: getGrid(state),
-        gridColor: getGridColor(state),
-
         gridSize: getGridSize(state),
 
-        D4: getD4(state),
-        D6: getD6(state),
-        D8: getD8(state),
-        D10: getD10(state),
-        D12: getD12(state),
-        D20: getD20(state),
-        D100: getD100(state),
-
-        diceColor: getDiceColor(state),
-        diceColorFace: getDiceColorFace(state),
-        diceNumberColor: getDiceNumberColor(state)
+        paintbrushColor: getPaintbrushColor(state),
+        pensilMode: getPensilMode(state),
+        lineMode: getLineMode(state)
     }
 }
 
-export default connect(mapStateToProps, {
-    updateItems, updateMapDimensions
-})(MapContainer)
+export default connect(mapStateToProps, { updateItems, updateMapDimensions })(MapContainer)

@@ -34,6 +34,9 @@ const Navbar: FC<NavbarProps> = ({ closeNavbar, openMenu, closeMenu }) => {
                         <NavLink to='/dice' className={linkActive => linkActive.isActive ? s.active : s.item} >Dice</NavLink>
                     </div>
                     <div onClick={onMenuClick}>
+                        <NavLink to='/paint' className={linkActive => linkActive.isActive ? s.active : s.item} >Paint</NavLink>
+                    </div>
+                    <div onClick={onMenuClick}>
                         <NavLink to='/options' className={linkActive => linkActive.isActive ? s.active : s.item} >Options</NavLink>
                     </div>
                 </div>

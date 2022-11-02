@@ -1,51 +1,42 @@
 import * as React from 'react'
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
-import { Layer, Stage, Circle } from 'react-konva'
+import { Layer, Stage, Circle, Line } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
-import HorizontalLines from './Grid/HorizontalLines'
-import VerticalLines from './Grid/VerticalLines'
 import Background from './Background/Background'
 import { ItemType } from '../../redux/map-reducer'
 import { KonvaEventObject } from 'konva/lib/Node'
-import Dice from './Dice/Dice'
+import DiceContainer from './Dice/DiceContainer'
+import GridContainer from './Grid/GridContainer'
+import PaintContainer from './Paint/PaintContainer'
 
+const getScaledPoint = (stage, scale) => {
+    const { x, y } = stage.getPointerPosition()
+    return { x: x / scale, y: y / scale }
+}
 
 type MapProps = {
     map: string
-    items: Array<ItemType>
-    grid: boolean
-    gridColor: string
-    gridSize: number
     mapWidth: number
     mapHeight: number
+    gridSize: number
 
-    D4: boolean
-    D6: boolean
-    D8: boolean
-    D10: boolean
-    D12: boolean
-    D20: boolean
-    D100: boolean
-    
-    diceColor: string
-    diceColorFace: string
-    diceNumberColor: string
+    items: Array<ItemType>
+
+    paintbrushColor: string
+    pensilMode: boolean
+    lineMode: boolean
 
     updateItems: (items: Array<ItemType>) => void
 }
 
-const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
-    D4, D6, D8, D10, D12, D20, D100,
-    grid, gridColor, gridSize, diceColor, diceColorFace, diceNumberColor, updateItems
-}) => {
+const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateItems,
+    paintbrushColor, pensilMode, lineMode }) => {
 
     const [activeCircleId, setActiveCircleId] = useState(null)
-
-    useEffect(() => { }, [mapWidth, mapHeight])
 
     const { setContextMenu } = useContextMenu()
 
@@ -129,7 +120,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
         })
     }
 
-
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
         setActiveCircleId(id)
@@ -173,6 +163,71 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
             shadowOffsetY: 5
         })
     }
+
+    //==========================================================================================================
+
+    let stage = null
+
+    const [currentLine, setCurrentLine] = useState(null)
+    const [lines, setLines] = useState([])
+
+    
+
+// handleMouseMove = (e) => {
+//     // there are several ways to get stage reference
+  
+//     // first is
+//     var stage = e.currentTarget;
+  
+//     // or this:
+//     stage = this.stageRef.getStage();
+  
+//     // or even this:
+//     stage = e.target.getStage();
+  
+//     this.setState({
+//       cursor: stage.getPointerPosition()
+//     });
+//   }
+
+    const onMouseDown = () => {
+      const { x, y } = getScaledPoint(stage, 1)
+      setCurrentLine({ points: [x, y], paintbrushColor })
+    }
+
+    const onMouseMove = () => {
+        const { x, y } = getScaledPoint(stage, 1)
+        setCurrentLine({ points: [x, y], paintbrushColor })
+
+        if (currentLine) {
+            const { x, y } = getScaledPoint(stage, 1)
+            const [x0, y0] = currentLine.points
+
+            pensilMode && setCurrentLine({
+                ...currentLine,
+                points: [...currentLine.points, x, y]
+            })
+
+            lineMode && setCurrentLine({
+                ...currentLine,
+                points: [x0, y0, x, y]
+            })
+        }
+    }
+
+    const onMouseUp = () => {
+        const { x, y } = getScaledPoint(stage, 1)
+        setCurrentLine(null)
+        setLines([...lines,
+        { ...currentLine, points: [...currentLine.points, x, y] }
+        ])
+    }
+
+    const setStageRef = ref => {
+        if (ref) {
+          stage = ref
+        }
+      }
 
     //     const [touchStart, setTouchStart] = useState(null) //Точка начала касания
     //     const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
@@ -230,63 +285,62 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, items,
 
     // }
 
-    return (
-        <div id='canvas'>
-            <Stage onWheel={onScaling}
-                // onTouchStart={TouchStart} onTouchMove={CheckAction}
-                width={window.innerWidth} height={window.innerHeight}
-                onContextMenu={handleContextMenu}>
-                <Layer>
-                    <div>
-                        <Background src={map} mapHeight={mapHeight} mapWidth={mapWidth} />
-                    </div>
+    return <div id='canvas'>
+        <Stage onWheel={onScaling}
+            // onTouchStart={TouchStart} onTouchMove={CheckAction}
+            width={window.innerWidth} height={window.innerHeight}
+            onContextMenu={handleContextMenu}
 
-                    {grid &&
-                        <>
-                            <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
-                            <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
-                        </>
-                    }
+            ref={setStageRef}
+            onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        >
+            <Layer>
+                <Background src={map} mapHeight={mapHeight} mapWidth={mapWidth} />
 
-                    {items.map((item) => (
-                        <Circle
-                            key={item.id}
-                            name={item.id}
-                            draggable
-                            x={item.x}
-                            y={item.y}
-                            fill={item.color}
-                            shadowColor='black'
-                            shadowBlur={10}
-                            shadowOpacity={0.7}
-                            radius={gridSize / 2}
-                            onDragStart={handleDragStart}
-                            onDragEnd={handleDragEnd}
-                            onContextMenu={handleContextMenu}
-                            onTouchEnd={touchContextMenu}
-                        />
-                    ))}
+                <GridContainer />
 
-                    { D4 && <Dice number={4} x={window.innerWidth - 100} y={20} width={50} text={'D4'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D6 && <Dice number={6} x={window.innerWidth - 100} y={90} width={50} text={'D6'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D8 && <Dice number={8} x={window.innerWidth - 100} y={160} width={50} text={'D8'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D10 && <Dice number={10} x={window.innerWidth - 100} y={230} width={50} text={'D10'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D12 && <Dice number={12} x={window.innerWidth - 100} y={300} width={50} text={'D12'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D20 && <Dice number={20} x={window.innerWidth - 100} y={370} width={50} text={'D20'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D100 && <Dice number={100} x={window.innerWidth - 100} y={440} width={50} text={'D100'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
+                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor} />
+                {lines.map((line, index) => (
+                    <Line
+                        key={index}
+                        {...line}
+                        strokeWidth={1}
+                        stroke={paintbrushColor}
+                    />
+                ))}
+                {/* <PaintContainer /> */}
 
-                </Layer>
-            </Stage>
-        </div>
+                {items.map((item) => (
+                    <Circle
+                        key={item.id}
+                        name={item.id}
+                        draggable
+                        x={item.x}
+                        y={item.y}
+                        fill={item.color}
+                        shadowColor='black'
+                        shadowBlur={10}
+                        shadowOpacity={0.7}
+                        radius={gridSize / 2}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                        onContextMenu={handleContextMenu}
+                        onTouchEnd={touchContextMenu}
+                    />
+                ))}
 
-    )
+                {/* {items.map((item) => (
+                        <ItemContainer item={item} activeCircleId={activeCircleId} setActiveCircleId={setActiveCircleId}
+                        handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} />
+                    ))} */}
+
+                <DiceContainer />
+
+            </Layer>
+        </Stage>
+    </div>
 }
 
 export default Map

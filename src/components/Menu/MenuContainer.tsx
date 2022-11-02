@@ -7,13 +7,14 @@ import { AppStateType } from '../../redux/store'
 
 import OptionsContainer from './Options/OptionsContainer'
 import PicturesContainer from './Pictures/PicturesContainer'
+import ItemsContainer from './Items/ItemsContainer'
+import DiceContainer from './Dice/DiceContainer'
+import PaintContainer from './Paint/PaintContainer'
 
 import { getIsMenuActive } from '../../redux/app-selectors'
 
 //@ts-ignore
 import s from '../Navbar/Navbar.module.scss'
-import ItemsContainer from './Items/ItemsContainer'
-import DiceContainer from './Dice/DiceContainer'
 
 type MapStateToProps = {
     isMenuActive: boolean
@@ -39,6 +40,7 @@ const MenuContainer: FC<MenuContainerProps> = ({isMenuActive, closeMenu}) => {
                     <Route path='/pictures' element={<PicturesContainer />} />
                     <Route path='/items' element={<ItemsContainer />} />
                     <Route path='/dice' element={<DiceContainer />} />
+                    <Route path='/paint' element={<PaintContainer />} />
                     <Route path='/options' element={<OptionsContainer />} />
                 </Routes>
             </div>

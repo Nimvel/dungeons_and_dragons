@@ -5,10 +5,10 @@ import {
     addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
     addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
     changeDiceColor, changeDiceColorFace, changeDiceNumberColor
-} from '../../../redux/map-reducer'
+} from '../../../redux/dice-reducer'
 import { 
     getDiceColor, getDiceNumberColor, getD100, getD20, getD12, getD10, getD8, getD6, getD4, getDiceColorFace 
-} from '../../../redux/map-selectors'
+} from '../../../redux/dice-selectors'
 import { AppStateType } from '../../../redux/store'
 
 import Dice from './Dice'

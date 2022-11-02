@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 
 import {
     showGrid, hideGrid, changeGridColor, changeGridSize
-} from '../../../redux/map-reducer'
+} from '../../../redux/options-reducer'
 import { 
     getGridColor, getGridSize, getGrid
-} from '../../../redux/map-selectors'
+} from '../../../redux/options-selectors'
 import { AppStateType } from '../../../redux/store'
 
 import Options from './Options'
