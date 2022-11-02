@@ -25,7 +25,13 @@ const Navbar: FC<NavbarProps> = ({ closeNavbar, openMenu, closeMenu }) => {
                 <div className={s.navbar_links}>
                     <div className={s.closeModal} onClick={onCrossClick} />
                     <div onClick={onMenuClick}>
-                        <NavLink to='/pictures' className={linkActive => linkActive.isActive ? s.active : s.item} >Pictures</NavLink>
+                        <NavLink to='/pictures' className={linkActive => linkActive.isActive ? s.active : s.item} >Maps</NavLink>
+                    </div>
+                    <div onClick={onMenuClick}>
+                        <NavLink to='/items' className={linkActive => linkActive.isActive ? s.active : s.item} >Items</NavLink>
+                    </div>
+                    <div onClick={onMenuClick}>
+                        <NavLink to='/dice' className={linkActive => linkActive.isActive ? s.active : s.item} >Dice</NavLink>
                     </div>
                     <div onClick={onMenuClick}>
                         <NavLink to='/options' className={linkActive => linkActive.isActive ? s.active : s.item} >Options</NavLink>

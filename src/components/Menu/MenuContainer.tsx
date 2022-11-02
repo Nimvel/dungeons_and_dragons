@@ -12,6 +12,8 @@ import { getIsMenuActive } from '../../redux/app-selectors'
 
 //@ts-ignore
 import s from '../Navbar/Navbar.module.scss'
+import ItemsContainer from './Items/ItemsContainer'
+import DiceContainer from './Dice/DiceContainer'
 
 type MapStateToProps = {
     isMenuActive: boolean
@@ -35,6 +37,8 @@ const MenuContainer: FC<MenuContainerProps> = ({isMenuActive, closeMenu}) => {
                 <div className={s.closeModal} onClick={onCrossClick} />
                 <Routes>
                     <Route path='/pictures' element={<PicturesContainer />} />
+                    <Route path='/items' element={<ItemsContainer />} />
+                    <Route path='/dice' element={<DiceContainer />} />
                     <Route path='/options' element={<OptionsContainer />} />
                 </Routes>
             </div>
