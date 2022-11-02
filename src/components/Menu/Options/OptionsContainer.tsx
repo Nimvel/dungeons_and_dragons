@@ -3,23 +3,16 @@ import { useState } from 'react'
 import { connect } from 'react-redux'
 
 import {
-    addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize, ItemType,
-    addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
-    changeDiceColor, changeDiceColorFace, changeDiceNumberColor
+    showGrid, hideGrid, changeGridColor, changeGridSize
 } from '../../../redux/map-reducer'
 import { 
-    getItemColor, getGridColor, getGridSize, getItems, getMapHeight, getMapWidth, getItemsQuantity, 
-    getDiceColor, getDiceNumberColor, getD100, getD20, getD12, getD10, getD8, getD6, getD4, getGrid, getDiceColorFace 
+    getGridColor, getGridSize, getGrid
 } from '../../../redux/map-selectors'
 import { AppStateType } from '../../../redux/store'
 
 import Options from './Options'
 
 type MapStateToPropsType = {
-    mapWidth: number
-    mapHeight: number
-
     grid: boolean
     gridColor: string
     gridSize: number
@@ -38,8 +31,7 @@ type OwnPropsType = {
 type OptionsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const OptionsContainer: FC<OptionsContainerProps> = (
-    { mapWidth, mapHeight, grid, gridColor, gridSize, 
-        showGrid, hideGrid, changeGridColor, changeGridSize }) => {
+    { grid, gridColor, gridSize, showGrid, hideGrid, changeGridColor, changeGridSize }) => {
 
     const [newSize, setSize] = useState(gridSize)
     const [fullscreen, setFullscreen] = useState(false)
@@ -89,8 +81,6 @@ const OptionsContainer: FC<OptionsContainerProps> = (
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        mapWidth: getMapWidth(state),
-        mapHeight: getMapHeight(state),
         grid: getGrid(state),
         gridColor: getGridColor(state),
         gridSize: getGridSize(state)

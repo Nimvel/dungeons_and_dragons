@@ -1,16 +1,13 @@
 import React, { FC } from 'react'
-import { useState } from 'react'
 import { connect } from 'react-redux'
 
 import {
-    addNewCircle, updateItems, showGrid, hideGrid, changeGridColor, changeGridSize, ItemType,
     addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
     addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
     changeDiceColor, changeDiceColorFace, changeDiceNumberColor
 } from '../../../redux/map-reducer'
 import { 
-    getItemColor, getGridColor, getGridSize, getItems, getMapHeight, getMapWidth, getItemsQuantity, 
-    getDiceColor, getDiceNumberColor, getD100, getD20, getD12, getD10, getD8, getD6, getD4, getGrid, getDiceColorFace 
+    getDiceColor, getDiceNumberColor, getD100, getD20, getD12, getD10, getD8, getD6, getD4, getDiceColorFace 
 } from '../../../redux/map-selectors'
 import { AppStateType } from '../../../redux/store'
 
