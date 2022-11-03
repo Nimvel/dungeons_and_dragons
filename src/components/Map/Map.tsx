@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
-import { Layer, Stage, Circle, Line, Image } from 'react-konva'
+import { Layer, Stage, Circle, Line, Image, Rect } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
@@ -15,7 +15,11 @@ import GridContainer from './Grid/GridContainer'
 
 import './../../App.scss'
 import BordersContainer from './Borders/BordersContainer'
-import BackgroundItemsOnMap from './BackgroundItemsOnMap/BackgroundItemsOnMap'
+import useImage from 'use-image'
+// import BackgroundItemsOnMap from './BackgroundItemsOnMap/BackgroundItemsOnMap'
+
+
+const img1 = require('../../assets/backgrounds/background_1.png')
 
 type MapProps = {
     map: null | string
@@ -31,12 +35,17 @@ type MapProps = {
     lineMode: boolean
 
     updateItems: (items: Array<ItemType>) => void
+    updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
-const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, 
-    updateItems, paintbrushColor, pensilMode, lineMode }) => {
+const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
+    updateItems, updateBackgroundItems, paintbrushColor, pensilMode, lineMode }) => {
 
-    const [activeCircleId, setActiveCircleId] = useState(null)
+    const [activeItemId, setActiveItemId] = useState(null)
+    // const [itemImage, setitemImage] = useState('')
+    // const [image] = useImage(itemImage)
+
+    // const [activeBackgroundItemId, setActiveBackgroundItemId] = useState(null)
 
     const { setContextMenu } = useContextMenu()
 
@@ -45,9 +54,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             name: 'Delete All',
             onClick: (e) => {
                 const id = e.target.name
-                setActiveCircleId(id)
+                setActiveItemId(id)
 
-                const item = items.find((i) => i.id === activeCircleId)
+                const item = items.find((i) => i.id === activeItemId)
                 const index = items.indexOf(item)
 
                 updateItems(items.splice(index, 1))
@@ -61,7 +70,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         const { clientX, clientY } = e.evt
         items.find((i: any) => {
             if (i.id === id) {
-                setActiveCircleId(id)
+                setActiveItemId(id)
                 setContextMenu(contextMenu, [clientX, clientY])
             }
         })
@@ -76,7 +85,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
         items.find((i: any) => {
             if (i.id === id) {
-                setActiveCircleId(id)
+                setActiveItemId(id)
                 setContextMenu(contextMenu, [clientX, clientY])
             }
         })
@@ -122,47 +131,112 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
-        setActiveCircleId(id)
-        const item = items.find((i) => i.id === id)
-        const index = items.indexOf(item)
-        // remove from the list:
-        items.splice(index, 1)
-        // add to the top
-        items.push(item)
-        updateItems(items)
+        setActiveItemId(id)
 
-        e.target.setAttrs({
-            shadowOffset: {
-                x: 15,
-                y: 15
-            },
-            scaleX: 1.1,
-            scaleY: 1.1
-        })
+        const itemRegExp = /item-/i
+        const backgroundItemRegExp = /background-/i
+
+        const isItemId = itemRegExp.test(id)
+        const isBackgroundItemId = backgroundItemRegExp.test(id)
+
+        if (isItemId) {
+            const item = items.find((i) => i.id === id)
+            const index = items.indexOf(item)
+
+            items.splice(index, 1)
+            items.push(item)
+            updateItems(items)
+
+            e.target.setAttrs({
+                shadowOffset: {
+                    x: 15,
+                    y: 15
+                },
+                scaleX: 1.1,
+                scaleY: 1.1
+            })
+        }
+        else if (isBackgroundItemId) {
+            const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+            const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+
+            backgroundItemsOnMap.splice(backgroundItemIndex, 1)
+            backgroundItemsOnMap.push(backgroundItem)
+
+            updateBackgroundItems(backgroundItemsOnMap)
+        }
     }
+
+    // const handleDragBackgroundItemStart = (e: KonvaEventObject<DragEvent>) => {
+    //     const id = e.target.name()
+    //     console.log(id)
+    //     setActiveBackgroundItemId(id)
+
+    //     const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+    //     const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+
+    //     backgroundItemsOnMap.splice(backgroundItemIndex, 1)
+    //     backgroundItemsOnMap.push(backgroundItem)
+
+    //     updateBackgroundItems(backgroundItemsOnMap)
+    // }
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
-        setActiveCircleId(id)
-        const item = items.find((i) => i.id === id)
-        const index = items.indexOf(item)
-        // update item position
-        items[index] = {
-            ...item,
-            x: e.target.x(),
-            y: e.target.y(),
-        }
-        updateItems(items)
+        setActiveItemId(id)
 
-        e.target.to({
-            duration: 0.5,
-            easing: Konva.Easings.ElasticEaseOut,
-            scaleX: 1,
-            scaleY: 1,
-            shadowOffsetX: 5,
-            shadowOffsetY: 5
-        })
+        const itemRegExp = /item-/i
+        const backgroundItemRegExp = /background-/i
+
+        const isItemId = itemRegExp.test(id)
+        const isBackgroundItemId = backgroundItemRegExp.test(id)
+
+        if (isItemId) {
+            const item = items.find((i) => i.id === id)
+            const index = items.indexOf(item)
+
+            items[index] = {
+                ...item,
+                x: e.target.x(),
+                y: e.target.y(),
+            }
+            updateItems(items)
+
+            e.target.to({
+                duration: 0.5,
+                easing: Konva.Easings.ElasticEaseOut,
+                scaleX: 1,
+                scaleY: 1,
+                shadowOffsetX: 5,
+                shadowOffsetY: 5
+            })
+        }
+        else if (isBackgroundItemId) {
+            const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+            const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+
+            backgroundItemsOnMap[backgroundItemIndex] = {
+                ...backgroundItem,
+                x: e.target.x(),
+                y: e.target.y(),
+            }
+            updateBackgroundItems(backgroundItemsOnMap)
+        }
     }
+
+    // const handleDragBackgroundItemEnd = (e: KonvaEventObject<DragEvent>) => {
+    //     const id = e.target.name()
+    //     setActiveBackgroundItemId(id)
+    //     const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+    //     const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+
+    //     backgroundItemsOnMap[backgroundItemIndex] = {
+    //         ...backgroundItem,
+    //         x: e.target.x(),
+    //         y: e.target.y(),
+    //     }
+    //     updateBackgroundItems(backgroundItemsOnMap)
+    // }
 
     //==========================================================================================================
 
@@ -211,6 +285,12 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             stage = ref
         }
     }
+
+    // const itemImage = (itemImage) => {
+    //     const [image] = useImage(itemImage)
+    //     // return <Image image={image} />
+    //     return image
+    //   }
 
     //     const [touchStart, setTouchStart] = useState(null) //Точка начала касания
     //     const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
@@ -271,7 +351,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     return <div id='canvas' >
         <Stage onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
-            
+
             // width={window.innerWidth} height={window.innerHeight}
             width={mapWidth + 110} height={mapHeight + 100}
             onContextMenu={handleContextMenu}
@@ -279,8 +359,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             ref={setStageRef}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-        >
+            onMouseUp={onMouseUp} >
+
             <Layer>
                 {map && <MapBackground src={map} mapHeight={mapHeight} mapWidth={mapWidth} />}
 
@@ -288,7 +368,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 <GridContainer />
 
                 <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor} onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd} />
+                    onDragEnd={handleDragEnd} />
                 {lines.map((line, index) => (
                     <Line
                         key={index}
@@ -301,10 +381,25 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 ))}
                 {/* <PaintContainer /> */}
 
-                {backgroundItemsOnMap.map(item => <BackgroundItemsOnMap key={item.id}
-                x={item.x} y={item.y} src={item.backgroundItemOnMap} /> )}
+                {backgroundItemsOnMap.map(item => {
+                    // image !== item.backgroundItemOnMap && setitemImage(item.backgroundItemOnMap)
+                    return <Rect
+                        key={item.id}
+                        name={item.id}
+                        draggable
+                        x={item.x}
+                        y={item.y}
+                        id={item.id}
+                        fill={'#d0863c'}
+                        // fillPatternImage={image}
+                        width={50}
+                        height={50}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                    />}
+                )}
 
-                {items.map((item) => (
+                {items.map(item => (
                     <Circle
                         key={item.id}
                         name={item.id}

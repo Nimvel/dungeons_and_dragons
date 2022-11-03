@@ -19,7 +19,8 @@ const BackgroundItems: FC<BackgroundItemsProps> = ({ backgroundItems,  saveNewBa
         e.target.files.length && saveNewBackgroundItem(e.target.files[0])
     }
 
-    const backgroundElements = backgroundItems.map(b => <BackgroundItem backgroundItem={b.backgroundItem} key={b.id}
+    const backgroundElements = backgroundItems.map(b => <BackgroundItem key={b.id}
+        backgroundItem={b.backgroundItem}
         id={b.id} deleteBackgroundItem={deleteBackgroundItem} 
         addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} />)
 

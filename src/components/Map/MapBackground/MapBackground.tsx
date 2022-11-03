@@ -3,8 +3,6 @@ import { Image } from 'react-konva'
 
 type MapBackgroundProps = {
     src: string
-    // stageWidth: number
-    // stageHeight: number
     mapWidth: number
     mapHeight: number
 }
@@ -12,9 +10,7 @@ type MapBackgroundProps = {
 class MapBackground extends React.Component<MapBackgroundProps> {
     state = {
         image: null,
-        imageNode: null,
-        width: null,
-        height: null
+        imageNode: null
     };
 
     componentDidMount() {
@@ -43,33 +39,24 @@ class MapBackground extends React.Component<MapBackgroundProps> {
         // because "image" property is changed
         this.setState({
             image: this.state.image,
-        });
+        })
         // if you keep same image object during source updates
         // you will have to update layer manually:
         // this.imageNode.getLayer().batchDraw();
-    };
+    }
 
     onMouseWheel = () => {
 
     }
 
     render() {
-        // console.log(this.props.stageWidth - this.props.mapWidth)
-        // console.log(this.props.stageHeight - this.props.mapHeight)
-        // if (this.props.stageWidth - this.props.mapWidth <= this.props.stageHeight - this.props.mapHeight) {
-        //     this.state.width = this.props.stageWidth
-        //     this.state.height = this.props.mapHeight + (this.props.stageWidth - this.props.mapWidth)
-        // } else {
-        //     this.state.width = this.props.mapWidth + (this.props.stageHeight - this.props.mapHeight)
-        //     this.state.height = this.props.stageHeight
-        // }
 
         return (
             <Image
                 x={0}
                 y={0}
-                // width={this.props.stageWidth}
-                // height={this.props.stageHeight}
+                width={this.props.mapWidth}
+                height={this.props.mapHeight}
                 resizeMode={'contain'}
                 // this.props.height this.clientHeight
                 // this.props.width this.clientWidth

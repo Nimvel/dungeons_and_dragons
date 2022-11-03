@@ -21,14 +21,14 @@ type initialStateType = {
 
 const initialState = {
     backgroundItems: [
-        { id: 0, backgroundItem: img1 },
-        { id: 1, backgroundItem: img2 },
-        { id: 2, backgroundItem: img3 },
-        { id: 3, backgroundItem: img4 },
-        { id: 4, backgroundItem: img5 },
-        { id: 5, backgroundItem: img6 },
-        { id: 6, backgroundItem: img7 },
-        { id: 7, backgroundItem: img8 },
+        { id: 0, backgroundItem: img1, backgroundItemImage: img1 },
+        { id: 1, backgroundItem: img2, backgroundItemImage: img2 },
+        { id: 2, backgroundItem: img3, backgroundItemImage: img3 },
+        { id: 3, backgroundItem: img4, backgroundItemImage: img4 },
+        { id: 4, backgroundItem: img5, backgroundItemImage: img5 },
+        { id: 5, backgroundItem: img6, backgroundItemImage: img6 },
+        { id: 6, backgroundItem: img7, backgroundItemImage: img7 },
+        { id: 7, backgroundItem: img8, backgroundItemImage: img8 },
     ]
 }
 
@@ -37,7 +37,9 @@ const backgroundItemsReducer = (state = initialState, action: ActionsTypes): ini
         case SAVE_NEW_BACKGROUND_ITEM:
             return {
                 ...state, backgroundItems: [...state.backgroundItems,
-                { id: state.backgroundItems.length, backgroundItem: URL.createObjectURL(action.backgroundItem) }]
+                { id: state.backgroundItems.length, 
+                    backgroundItem: URL.createObjectURL(action.backgroundItem), 
+                    backgroundItemImage: action.backgroundItem}]
                 // { id: state.backgroundItems.length, backgroundItem: URL.createObjectURL(action.backgroundItem) }]
             }
 

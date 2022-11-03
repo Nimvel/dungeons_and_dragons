@@ -50,7 +50,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight, items, i
             circles.push({
                 x: Math.random() * (mapWidth - 100) + 50,
                 y: Math.random() * (mapHeight - 100) + 50,
-                id: 'node-' + (items.length + i),
+                id: 'item-' + (items.length + i),
                 color: newColor
             })
         }
