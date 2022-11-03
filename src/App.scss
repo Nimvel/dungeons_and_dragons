@@ -75,7 +75,7 @@
 // }
 
 .map {
-  @include possitionLeft(fixed, 50%);
+  @include possitionLeft(fixed, 55%);
   // @include possitionLeft(relative, 50%);
-  transform: translate(-50%);
+  transform: translate(-55%);
 }

@@ -2,12 +2,12 @@ import * as React from 'react'
 import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
-import { Layer, Stage, Circle, Line } from 'react-konva'
+import { Layer, Stage, Circle, Line, Image } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
-import Background from './Background/Background'
-import { ItemType } from '../../redux/map-reducer'
+import MapBackground from './MapBackground/MapBackground'
+import { BackgroundItemOnMapType, ItemType } from '../../redux/map-reducer'
 import { KonvaEventObject } from 'konva/lib/Node'
 import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
@@ -15,6 +15,7 @@ import GridContainer from './Grid/GridContainer'
 
 import './../../App.scss'
 import BordersContainer from './Borders/BordersContainer'
+import BackgroundItemsOnMap from './BackgroundItemsOnMap/BackgroundItemsOnMap'
 
 type MapProps = {
     map: null | string
@@ -23,6 +24,7 @@ type MapProps = {
     gridSize: number
 
     items: Array<ItemType>
+    backgroundItemsOnMap: Array<BackgroundItemOnMapType>
 
     paintbrushColor: string
     pensilMode: boolean
@@ -31,8 +33,8 @@ type MapProps = {
     updateItems: (items: Array<ItemType>) => void
 }
 
-const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateItems,
-    paintbrushColor, pensilMode, lineMode }) => {
+const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, 
+    updateItems, paintbrushColor, pensilMode, lineMode }) => {
 
     const [activeCircleId, setActiveCircleId] = useState(null)
 
@@ -271,7 +273,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             
             // width={window.innerWidth} height={window.innerHeight}
-            width={mapWidth + 100} height={mapHeight + 100}
+            width={mapWidth + 110} height={mapHeight + 100}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
@@ -280,7 +282,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
             onMouseUp={onMouseUp}
         >
             <Layer>
-                <Background src={map} mapHeight={mapHeight} mapWidth={mapWidth} />
+                {map && <MapBackground src={map} mapHeight={mapHeight} mapWidth={mapWidth} />}
 
                 <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
                 <GridContainer />
@@ -298,6 +300,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
                     />
                 ))}
                 {/* <PaintContainer /> */}
+
+                {backgroundItemsOnMap.map(item => <BackgroundItemsOnMap key={item.id}
+                x={item.x} y={item.y} src={item.backgroundItemOnMap} /> )}
 
                 {items.map((item) => (
                     <Circle

@@ -5,9 +5,9 @@ import Map from './Map'
 
 import { AppStateType } from '../../redux/store'
 
-import { ItemType, updateItems, updateMapDimensions } from '../../redux/map-reducer'
+import { BackgroundItemOnMapType, ItemType, updateItems, updateMapDimensions } from '../../redux/map-reducer'
 
-import { getItems, getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
+import { getBackgroundItemOnMap, getItems, getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
 
 import { getGridSize } from '../../redux/options-selectors'
 
@@ -21,6 +21,7 @@ type MapStateToPropsType = {
     gridSize: number
 
     items: Array<ItemType>
+    backgroundItemsOnMap: Array<BackgroundItemOnMapType>
 
     paintbrushColor: string
     pensilMode: boolean
@@ -37,23 +38,25 @@ type OwnPropsType = {
 
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateItems, updateMapDimensions,
-    paintbrushColor, pensilMode, lineMode
+const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
+    updateItems, updateMapDimensions, paintbrushColor, pensilMode, lineMode
 }) => {
 
     const mapDimensions = () => {
-        const $ = require("jquery")
-        $("<img/>").attr('src', map)
-            .on('load', function () {
-                updateMapDimensions(this.width, this.height)
-            })
+        if (map) {
+            const $ = require("jquery")
+            $("<img/>").attr('src', map)
+                .on('load', function () {
+                    updateMapDimensions(this.width, this.height)
+                })
+        }
     }
 
     useEffect(() => {}, [mapWidth, mapHeight])
     useEffect(() => { mapDimensions() }, [map])
 
     return <>
-        <Map map={map} items={items} mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
+        <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
         paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
     </>
 }
@@ -64,6 +67,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         mapWidth: getMapWidth(state),
         mapHeight: getMapHeight(state),
 
+        backgroundItemsOnMap: getBackgroundItemOnMap(state),
         items: getItems(state),
         gridSize: getGridSize(state),
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Image } from 'react-konva'
 
-type BackgroundProps = {
+type MapBackgroundProps = {
     src: string
     // stageWidth: number
     // stageHeight: number
@@ -9,7 +9,7 @@ type BackgroundProps = {
     mapHeight: number
 }
 
-class Background extends React.Component<BackgroundProps> {
+class MapBackground extends React.Component<MapBackgroundProps> {
     state = {
         image: null,
         imageNode: null,
@@ -120,4 +120,4 @@ class Background extends React.Component<BackgroundProps> {
 //             />
 // }
 
-export default Background
+export default MapBackground

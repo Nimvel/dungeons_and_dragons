@@ -8,7 +8,7 @@ const img6 = require('./../assets/pictures/img_6.jpg')
 const SAVE_NEW_PICTURE = 'pictures/SAVE_NEW_PICTURE'
 const DELETE_PICTURE = 'pictures/DELETE_PICTURE'
 
-type PicturesType = {
+export type PicturesType = {
     id: number
     picture: string
 }

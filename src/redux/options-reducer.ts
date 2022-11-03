@@ -11,7 +11,7 @@ type initialStateType = {
 
 const initialState: initialStateType = {
     grid: false,
-    gridColor: '#ffffff',
+    gridColor: '#d0863c',
     gridSize: 50
 }
 

@@ -1,5 +1,6 @@
 import { combineReducers, legacy_createStore as createStore } from 'redux'
 import appReducer from './app-reducer'
+import backgroundItemsReducer from './backgrounds-reducer'
 import diceReducer from './dice-reducer'
 import mapReducer from './map-reducer'
 import optionsReducer from './options-reducer'
@@ -8,7 +9,8 @@ import picturesReducer from './pictures-reducer'
 
 const rootReducer = combineReducers({
     app: appReducer,
-    picturesPage: picturesReducer,
+    pictures: picturesReducer,
+    backgroundItems: backgroundItemsReducer,
     mapPage: mapReducer,
     dice: diceReducer,
     options: optionsReducer,

@@ -38,7 +38,7 @@ const DiceContainer: FC<DiceContainerProps> = ({
     width, D4, D6, D8, D10, D12, D20, D100,
     diceColor, diceColorFace, diceNumberColor }) => {
 
-    // React.useEffect(() => { }, [width])
+    React.useEffect(() => { }, [width])
 
     const x = width > window.innerWidth - 100 ? window.innerWidth - 100 : width + 10
 

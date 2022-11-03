@@ -1,21 +1,32 @@
-import s from './Pictures.module.scss';
+import { FC } from 'react'
 
-const Picture = (props) => {
+//@ts-ignore
+import s from './Pictures.module.scss'
+
+type PictureProps = {
+    picture: string
+    id: number
+
+    setNewMap: (picture: string) => void
+    deletePicture: (id: number) => void
+}
+
+const Picture: FC<PictureProps> = ({ picture, id, setNewMap, deletePicture }) => {
     const onPictureClick = () => {
-        props.setNewMap(props.picture)
+        setNewMap(picture)
     }
 
     const onCrossClick = () => {
-        props.deletePicture(props.id)
+        deletePicture(id)
     }
 
     return <div className={s.picture}>
         <div className={s.holder}>
-            <img src={props.picture} alt={props.picture} onClick={onPictureClick} />
+            <img src={picture} alt={picture} onClick={onPictureClick} />
 
             <div className={s.closeModal} onClick={onCrossClick} />
         </div>
     </div>
 }
 
-export default Picture;
+export default Picture

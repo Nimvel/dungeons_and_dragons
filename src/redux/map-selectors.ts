@@ -12,6 +12,10 @@ export const getMapHeight = (state: AppStateType) => {
     return state.mapPage.mapHeight
 }
 
+export const getBackgroundItemOnMap = (state: AppStateType) => {
+    return state.mapPage.backgroundItemsOnMap
+}
+
 export const getItems = (state: AppStateType) => {
     return state.mapPage.items
 }
@@ -22,16 +26,4 @@ export const getItemColor = (state: AppStateType) => {
 
 export const getItemsQuantity = (state: AppStateType) => {
     return state.mapPage.itemsQuantity
-}
-
-export const getGrid = (state: AppStateType) => {
-    return state.mapPage.grid
-}
-
-export const getGridColor = (state: AppStateType) => {
-    return state.mapPage.gridColor
-}
-
-export const getGridSize = (state: AppStateType) => {
-    return state.mapPage.gridSize
 }
