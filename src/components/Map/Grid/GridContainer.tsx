@@ -21,8 +21,7 @@ type GridContainerProps = {
 }
 
 const GridContainer: FC<GridContainerProps> = ({ mapWidth, mapHeight, grid, gridColor, gridSize }) => {
-    return grid && 
-    <>
+    return grid && <>
             <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
             <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
         </>

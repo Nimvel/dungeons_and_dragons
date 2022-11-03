@@ -36,7 +36,7 @@ type DiceType = {
     onChangeDiceNumberColor: (e: any) => void
 }
 
-const Dice: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, diceNumberColor,
+const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, diceNumberColor,
     addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
     addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
     onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
@@ -79,4 +79,4 @@ const Dice: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceCol
     </div>
 }
 
-export default Dice
+export default DiceMenu

@@ -60,19 +60,22 @@
   // scrollbar-width: 0.1;
 }
 
-.content {
-  // grid-area: content;
-  @include dimensions(100%, 100%);
-  @include possitionLeft(fixed, 0);
+// .content {
+//   // grid-area: content;
+//   @include dimensions(100%, 100%);
+//   @include possitionLeft(fixed, 0);
 
-  .map {
-    @include possitionLeft(relative, 50%);
-    transform: translate(-50%);
-  }
-  // background-color: black;
+  
+//   // background-color: black;
 
-//   @media (max-width: 1100px) {
-//     @include dimensions(100px, 500px);
+// //   @media (max-width: 1100px) {
+// //     @include dimensions(100px, 500px);
+// // }
+//   // transform: translate(-50%);
 // }
-  // transform: translate(-50%);
+
+.map {
+  @include possitionLeft(fixed, 50%);
+  // @include possitionLeft(relative, 50%);
+  transform: translate(-50%);
 }

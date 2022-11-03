@@ -11,15 +11,13 @@ import { ItemType } from '../../redux/map-reducer'
 import { KonvaEventObject } from 'konva/lib/Node'
 import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
-import PaintContainer from './Paint/PaintContainer'
+// import PaintContainer from './Paint/PaintContainer'
 
-const getScaledPoint = (stage, scale) => {
-    const { x, y } = stage.getPointerPosition()
-    return { x: x / scale, y: y / scale }
-}
+import './../../App.scss'
+import BordersContainer from './Borders/BordersContainer'
 
 type MapProps = {
-    map: string
+    map: null | string
     mapWidth: number
     mapHeight: number
     gridSize: number
@@ -171,34 +169,17 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
     const [currentLine, setCurrentLine] = useState(null)
     const [lines, setLines] = useState([])
 
-    
-
-// handleMouseMove = (e) => {
-//     // there are several ways to get stage reference
-  
-//     // first is
-//     var stage = e.currentTarget;
-  
-//     // or this:
-//     stage = this.stageRef.getStage();
-  
-//     // or even this:
-//     stage = e.target.getStage();
-  
-//     this.setState({
-//       cursor: stage.getPointerPosition()
-//     });
-//   }
+    const getScaledPoint = (stage, scale) => {
+        const { x, y } = stage.getPointerPosition()
+        return { x: x / scale, y: y / scale }
+    }
 
     const onMouseDown = () => {
-      const { x, y } = getScaledPoint(stage, 1)
-      setCurrentLine({ points: [x, y], paintbrushColor })
+        const { x, y } = getScaledPoint(stage, 1)
+        setCurrentLine({ points: [x, y], paintbrushColor })
     }
 
     const onMouseMove = () => {
-        const { x, y } = getScaledPoint(stage, 1)
-        setCurrentLine({ points: [x, y], paintbrushColor })
-
         if (currentLine) {
             const { x, y } = getScaledPoint(stage, 1)
             const [x0, y0] = currentLine.points
@@ -225,9 +206,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
 
     const setStageRef = ref => {
         if (ref) {
-          stage = ref
+            stage = ref
         }
-      }
+    }
 
     //     const [touchStart, setTouchStart] = useState(null) //Точка начала касания
     //     const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
@@ -285,29 +266,35 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
 
     // }
 
-    return <div id='canvas'>
+    return <div id='canvas' >
         <Stage onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
-            width={window.innerWidth} height={window.innerHeight}
+            
+            // width={window.innerWidth} height={window.innerHeight}
+            width={mapWidth + 100} height={mapHeight + 100}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
             onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
         >
             <Layer>
                 <Background src={map} mapHeight={mapHeight} mapWidth={mapWidth} />
 
+                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
                 <GridContainer />
 
-                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor} />
+                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor} onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd} />
                 {lines.map((line, index) => (
                     <Line
                         key={index}
                         {...line}
                         strokeWidth={1}
                         stroke={paintbrushColor}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
                     />
                 ))}
                 {/* <PaintContainer /> */}
@@ -336,7 +323,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, updateIt
                         handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} />
                     ))} */}
 
-                <DiceContainer />
+                <DiceContainer width={mapWidth} />
 
             </Layer>
         </Stage>

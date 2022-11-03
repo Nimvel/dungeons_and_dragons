@@ -12,7 +12,7 @@ export type ItemType = {
 }
 
 export type initialStateType = {
-    map: string
+    map: null | string
     mapWidth: number
     mapHeight: number
     items: Array<ItemType>
@@ -21,7 +21,7 @@ export type initialStateType = {
 }
 
 const initialState: initialStateType = {
-    map: img1,
+    map: img1, 
     mapWidth: 0,
     mapHeight: 0,
     items: [],

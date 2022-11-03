@@ -28,6 +28,9 @@ const Navbar: FC<NavbarProps> = ({ closeNavbar, openMenu, closeMenu }) => {
                         <NavLink to='/pictures' className={linkActive => linkActive.isActive ? s.active : s.item} >Maps</NavLink>
                     </div>
                     <div onClick={onMenuClick}>
+                        <NavLink to='/create_map' className={linkActive => linkActive.isActive ? s.active : s.item} >Create map</NavLink>
+                    </div>
+                    <div onClick={onMenuClick}>
                         <NavLink to='/items' className={linkActive => linkActive.isActive ? s.active : s.item} >Items</NavLink>
                     </div>
                     <div onClick={onMenuClick}>

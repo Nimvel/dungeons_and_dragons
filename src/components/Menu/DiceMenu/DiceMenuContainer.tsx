@@ -11,7 +11,7 @@ import {
 } from '../../../redux/dice-selectors'
 import { AppStateType } from '../../../redux/store'
 
-import Dice from './Dice'
+import DiceMenu from './DiceMenu'
 
 type MapStateToPropsType = {
     D4: boolean
@@ -50,9 +50,9 @@ type MapDispatchToPropsType = {
 type OwnPropsType = {
 }
 
-type DiceContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
+type DiceMenuContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const DiceContainer: FC<DiceContainerProps> = (
+const DiceMenuContainer: FC<DiceMenuContainerProps> = (
     { diceColor, diceColorFace, diceNumberColor, D4, D6, D8, D10, D12, D20, D100,
         addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
         addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
@@ -70,7 +70,7 @@ const DiceContainer: FC<DiceContainerProps> = (
         changeDiceNumberColor(e.target.value)
     }
 
-    return <Dice diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} 
+    return <DiceMenu diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} 
     D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100}
         addD4={addD4} deleteD4={deleteD4} addD6={addD6} deleteD6={deleteD6} addD8={addD8} deleteD8={deleteD8}
         addD10={addD10} deleteD10={deleteD10} addD12={addD12} deleteD12={deleteD12} addD20={addD20}
@@ -99,4 +99,4 @@ export default connect(mapStateToProps,
         addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
         changeDiceColor, changeDiceColorFace, changeDiceNumberColor
     }
-)(DiceContainer)
+)(DiceMenuContainer)

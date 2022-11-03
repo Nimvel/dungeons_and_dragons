@@ -1,20 +1,12 @@
 import { FC } from 'react'
 import { connect } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
 
 import { closeMenu } from '../../redux/app-reducer'
 import { AppStateType } from '../../redux/store'
 
-import OptionsContainer from './Options/OptionsContainer'
-import PicturesContainer from './Pictures/PicturesContainer'
-import ItemsContainer from './Items/ItemsContainer'
-import DiceContainer from './Dice/DiceContainer'
-import PaintContainer from './Paint/PaintContainer'
-
 import { getIsMenuActive } from '../../redux/app-selectors'
 
-//@ts-ignore
-import s from '../Navbar/Navbar.module.scss'
+import Menu from './Menu'
 
 type MapStateToProps = {
     isMenuActive: boolean
@@ -32,20 +24,7 @@ const MenuContainer: FC<MenuContainerProps> = ({isMenuActive, closeMenu}) => {
         closeMenu()
     }
 
-    return <>
-        {isMenuActive
-            && <div className='menu'>
-                <div className={s.closeModal} onClick={onCrossClick} />
-                <Routes>
-                    <Route path='/pictures' element={<PicturesContainer />} />
-                    <Route path='/items' element={<ItemsContainer />} />
-                    <Route path='/dice' element={<DiceContainer />} />
-                    <Route path='/paint' element={<PaintContainer />} />
-                    <Route path='/options' element={<OptionsContainer />} />
-                </Routes>
-            </div>
-        }
-    </>
+    return <Menu isMenuActive={isMenuActive} onCrossClick={onCrossClick} />
 }
 
 const mapStateToProps = (state: AppStateType) => {

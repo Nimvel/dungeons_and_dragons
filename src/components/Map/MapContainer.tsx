@@ -11,11 +11,11 @@ import { getItems, getMap, getMapHeight, getMapWidth } from '../../redux/map-sel
 
 import { getGridSize } from '../../redux/options-selectors'
 
-import './../../App.scss'
+// import './../../App.scss'
 import { getLineMode, getPaintbrushColor, getPensilMode } from '../../redux/paint-selectors'
 
 type MapStateToPropsType = {
-    map: string
+    map: null | string
     mapWidth: number
     mapHeight: number
     gridSize: number
@@ -52,10 +52,10 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
     useEffect(() => {}, [mapWidth, mapHeight])
     useEffect(() => { mapDimensions() }, [map])
 
-    return <div className='map'>
+    return <>
         <Map map={map} items={items} mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
         paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
-    </div>
+    </>
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {

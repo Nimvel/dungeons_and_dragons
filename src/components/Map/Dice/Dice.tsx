@@ -17,7 +17,7 @@ type DiceProps = {
 const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFace, diceNumberColor }) => {
   const [numberDice, setNumberDice] = React.useState(String(Math.round(Math.random() * number + 1)))
 
-  const onNumberClick = (e) => {
+  const onNumberClick = (e: any) => {
     const shape = e.target
 
     shape.to({

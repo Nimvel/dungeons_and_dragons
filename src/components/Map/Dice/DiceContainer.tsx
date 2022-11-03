@@ -29,31 +29,35 @@ type MapDispatchToPropsType = {
 }
 
 type OwnPropsType = {
+    width: number
 }
 
 type DiceContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const DiceContainer: FC<DiceContainerProps> = ({ 
-    D4, D6, D8, D10, D12, D20, D100,
-    diceColor, diceColorFace, diceNumberColor
-}) => {
+const DiceContainer: FC<DiceContainerProps> = ({
+    width, D4, D6, D8, D10, D12, D20, D100,
+    diceColor, diceColorFace, diceNumberColor }) => {
+
+    // React.useEffect(() => { }, [width])
+
+    const x = width > window.innerWidth - 100 ? window.innerWidth - 100 : width + 10
 
     return <>
-    { D4 && <Dice number={4} x={window.innerWidth - 100} y={20} width={50} text={'D4'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D6 && <Dice number={6} x={window.innerWidth - 100} y={90} width={50} text={'D6'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D8 && <Dice number={8} x={window.innerWidth - 100} y={160} width={50} text={'D8'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D10 && <Dice number={10} x={window.innerWidth - 100} y={230} width={50} text={'D10'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D12 && <Dice number={12} x={window.innerWidth - 100} y={300} width={50} text={'D12'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D20 && <Dice number={20} x={window.innerWidth - 100} y={370} width={50} text={'D20'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    { D100 && <Dice number={100} x={window.innerWidth - 100} y={440} width={50} text={'D100'} 
-                    diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} /> }
-                    </>
+        {D4 && <Dice number={4} x={x} y={20} width={50} text={'D4'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+        {D6 && <Dice number={6} x={x} y={90} width={50} text={'D6'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+        {D8 && <Dice number={8} x={x} y={160} width={50} text={'D8'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+        {D10 && <Dice number={10} x={x} y={230} width={50} text={'D10'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+        {D12 && <Dice number={12} x={x} y={300} width={50} text={'D12'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+        {D20 && <Dice number={20} x={x} y={370} width={50} text={'D20'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+        {D100 && <Dice number={100} x={x} y={440} width={50} text={'D100'}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+    </>
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {

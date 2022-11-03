@@ -10,7 +10,7 @@ type initialStateType = {
 }
 
 const initialState = {
-    isNavbarActive: false,
+    isNavbarActive: true,
     isMenuActive: false
 }
 

@@ -13,7 +13,7 @@ const App = () => {
         {/* <Header /> */}
         <NavbarContainer />
         <MenuContainer />
-        <div className='content'>
+        <div className='map'>
           <MapContainer />
         </div>
       </div>
