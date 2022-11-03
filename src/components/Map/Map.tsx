@@ -11,13 +11,10 @@ import { BackgroundItemOnMapType, ItemType } from '../../redux/map-reducer'
 import { KonvaEventObject } from 'konva/lib/Node'
 import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
-// import PaintContainer from './Paint/PaintContainer'
 
 import './../../App.scss'
 import BordersContainer from './Borders/BordersContainer'
-import useImage from 'use-image'
-// import BackgroundItemsOnMap from './BackgroundItemsOnMap/BackgroundItemsOnMap'
-
+// import useImage from 'use-image'
 
 const img1 = require('../../assets/backgrounds/background_1.png')
 
@@ -41,11 +38,14 @@ type MapProps = {
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
     updateItems, updateBackgroundItems, paintbrushColor, pensilMode, lineMode }) => {
 
+    let stage = null
+
+    const [currentLine, setCurrentLine] = useState(null)
+    const [lines, setLines] = useState([])
+
     const [activeItemId, setActiveItemId] = useState(null)
     // const [itemImage, setitemImage] = useState('')
     // const [image] = useImage(itemImage)
-
-    // const [activeBackgroundItemId, setActiveBackgroundItemId] = useState(null)
 
     const { setContextMenu } = useContextMenu()
 
@@ -167,20 +167,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         }
     }
 
-    // const handleDragBackgroundItemStart = (e: KonvaEventObject<DragEvent>) => {
-    //     const id = e.target.name()
-    //     console.log(id)
-    //     setActiveBackgroundItemId(id)
-
-    //     const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-    //     const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
-
-    //     backgroundItemsOnMap.splice(backgroundItemIndex, 1)
-    //     backgroundItemsOnMap.push(backgroundItem)
-
-    //     updateBackgroundItems(backgroundItemsOnMap)
-    // }
-
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
         setActiveItemId(id)
@@ -223,27 +209,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             updateBackgroundItems(backgroundItemsOnMap)
         }
     }
-
-    // const handleDragBackgroundItemEnd = (e: KonvaEventObject<DragEvent>) => {
-    //     const id = e.target.name()
-    //     setActiveBackgroundItemId(id)
-    //     const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-    //     const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
-
-    //     backgroundItemsOnMap[backgroundItemIndex] = {
-    //         ...backgroundItem,
-    //         x: e.target.x(),
-    //         y: e.target.y(),
-    //     }
-    //     updateBackgroundItems(backgroundItemsOnMap)
-    // }
-
-    //==========================================================================================================
-
-    let stage = null
-
-    const [currentLine, setCurrentLine] = useState(null)
-    const [lines, setLines] = useState([])
 
     const getScaledPoint = (stage, scale) => {
         const { x, y } = stage.getPointerPosition()
@@ -351,8 +316,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     return <div id='canvas' >
         <Stage onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
-
             // width={window.innerWidth} height={window.innerHeight}
+            
             width={mapWidth + 110} height={mapHeight + 100}
             onContextMenu={handleContextMenu}
 
@@ -379,7 +344,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                         onDragEnd={handleDragEnd}
                     />
                 ))}
-                {/* <PaintContainer /> */}
 
                 {backgroundItemsOnMap.map(item => {
                     // image !== item.backgroundItemOnMap && setitemImage(item.backgroundItemOnMap)
@@ -396,7 +360,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                         height={50}
                         onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
-                    />}
+                    />
+                }
                 )}
 
                 {items.map(item => (
