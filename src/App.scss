@@ -31,10 +31,11 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 20px;
 
+  background-color: #85728a;
+
   button {
     @include dimensions(100px, 25px);
   }
-
 }
 
 ::-webkit-scrollbar {
@@ -66,7 +67,8 @@
 
 .map {
   @include possitionLeft(fixed, 55%);
-  transform: translate(-55%);
+  top: 50%;
+  transform: translate(-55%, -50%);
 }
 
 .holder {

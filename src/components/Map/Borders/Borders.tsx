@@ -3,11 +3,13 @@ import { FC } from 'react'
 import { Line } from 'react-konva'
 
 type BordersProps = {
+    bordersColor: string
+
     mapWidth: number
     mapHeight: number
 }
 
-const Borders: FC<BordersProps> = ({ mapWidth, mapHeight }) => {
+const Borders: FC<BordersProps> = ({ bordersColor, mapWidth, mapHeight }) => {
 
     return <Line key={'borders'}
         points={[
@@ -16,7 +18,7 @@ const Borders: FC<BordersProps> = ({ mapWidth, mapHeight }) => {
             mapWidth, mapHeight, 0, mapHeight,
             0, mapHeight, 1, 0
         ]}
-        stroke='#d0863c'
+        stroke={bordersColor}
     />
 }
 

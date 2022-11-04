@@ -160,14 +160,14 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
       onTouchStart={onNumberClick}
     />
 
-    <Text
+    {/* <Text
       fontSize={15}
       text={text}
       x={x + 50}
       y={y + 20}
       align='center'
       width={width}
-    />
+    /> */}
   </div>
 }
 

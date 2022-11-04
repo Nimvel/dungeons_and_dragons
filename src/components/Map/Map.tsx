@@ -325,7 +325,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             // width={window.innerWidth} height={window.innerHeight}
 
-            width={mapWidth + 110} height={mapHeight + 100}
+            width={mapWidth > window.innerWidth - 100 ? mapWidth : mapWidth + 80} 
+            height={mapHeight}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
@@ -336,8 +337,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             <Layer>
                 {map && <MapBackground src={map} mapHeight={mapHeight} mapWidth={mapWidth} />}
 
-                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
                 <GridContainer />
+                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
 
                 <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor} onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd} />

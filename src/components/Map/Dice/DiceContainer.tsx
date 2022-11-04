@@ -40,7 +40,7 @@ const DiceContainer: FC<DiceContainerProps> = ({
 
     React.useEffect(() => { }, [width])
 
-    const x = width > window.innerWidth - 100 ? window.innerWidth - 100 : width + 10
+    const x = width > window.innerWidth - 100 ? width - 60 : width + 15
 
     return <>
         {D4 && <Dice number={4} x={x} y={20} width={50} text={'D4'}
