@@ -68,8 +68,8 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
         case ADD_NEW_BACKGROUND_ITEM:
             let item = {
                 backgroundItemOnMap: action.backgroundItemOnMap,
-                x: 0,
-                y: 0,
+                x: state.mapWidth / 2,
+                y: state.mapHeight / 2,
                 id: `background-${state.backgroundItemsOnMap.length}`
             }
             return {

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 //@ts-ignore
-import s from '../../Pictures/Pictures.module.scss'
+import s from './BackgroundItems.module.scss'
 
 type BackgroundItemProps = {
     backgroundItem: string
@@ -20,11 +20,11 @@ const BackgroundItem: FC<BackgroundItemProps> = ({ backgroundItem, id, deleteBac
         deleteBackgroundItem(id)
     }
 
-    return <div className={s.picture}>
+    return <div className={s.backgroundItem}>
         <div className={s.holder}>
             <img src={backgroundItem} alt={backgroundItem} onClick={onBackgroundItemClick} />
 
-            <div className={s.closeModal} onClick={onCrossClick} />
+            <div className='closeModal' onClick={onCrossClick} />
         </div>
     </div>
 }

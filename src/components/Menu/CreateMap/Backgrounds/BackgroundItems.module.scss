@@ -11,13 +11,14 @@
     height: $height;
 }
 
-.pictures {
-    padding: 10px;
+.backgroundItems {
+    padding-top: 5px;
     display: grid;
-    gap: 10px;
+    gap: 5px;
+    grid-template-columns: 50px 50px;
 
-    .picture {
-        @include dimensions(80px, 80px);
+    .backgroundItem {
+        @include dimensions(50px, 50px);
         border-radius: 15px;
         overflow: hidden;
     }
@@ -27,7 +28,7 @@
     position: relative;
 
     img {
-        @include dimensions(80px, 80px);
+        @include dimensions(50px, 50px);
         @include position(relative, 0, 0, 0, 50%);
         transform: translate(-50%);
         object-fit: cover;
@@ -35,6 +36,6 @@
     }
 
     img:hover {
-        @include dimensions(100px, 100px);
+        @include dimensions(60px, 60px);
     }
 }

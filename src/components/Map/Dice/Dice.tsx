@@ -21,7 +21,7 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
     const shape = e.target
 
     shape.to({
-      x: window.innerWidth - 75,
+      x: x + 25,
       y: y,
       scaleX: 0,
       scaleY: 0,
@@ -30,7 +30,7 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
       onFinish: () => {
         setNumberDice(String(Math.round(Math.random() * number + 1)))
         shape.to({
-          x: window.innerWidth - 75,
+          x: x + 25,
           y: y + 50,
 
           onFinish: () => {
@@ -38,7 +38,7 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
               opacity: 1,
               scaleX: 1,
               scaleY: 1,
-              x: window.innerWidth - 100,
+              x: x,
               y: y + 10,
             })
           }

@@ -24,7 +24,7 @@ const Picture: FC<PictureProps> = ({ picture, id, setNewMap, deletePicture }) =>
         <div className={s.holder}>
             <img src={picture} alt={picture} onClick={onPictureClick} />
 
-            <div className={s.closeModal} onClick={onCrossClick} />
+            <div className='closeModal' onClick={onCrossClick} />
         </div>
     </div>
 }

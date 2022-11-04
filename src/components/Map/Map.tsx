@@ -11,12 +11,11 @@ import { BackgroundItemOnMapType, ItemType } from '../../redux/map-reducer'
 import { KonvaEventObject } from 'konva/lib/Node'
 import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
+import BordersContainer from './Borders/BordersContainer'
 
 import './../../App.scss'
-import BordersContainer from './Borders/BordersContainer'
-// import useImage from 'use-image'
-
-const img1 = require('../../assets/backgrounds/background_1.png')
+//@ts-ignore
+import s from './Map.module.scss'
 
 type MapProps = {
     map: null | string
@@ -44,8 +43,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const [lines, setLines] = useState([])
 
     const [activeItemId, setActiveItemId] = useState(null)
-    // const [itemImage, setitemImage] = useState('')
-    // const [image] = useImage(itemImage)
 
     const { setContextMenu } = useContextMenu()
 
@@ -201,11 +198,27 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
             const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
+            const boxesX = []
+            for (let i = 0; i <= mapWidth / gridSize; i++) {
+                boxesX.push(i)
+            }
+            const boxesY = []
+            for (let i = 0; i <= mapHeight / gridSize; i++) {
+                boxesY.push(i)
+            }
+
+            const backgroundItemX = boxesX.filter(i => Math.floor(e.target.x() / gridSize) === i)[0] * gridSize
+            const backgroundItemY = boxesY.filter(i => Math.floor(e.target.y() / gridSize) === i)[0] * gridSize
+
             backgroundItemsOnMap[backgroundItemIndex] = {
                 ...backgroundItem,
-                x: e.target.x(),
-                y: e.target.y(),
+                x: backgroundItemX,
+                y: backgroundItemY
             }
+            console.log(
+                'x:', backgroundItemX,
+                'y:', backgroundItemY
+                )
             updateBackgroundItems(backgroundItemsOnMap)
         }
     }
@@ -250,12 +263,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             stage = ref
         }
     }
-
-    // const itemImage = (itemImage) => {
-    //     const [image] = useImage(itemImage)
-    //     // return <Image image={image} />
-    //     return image
-    //   }
 
     //     const [touchStart, setTouchStart] = useState(null) //Точка начала касания
     //     const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
@@ -313,11 +320,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     // }
 
-    return <div id='canvas' >
+    return <div id='canvas' className={s.map} >
         <Stage onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             // width={window.innerWidth} height={window.innerHeight}
-            
+
             width={mapWidth + 110} height={mapHeight + 100}
             onContextMenu={handleContextMenu}
 
@@ -346,23 +353,27 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 ))}
 
                 {backgroundItemsOnMap.map(item => {
-                    // image !== item.backgroundItemOnMap && setitemImage(item.backgroundItemOnMap)
-                    return <Rect
-                        key={item.id}
-                        name={item.id}
-                        draggable
-                        x={item.x}
-                        y={item.y}
-                        id={item.id}
-                        fill={'#d0863c'}
-                        // fillPatternImage={image}
-                        width={50}
-                        height={50}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                    />
+                    let image = document.createElement('img')
+                    image.src = item.backgroundItemOnMap
+                    image.alt = 'backgroundItem'
+
+                    return <div className={s.backgroundItem}>
+                        <Rect
+                            key={item.id}
+                            name={item.id}
+                            draggable
+                            x={item.x}
+                            y={item.y}
+                            id={item.id}
+                            fillPatternImage={image}
+                            width={50}
+                            height={50}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                        />
+                    </div>
+                })
                 }
-                )}
 
                 {items.map(item => (
                     <Circle

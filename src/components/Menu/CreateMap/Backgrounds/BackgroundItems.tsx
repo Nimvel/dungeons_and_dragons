@@ -3,7 +3,7 @@ import { BackgroundItemType } from '../../../../redux/backgrounds-reducer'
 import BackgroundItem from './BackgroundItem'
 
 //@ts-ignore
-import s from '../../Pictures/Pictures.module.scss'
+import s from './BackgroundItems.module.scss'
 
 type BackgroundItemsProps = {
     backgroundItems: Array<BackgroundItemType>
@@ -13,7 +13,7 @@ type BackgroundItemsProps = {
     addNewBackgroundItemOnMap: (backgroundItem: string) => void
 }
 
-const BackgroundItems: FC<BackgroundItemsProps> = ({ backgroundItems,  saveNewBackgroundItem, deleteBackgroundItem, addNewBackgroundItemOnMap }) => {
+const BackgroundItems: FC<BackgroundItemsProps> = ({ backgroundItems, saveNewBackgroundItem, deleteBackgroundItem, addNewBackgroundItemOnMap }) => {
 
     const addNewBackground = (e) => {
         e.target.files.length && saveNewBackgroundItem(e.target.files[0])
@@ -21,19 +21,21 @@ const BackgroundItems: FC<BackgroundItemsProps> = ({ backgroundItems,  saveNewBa
 
     const backgroundElements = backgroundItems.map(b => <BackgroundItem key={b.id}
         backgroundItem={b.backgroundItem}
-        id={b.id} deleteBackgroundItem={deleteBackgroundItem} 
+        id={b.id} deleteBackgroundItem={deleteBackgroundItem}
         addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} />)
 
-    return <div className={s.pictures}>
-        <div className={s.block}>
+    return <>
+        <div className='block'>
             <label>
                 <input onChange={addNewBackground}
                     type={'file'} accept='.jpg, .jpeg, .tiff, .png, .gif, .bmp, jp2' />  {/* multiple */}
-                <span>Add</span>
+                <span>Add Item</span>
             </label>
         </div>
-        {backgroundElements}
-    </div>
+        <div className={s.backgroundItems}>
+            {backgroundElements}
+        </div>
+    </>
 }
 
 export default BackgroundItems
