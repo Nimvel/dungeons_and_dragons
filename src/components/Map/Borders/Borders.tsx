@@ -16,7 +16,7 @@ const Borders: FC<BordersProps> = ({ bordersColor, mapWidth, mapHeight }) => {
             0, 0, mapWidth, 0,
             mapWidth, 0, mapWidth, mapHeight,
             mapWidth, mapHeight, 0, mapHeight,
-            0, mapHeight, 1, 0
+            0, mapHeight, 0, 0
         ]}
         stroke={bordersColor}
     />

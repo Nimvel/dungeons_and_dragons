@@ -21,10 +21,10 @@ type initialStateType = {
 }
 
 const initialState: initialStateType = {
-    borders: false,
+    borders: true,
     bordersColor: '#ffffff',
 
-    grid: false,
+    grid: true,
     gridColor: '#ffffff',
     gridSize: 50,
 

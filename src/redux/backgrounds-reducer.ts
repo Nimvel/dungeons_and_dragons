@@ -6,6 +6,7 @@ const img5 = require('./../assets/backgrounds/background_5.png')
 const img6 = require('./../assets/backgrounds/background_6.png')
 const img7 = require('./../assets/backgrounds/background_7.png')
 const img8 = require('./../assets/backgrounds/background_8.png')
+const img9 = require('./../assets/backgrounds/background_9.png')
 
 const SAVE_NEW_BACKGROUND_ITEM = 'backgrounds/SAVE_NEW_BACKGROUND_ITEM'
 const DELETE_BACKGROUND_ITEM = 'backgrounds/DELETE_BACKGROUND_ITEM'
@@ -29,6 +30,7 @@ const initialState = {
         { id: 5, backgroundItem: img6 },
         { id: 6, backgroundItem: img7 },
         { id: 7, backgroundItem: img8 },
+        { id: 7, backgroundItem: img9 },
     ]
 }
 

@@ -34,9 +34,9 @@ export type initialStateType = {
 }
 
 const initialState: initialStateType = {
-    map: img1,
-    mapWidth: 1000,
-    mapHeight: 1000,
+    map: null,
+    mapWidth: 500,
+    mapHeight: 500,
     backgroundItemsOnMap: [],
     items: [],
     itemColor: '#cb9d9d',
