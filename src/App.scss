@@ -51,14 +51,19 @@
 
 .navbar {
   position: fixed;
+  padding: 5px;
   z-index: 1;
   background-color: #f4f4f4;
-  @include dimensions(125px, 100%);
+  @include dimensions(75px, 100%);
+
+  img {
+    @include dimensions(60px, 60px);
+  }
 }
 
 .menu {
   @include dimensions(125px, 100%);
-  @include possitionLeft(fixed, 125px);
+  @include possitionLeft(fixed, 85px);
 
   z-index: 2;
   background-color: #d5d5d5;

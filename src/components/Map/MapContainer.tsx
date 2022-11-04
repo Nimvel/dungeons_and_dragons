@@ -32,7 +32,6 @@ type MapStateToPropsType = {
 
 type MapDispatchToPropsType = {
     updateItems: (items: Array<ItemType>) => void
-    updateItemsWithImages: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
     updateMapDimensions: (mapWidth: number, mapHeight: number) => void
 }
@@ -43,8 +42,7 @@ type OwnPropsType = {
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
-    paintbrushColor, pensilMode, lineMode, updateItems, updateMapDimensions, 
-    updateBackgroundItems, updateItemsWithImages }) => {
+    paintbrushColor, pensilMode, lineMode, updateItems, updateMapDimensions, updateBackgroundItems }) => {
 
     const mapDimensions = () => {
         if (map) {
@@ -60,10 +58,10 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
     useEffect(() => { mapDimensions() }, [map])
 
     return <>
-        <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} 
+        <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap}
         mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
-        updateBackgroundItems={updateBackgroundItems} updateItemsWithImages={updateItemsWithImages} 
-        paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
+        updateBackgroundItems={updateBackgroundItems} paintbrushColor={paintbrushColor} 
+        pensilMode={pensilMode} lineMode={lineMode} />
     </>
 }
 

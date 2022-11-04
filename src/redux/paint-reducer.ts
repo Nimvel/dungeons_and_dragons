@@ -1,10 +1,7 @@
 const CHANGE_PAINTBRUSH_COLOR = 'paint/CHANGE_PAINTBRUSH_COLOR'
 
-const ON_PENSIL_MODE = 'paint/ON_PENSIL_MODE'
-const OFF_PENSIL_MODE = 'paint/OFF_PENSIL_MODE'
-
-const ON_LINE_MODE = 'paint/ON_LINE_MODE'
-const OFF_LINE_MODE = 'paint/OFF_LINE_MODE'
+const PENSIL_MODE = 'paint/PENSIL_MODE'
+const LINE_MODE = 'paint/LINE_MODE'
 
 type initialStateType = {
     paintbrushColor: string
@@ -26,28 +23,16 @@ const paintReducer = (state = initialState, action: ActionsTypes): initialStateT
                 paintbrushColor: action.color
             }
 
-        case ON_PENSIL_MODE:
+            case PENSIL_MODE:
             return {
                 ...state,
-                pensilMode: true
+                pensilMode: !state.pensilMode
             }
 
-        case OFF_PENSIL_MODE:
+        case LINE_MODE:
             return {
                 ...state,
-                pensilMode: false
-            }
-
-        case ON_LINE_MODE:
-            return {
-                ...state,
-                lineMode: true
-            }
-
-        case OFF_LINE_MODE:
-            return {
-                ...state,
-                lineMode: false
+                lineMode: !state.lineMode
             }
 
         default:
@@ -55,7 +40,7 @@ const paintReducer = (state = initialState, action: ActionsTypes): initialStateT
     }
 }
 
-type ActionsTypes = onChangePaintbrushColorType | onPensilModeType | offPensilModeType | onLineModeType | offLineModeType
+type ActionsTypes = onChangePaintbrushColorType | ChangePensilModeType | ChangeLineModeType
 
 type onChangePaintbrushColorType = {
     type: typeof CHANGE_PAINTBRUSH_COLOR
@@ -63,24 +48,15 @@ type onChangePaintbrushColorType = {
 }
 export const onChangePaintbrushColor = (color: string): onChangePaintbrushColorType => ({ type: CHANGE_PAINTBRUSH_COLOR, color })
 
-type onPensilModeType = {
-    type: typeof ON_PENSIL_MODE
+type ChangePensilModeType = {
+    type: typeof PENSIL_MODE
 }
-export const onPensilMode = (): onPensilModeType => ({ type: ON_PENSIL_MODE })
+export const changePensilMode = (): ChangePensilModeType => ({ type: PENSIL_MODE })
 
-type offPensilModeType = {
-    type: typeof OFF_PENSIL_MODE
-}
-export const offPensilMode = (): offPensilModeType => ({ type: OFF_PENSIL_MODE })
 
-type onLineModeType = {
-    type: typeof ON_LINE_MODE
+type ChangeLineModeType = {
+    type: typeof LINE_MODE
 }
-export const onLineMode = (): onLineModeType => ({ type: ON_LINE_MODE })
-
-type offLineModeType = {
-    type: typeof OFF_LINE_MODE
-}
-export const offLineMode = (): offLineModeType => ({ type: OFF_LINE_MODE })
+export const changeLineMode = (): ChangeLineModeType => ({ type: LINE_MODE })
 
 export default paintReducer

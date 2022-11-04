@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { connect } from 'react-redux'
 import { AppStateType } from '../../../redux/store'
-import { onChangePaintbrushColor, onPensilMode, offPensilMode, onLineMode, offLineMode } from '../../../redux/paint-reducer'
+import { onChangePaintbrushColor, changePensilMode, changeLineMode } from '../../../redux/paint-reducer'
 import { getLineMode, getPaintbrushColor, getPensilMode } from '../../../redux/paint-selectors'
 
 import Paint from './Paint'
@@ -15,24 +15,21 @@ type MapStateToProps = {
 
 type MapDispatchToProps = {
     onChangePaintbrushColor: (color: string) => void
-    onPensilMode: () => void
-    offPensilMode: () => void
-    onLineMode: () => void
-    offLineMode: () => void
+    changePensilMode: () => void
+    changeLineMode: () => void
 }
 
 type PaintContainerProps = MapStateToProps & MapDispatchToProps
 
 const PaintContainer: FC<PaintContainerProps> = ({ paintbrushColor, pensilMode, lineMode,
-    onChangePaintbrushColor, onPensilMode, offPensilMode, onLineMode, offLineMode }) => {
+    onChangePaintbrushColor, changePensilMode, changeLineMode }) => {
 
     const onChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChangePaintbrushColor(e.target.value)
     }
 
     return <Paint paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode}
-        onChangeColor={onChangeColor} onPensilMode={onPensilMode}
-        offPensilMode={offPensilMode} onLineMode={onLineMode} offLineMode={offLineMode} />
+        onChangeColor={onChangeColor} changePensilMode={changePensilMode} changeLineMode={changeLineMode} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToProps => {
@@ -43,6 +40,6 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
     }
 }
 
-export default connect(mapStateToProps,
-    { onChangePaintbrushColor, onPensilMode, offPensilMode, onLineMode, offLineMode }
-)(PaintContainer)
+export default connect(mapStateToProps, {
+    onChangePaintbrushColor, changePensilMode, changeLineMode
+})(PaintContainer)

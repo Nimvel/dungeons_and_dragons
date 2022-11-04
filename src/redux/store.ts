@@ -4,16 +4,18 @@ import backgroundItemsReducer from './backgrounds-reducer'
 import diceReducer from './dice-reducer'
 import itemImagesReducer from './itemImages-reducer'
 import mapReducer from './map-reducer'
+import navbarReducer from './navbar-reducer'
 import optionsReducer from './options-reducer'
 import paintReducer from './paint-reducer'
 import picturesReducer from './pictures-reducer'
 
 const rootReducer = combineReducers({
     app: appReducer,
+    navbar: navbarReducer,
     pictures: picturesReducer,
     backgroundItems: backgroundItemsReducer,
     items: itemImagesReducer,
-    mapPage: mapReducer,
+    map: mapReducer,
     dice: diceReducer,
     options: optionsReducer,
     paint: paintReducer

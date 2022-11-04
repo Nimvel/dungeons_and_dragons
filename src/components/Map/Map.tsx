@@ -33,13 +33,11 @@ type MapProps = {
     lineMode: boolean
 
     updateItems: (items: Array<ItemType>) => void
-    updateItemsWithImages: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
-    paintbrushColor, pensilMode, lineMode,
-    updateItems, updateBackgroundItems, updateItemsWithImages }) => {
+    paintbrushColor, pensilMode, lineMode, updateItems, updateBackgroundItems }) => {
 
     let stage = null
 
@@ -356,27 +354,27 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 <GridContainer />
                 <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
 
-                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor}
-                // onDragStart={handleDragStart}
-                // onDragEnd={handleDragEnd}
-                />
-                {lines.map((line, index) => (
-                    <Line
-                        key={index}
-                        {...line}
-                        strokeWidth={1}
-                        stroke={paintbrushColor}
-                    // onDragStart={handleDragStart}
-                    // onDragEnd={handleDragEnd}
-                    />
-                ))}
-
                 {backgroundItemsOnMap.map(item => {
                     let image = document.createElement('img')
                     image.src = item.backgroundItemOnMap
                     image.alt = 'backgroundItem'
 
-                    return <Rect
+                    if (pensilMode || lineMode) {
+                        return <Rect
+                        key={item.id}
+                        name={item.id}
+                        x={item.x}
+                        y={item.y}
+                        id={item.id}
+                        fillPatternImage={image}
+                        width={gridSize}
+                        height={gridSize}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                    />
+                    }
+                    else {
+                        return <Rect
                         key={item.id}
                         name={item.id}
                         draggable
@@ -389,8 +387,20 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                         onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
                     />
+                    }
                 })
                 }
+
+                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor}
+                />
+                {lines.map((line, index) => (
+                    <Line
+                        key={index}
+                        {...line}
+                        strokeWidth={1}
+                        stroke={paintbrushColor}
+                    />
+                ))}
 
                 {items.map(item => {
                     let image = document.createElement('img')

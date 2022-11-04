@@ -17,12 +17,12 @@ export type BackgroundItemOnMapType = {
 }
 
 export type ItemType = {
-        x: number
-        y: number
-        id: string
-        color: null | string
-        image: null | string
-    }
+    x: number
+    y: number
+    id: string
+    color: null | string
+    image: null | string
+}
 
 export type initialStateType = {
     map: null | string
@@ -99,7 +99,6 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 y: state.mapHeight / 2,
                 id: `itemWithImage-${state.items.length}`
             }
-
             return {
                 ...state,
                 items: [...state.items, item]
@@ -117,7 +116,7 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 }
 
 type ActionsTypes = SetNewMapType | CleanMapType | UpdateMapDimensionsType |
-    AddNewBackgroundItemOnMapType | AddNewCircleType | AddNewItemWithImageType | 
+    AddNewBackgroundItemOnMapType | AddNewCircleType | AddNewItemWithImageType |
     UpdateItemsType | updateBackgroundItemsType
 
 type SetNewMapType = {
@@ -163,8 +162,8 @@ type AddNewItemWithImageType = {
     type: typeof ADD_NEW_ITEM_WITH_IMAGE
     itemImage: string
 }
-export const addNewItemWithImage = (itemImage: string): AddNewItemWithImageType => 
-({ type: ADD_NEW_ITEM_WITH_IMAGE, itemImage })
+export const addNewItemWithImage = (itemImage: string): AddNewItemWithImageType =>
+    ({ type: ADD_NEW_ITEM_WITH_IMAGE, itemImage })
 
 type UpdateItemsType = {
     type: typeof UPDATE_ITEMS
