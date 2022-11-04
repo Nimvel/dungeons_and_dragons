@@ -239,33 +239,39 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     }
 
     const onMouseDown = () => {
-        const { x, y } = getScaledPoint(stage, 1)
-        setCurrentLine({ points: [x, y], paintbrushColor })
+        if (pensilMode || lineMode) {
+            const { x, y } = getScaledPoint(stage, 1)
+            setCurrentLine({ points: [x, y], paintbrushColor })
+        }
     }
 
     const onMouseMove = () => {
-        if (currentLine) {
-            const { x, y } = getScaledPoint(stage, 1)
-            const [x0, y0] = currentLine.points
+        if (pensilMode || lineMode) {
+            if (currentLine) {
+                const { x, y } = getScaledPoint(stage, 1)
+                const [x0, y0] = currentLine.points
 
-            pensilMode && setCurrentLine({
-                ...currentLine,
-                points: [...currentLine.points, x, y]
-            })
+                pensilMode && setCurrentLine({
+                    ...currentLine,
+                    points: [...currentLine.points, x, y]
+                })
 
-            lineMode && setCurrentLine({
-                ...currentLine,
-                points: [x0, y0, x, y]
-            })
+                lineMode && setCurrentLine({
+                    ...currentLine,
+                    points: [x0, y0, x, y]
+                })
+            }
         }
     }
 
     const onMouseUp = () => {
-        const { x, y } = getScaledPoint(stage, 1)
-        setCurrentLine(null)
-        setLines([...lines,
-        { ...currentLine, points: [...currentLine.points, x, y] }
-        ])
+        if (pensilMode || lineMode) {
+            const { x, y } = getScaledPoint(stage, 1)
+            setCurrentLine(null)
+            setLines([...lines,
+            { ...currentLine, points: [...currentLine.points, x, y] }
+            ])
+        }
     }
 
     const setStageRef = ref => {
@@ -350,16 +356,18 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 <GridContainer />
                 <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
 
-                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor} onDragStart={handleDragStart}
-                    onDragEnd={handleDragEnd} />
+                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor}
+                // onDragStart={handleDragStart}
+                // onDragEnd={handleDragEnd}
+                />
                 {lines.map((line, index) => (
                     <Line
                         key={index}
                         {...line}
                         strokeWidth={1}
                         stroke={paintbrushColor}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
+                    // onDragStart={handleDragStart}
+                    // onDragEnd={handleDragEnd}
                     />
                 ))}
 
