@@ -1,9 +1,11 @@
 import React, { FC } from 'react'
 import { useState } from 'react'
 import { connect } from 'react-redux'
+import { saveNewItemImage, deleteItemImage, itemImagesType } from '../../../redux/itemImages-reducer'
+import { getItemImages } from '../../../redux/itemImages-selectors'
 
 import {
-    addNewCircle, updateItems, ItemType
+    addNewCircle, addNewItemWithImage, updateItems, ItemType
 } from '../../../redux/map-reducer'
 import { 
     getItemColor, getItems, getMapHeight, getMapWidth, getItemsQuantity
@@ -17,6 +19,7 @@ type MapStateToPropsType = {
     mapHeight: number
 
     items: Array<ItemType>
+    itemImages: Array<itemImagesType>
     itemColor: string
     itemsQuantity: number
 }
@@ -24,6 +27,10 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
     addNewCircle: (quantity: number, color: string) => void
     updateItems: (items: Array<ItemType>) => void
+
+    saveNewItemImage: (itemImage: Blob | MediaSource) => void
+    deleteItemImage: (id: number) => void
+    addNewItemWithImage: (itemImage: string) => void
 }
 
 type OwnPropsType = {
@@ -31,7 +38,9 @@ type OwnPropsType = {
 
 type ItemsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight, items, itemColor, itemsQuantity, addNewCircle, updateItems }) => {
+const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight, 
+    items, itemColor, itemsQuantity, itemImages, addNewCircle, updateItems, 
+    saveNewItemImage, deleteItemImage, addNewItemWithImage }) => {
 
     const [newQuantity, setQuantity] = useState(itemsQuantity)
     const [newColor, setColor] = useState(itemColor)
@@ -51,7 +60,8 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight, items, i
                 x: Math.random() * (mapWidth - 100) + 50,
                 y: Math.random() * (mapHeight - 100) + 50,
                 id: 'item-' + (items.length + i),
-                color: newColor
+                color: newColor,
+                image: null
             })
         }
         updateItems(items.concat(circles))
@@ -62,8 +72,9 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight, items, i
         generateItems(items, newQuantity, newColor)
     }
 
-    return <Items itemColor={newColor} onAddNewCircle={onAddNewCircle} 
-    onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor}  />
+    return <Items itemColor={newColor} onAddNewCircle={onAddNewCircle} itemImages={itemImages}
+    onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} saveNewItemImage={saveNewItemImage}
+    deleteItemImage={deleteItemImage} addNewItemWithImage={addNewItemWithImage}  />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
@@ -73,10 +84,11 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
         itemColor: getItemColor(state),
         itemsQuantity: getItemsQuantity(state),
-        items: getItems(state)
+        items: getItems(state),
+        itemImages: getItemImages(state)
     }
 }
 
 export default connect(mapStateToProps,
-    { addNewCircle, updateItems }
+    { addNewCircle, updateItems, saveNewItemImage, deleteItemImage, addNewItemWithImage }
 )(ItemsContainer)

@@ -5,13 +5,15 @@ import Map from './Map'
 
 import { AppStateType } from '../../redux/store'
 
-import { BackgroundItemOnMapType, ItemType, updateItems, updateBackgroundItems, updateMapDimensions } from '../../redux/map-reducer'
+import { 
+    BackgroundItemOnMapType, ItemType, updateItems, updateBackgroundItems, updateMapDimensions
+} from '../../redux/map-reducer'
 
-import { getBackgroundItemOnMap, getItems, getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
+import { getBackgroundItemOnMap, getItems,
+      getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
 
 import { getGridSize } from '../../redux/options-selectors'
 
-// import './../../App.scss'
 import { getLineMode, getPaintbrushColor, getPensilMode } from '../../redux/paint-selectors'
 
 type MapStateToPropsType = {
@@ -30,6 +32,7 @@ type MapStateToPropsType = {
 
 type MapDispatchToPropsType = {
     updateItems: (items: Array<ItemType>) => void
+    updateItemsWithImages: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
     updateMapDimensions: (mapWidth: number, mapHeight: number) => void
 }
@@ -40,8 +43,8 @@ type OwnPropsType = {
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
-    updateItems, updateMapDimensions, updateBackgroundItems, paintbrushColor, pensilMode, lineMode
-}) => {
+    paintbrushColor, pensilMode, lineMode, updateItems, updateMapDimensions, 
+    updateBackgroundItems, updateItemsWithImages }) => {
 
     const mapDimensions = () => {
         if (map) {
@@ -59,7 +62,7 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
     return <>
         <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} 
         mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
-        updateBackgroundItems={updateBackgroundItems}
+        updateBackgroundItems={updateBackgroundItems} updateItemsWithImages={updateItemsWithImages} 
         paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
     </>
 }
@@ -80,4 +83,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
-export default connect(mapStateToProps, { updateItems, updateMapDimensions, updateBackgroundItems })(MapContainer)
+export default connect(mapStateToProps, { 
+    updateItems, updateMapDimensions, updateBackgroundItems
+})(MapContainer)

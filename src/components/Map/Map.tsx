@@ -2,12 +2,14 @@ import * as React from 'react'
 import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
-import { Layer, Stage, Circle, Line, Image, Rect } from 'react-konva'
+import { Layer, Stage, Circle, Line, Rect } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
 import MapBackground from './MapBackground/MapBackground'
-import { BackgroundItemOnMapType, ItemType } from '../../redux/map-reducer'
+import {
+    BackgroundItemOnMapType, ItemType
+} from '../../redux/map-reducer'
 import { KonvaEventObject } from 'konva/lib/Node'
 import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
@@ -31,11 +33,13 @@ type MapProps = {
     lineMode: boolean
 
     updateItems: (items: Array<ItemType>) => void
+    updateItemsWithImages: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
-    updateItems, updateBackgroundItems, paintbrushColor, pensilMode, lineMode }) => {
+    paintbrushColor, pensilMode, lineMode,
+    updateItems, updateBackgroundItems, updateItemsWithImages }) => {
 
     let stage = null
 
@@ -131,12 +135,14 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         setActiveItemId(id)
 
         const itemRegExp = /item-/i
+        const itemWithImageRegExp = /itemWithImage-/i
         const backgroundItemRegExp = /background-/i
 
         const isItemId = itemRegExp.test(id)
+        const isItemWithImageId = itemWithImageRegExp.test(id)
         const isBackgroundItemId = backgroundItemRegExp.test(id)
 
-        if (isItemId) {
+        if (isItemId || isItemWithImageId) {
             const item = items.find((i) => i.id === id)
             const index = items.indexOf(item)
 
@@ -153,6 +159,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 scaleY: 1.1
             })
         }
+
         else if (isBackgroundItemId) {
             const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
             const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
@@ -169,12 +176,14 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         setActiveItemId(id)
 
         const itemRegExp = /item-/i
+        const itemWithImageRegExp = /itemWithImage-/i
         const backgroundItemRegExp = /background-/i
 
         const isItemId = itemRegExp.test(id)
+        const isItemWithImageId = itemWithImageRegExp.test(id)
         const isBackgroundItemId = backgroundItemRegExp.test(id)
 
-        if (isItemId) {
+        if (isItemId || isItemWithImageId) {
             const item = items.find((i) => i.id === id)
             const index = items.indexOf(item)
 
@@ -194,6 +203,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 shadowOffsetY: 5
             })
         }
+
         else if (isBackgroundItemId) {
             const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
             const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
@@ -218,7 +228,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             console.log(
                 'x:', backgroundItemX,
                 'y:', backgroundItemY
-                )
+            )
             updateBackgroundItems(backgroundItemsOnMap)
         }
     }
@@ -325,7 +335,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             // width={window.innerWidth} height={window.innerHeight}
 
-            width={mapWidth > window.innerWidth - 100 ? mapWidth : mapWidth + 80} 
+            width={mapWidth > window.innerWidth - 100 ? mapWidth : mapWidth + 80}
             height={mapHeight}
             onContextMenu={handleContextMenu}
 
@@ -358,32 +368,38 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     image.src = item.backgroundItemOnMap
                     image.alt = 'backgroundItem'
 
-                    return <div className={s.backgroundItem}>
-                        <Rect
-                            key={item.id}
-                            name={item.id}
-                            draggable
-                            x={item.x}
-                            y={item.y}
-                            id={item.id}
-                            fillPatternImage={image}
-                            width={50}
-                            height={50}
-                            onDragStart={handleDragStart}
-                            onDragEnd={handleDragEnd}
-                        />
-                    </div>
+                    return <Rect
+                        key={item.id}
+                        name={item.id}
+                        draggable
+                        x={item.x}
+                        y={item.y}
+                        id={item.id}
+                        fillPatternImage={image}
+                        width={gridSize}
+                        height={gridSize}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                    />
                 })
                 }
 
-                {items.map(item => (
-                    <Circle
+                {items.map(item => {
+                    let image = document.createElement('img')
+                    image.src = item.image
+                    image.alt = 'image'
+
+                    return <Circle
                         key={item.id}
                         name={item.id}
                         draggable
                         x={item.x}
                         y={item.y}
                         fill={item.color}
+
+                        fillPatternImage={image}
+                        fillPatternOffset={{ x: 25, y: 25 }}
+
                         shadowColor='black'
                         shadowBlur={10}
                         shadowOpacity={0.7}
@@ -393,12 +409,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                         onContextMenu={handleContextMenu}
                         onTouchEnd={touchContextMenu}
                     />
-                ))}
+                })}
 
-                {/* {items.map((item) => (
-                        <ItemContainer item={item} activeCircleId={activeCircleId} setActiveCircleId={setActiveCircleId}
-                        handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} />
-                    ))} */}
+
+                {/* <Item items={items} itemsWithImages={itemsWithImages} gridSize={gridSize} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd}
+                        handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} /> */}
 
                 <DiceContainer width={mapWidth} />
 

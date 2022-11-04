@@ -17,7 +17,7 @@ type PicturesProps = {
 
 const Pictures: FC<PicturesProps> = ({ pictures, saveNewPicture, setNewMap, deletePicture }) => {
 
-    const addNewPicture = (e) => {
+    const addNewPicture = (e: any) => {
         e.target.files.length && saveNewPicture(e.target.files[0])
     }
 

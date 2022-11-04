@@ -2,6 +2,7 @@ import { combineReducers, legacy_createStore as createStore } from 'redux'
 import appReducer from './app-reducer'
 import backgroundItemsReducer from './backgrounds-reducer'
 import diceReducer from './dice-reducer'
+import itemImagesReducer from './itemImages-reducer'
 import mapReducer from './map-reducer'
 import optionsReducer from './options-reducer'
 import paintReducer from './paint-reducer'
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     app: appReducer,
     pictures: picturesReducer,
     backgroundItems: backgroundItemsReducer,
+    items: itemImagesReducer,
     mapPage: mapReducer,
     dice: diceReducer,
     options: optionsReducer,

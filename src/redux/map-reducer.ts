@@ -1,4 +1,3 @@
-const img1 = require('../assets/pictures/img_1.jpg')
 const SET_NEW_MAP = 'map/SET_NEW_MAP'
 const UPDATE_MAP_DIMENSIONS = 'map/UPDATE_MAP_DIMENSIONS'
 const CLEAN_MAP = 'map/CLEAN_MAP'
@@ -7,6 +6,7 @@ const ADD_NEW_BACKGROUND_ITEM = 'map/ADD_NEW_BACKGROUND_ITEM'
 const UPDATE_BACKGROUND_ITEMS = 'map/UPDATE_BACKGROUND_ITEMS'
 
 const ADD_NEW_CIRCLES = 'map/ADD_NEW_CIRCLES'
+const ADD_NEW_ITEM_WITH_IMAGE = 'map/ADD_NEW_CIRCLE_WITH_IMAGE'
 const UPDATE_ITEMS = 'map/UPDATE_ITEMS'
 
 export type BackgroundItemOnMapType = {
@@ -17,11 +17,12 @@ export type BackgroundItemOnMapType = {
 }
 
 export type ItemType = {
-    x: number
-    y: number
-    id: string
-    color: string
-}
+        x: number
+        y: number
+        id: string
+        color: null | string
+        image: null | string
+    }
 
 export type initialStateType = {
     map: null | string
@@ -35,8 +36,8 @@ export type initialStateType = {
 
 const initialState: initialStateType = {
     map: null,
-    mapWidth: 500,
-    mapHeight: 500,
+    mapWidth: 350,
+    mapHeight: 700,
     backgroundItemsOnMap: [],
     items: [],
     itemColor: '#cb9d9d',
@@ -66,7 +67,7 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
             }
 
         case ADD_NEW_BACKGROUND_ITEM:
-            let item = {
+            let itemWithImage = {
                 backgroundItemOnMap: action.backgroundItemOnMap,
                 x: state.mapWidth / 2,
                 y: state.mapHeight / 2,
@@ -74,7 +75,7 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
             }
             return {
                 ...state,
-                backgroundItemsOnMap: [...state.backgroundItemsOnMap, item]
+                backgroundItemsOnMap: [...state.backgroundItemsOnMap, itemWithImage]
             }
 
         case UPDATE_BACKGROUND_ITEMS:
@@ -90,6 +91,20 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 itemColor: action.color
             }
 
+        case ADD_NEW_ITEM_WITH_IMAGE:
+            let item = {
+                image: action.itemImage,
+                color: null,
+                x: state.mapWidth / 2,
+                y: state.mapHeight / 2,
+                id: `itemWithImage-${state.items.length}`
+            }
+
+            return {
+                ...state,
+                items: [...state.items, item]
+            }
+
         case UPDATE_ITEMS:
             return {
                 ...state,
@@ -102,7 +117,8 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 }
 
 type ActionsTypes = SetNewMapType | CleanMapType | UpdateMapDimensionsType |
-    AddNewBackgroundItemOnMapType | AddNewCircleType | UpdateItemsType | updateBackgroundItemsType
+    AddNewBackgroundItemOnMapType | AddNewCircleType | AddNewItemWithImageType | 
+    UpdateItemsType | updateBackgroundItemsType
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP
@@ -142,6 +158,13 @@ type AddNewCircleType = {
     color: string
 }
 export const addNewCircle = (quantity: number, color: string): AddNewCircleType => ({ type: ADD_NEW_CIRCLES, quantity, color })
+
+type AddNewItemWithImageType = {
+    type: typeof ADD_NEW_ITEM_WITH_IMAGE
+    itemImage: string
+}
+export const addNewItemWithImage = (itemImage: string): AddNewItemWithImageType => 
+({ type: ADD_NEW_ITEM_WITH_IMAGE, itemImage })
 
 type UpdateItemsType = {
     type: typeof UPDATE_ITEMS
