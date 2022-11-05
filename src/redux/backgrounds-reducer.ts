@@ -10,6 +10,8 @@ const img9 = require('./../assets/backgrounds/background_9.png')
 const img10 = require('./../assets/backgrounds/background_10.png')
 const img11 = require('./../assets/backgrounds/background_11.png')
 const img12 = require('./../assets/backgrounds/background_12.png')
+const img13 = require('./../assets/backgrounds/background_13.png')
+const img14 = require('./../assets/backgrounds/background_14.png')
 
 const SAVE_NEW_BACKGROUND_ITEM = 'backgrounds/SAVE_NEW_BACKGROUND_ITEM'
 const DELETE_BACKGROUND_ITEM = 'backgrounds/DELETE_BACKGROUND_ITEM'
@@ -42,6 +44,8 @@ const initialState = {
         { id: 7, backgroundItem: img10 },
         { id: 8, backgroundItem: img11 },
         { id: 9, backgroundItem: img12 },
+        { id: 10, backgroundItem: img13 },
+        { id: 11, backgroundItem: img14 },
     ],
     isFreeMovement: false,
     isFixBackgroundItems: false

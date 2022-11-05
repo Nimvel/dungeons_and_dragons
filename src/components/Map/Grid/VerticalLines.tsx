@@ -10,7 +10,7 @@ type VerticalLinesProps = {
 
 const VerticalLines: FC<VerticalLinesProps> = ({ gridColor, gridSize, width, height }) => {
     const lines = []
-    for (let i = 1; i <= width / gridSize; i++) {
+    for (let i = 1; i <= (width / gridSize) - 1; i++) {
         lines.push(i)
     }
 

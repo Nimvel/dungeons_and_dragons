@@ -58,8 +58,7 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
         }
     }
 
-    useEffect(() => {})
-    useEffect(() => {}, [mapWidth, mapHeight])
+    useEffect(() => {}, [mapWidth, mapHeight, backgroundItemsOnMap])
     useEffect(() => { mapDimensions() }, [map])
 
     return <>

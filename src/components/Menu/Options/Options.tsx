@@ -6,72 +6,72 @@ import s from '../Menu.module.scss'
 type OptionsType = {
     borders: boolean
     bordersColor: string
+    newBordersColor: string
 
     grid: boolean
     gridColor: string
+    newGridColor: string
 
     fullscreen: boolean
     isSameColors: boolean
+    bothColors: string
 
-    onShowBorders: () => void
-    onHideBorders: () => void
-    onChangeBordersColor: (e: any) => void
+    onBorders: () => void
+    onGrid: () => void
+
+    onChangeBordersColor: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChangeGridColor: (e: React.ChangeEvent<HTMLInputElement>) => void
 
     onChangeGridSize: (e: any) => void
     updateGridSize: () => void
-    onChangeGridColor: (e: any) => void
-    onShowGrid: () => void
-    onHideGrid: () => void
 
     onFullscreen: () => void
     offFullscreen: () => void
 
     onSameColors: () => void
+    onChangeBothColors: (e: React.ChangeEvent<HTMLInputElement>) => void
+
 }
 
-const Options: FC<OptionsType> = ({ borders, bordersColor, grid, gridColor, fullscreen, isSameColors,
-    onShowBorders, onHideBorders, onChangeBordersColor, onChangeGridSize, updateGridSize,
-    onChangeGridColor, onShowGrid, onHideGrid, onFullscreen, offFullscreen, onSameColors }) => {
+const Options: FC<OptionsType> = ({ borders, bothColors,
+    newBordersColor, grid, newGridColor, fullscreen, isSameColors,
+    onBorders, onGrid, onChangeGridColor, onChangeBordersColor, onChangeBothColors,
+    onChangeGridSize, updateGridSize, onFullscreen, offFullscreen, onSameColors }) => {
 
     return <div className={s.options}>
         <div>
             <div>Borders</div>
+
             {isSameColors
-                ? <input onChange={onChangeGridColor} className={s.color} type='color' value={bordersColor} />
-                : <input onChange={onChangeBordersColor} className={s.color} type='color' value={bordersColor} />
-            }
-            {/* <input onChange={onChangeBordersColor} className={s.color} type='color' value={bordersColor} /> */}
-            {borders
-                ? <button onClick={onHideBorders} >Off</button>
-                : <button onClick={onShowBorders} >On</button>
-            }
+                ? <input disabled onChange={onChangeBordersColor} className={s.color} type='color' value={newBordersColor} />
+                : <input onChange={onChangeBordersColor} className={s.color} type='color' value={newBordersColor} />}
+
+            <button className={borders ? 'button_on' : 'button_off'} onClick={onBorders}>Borders</button>
         </div>
 
         <div>
             <div>Grid</div>
             <input onChange={onChangeGridSize} className={s.enterNumber} placeholder='Enter size' />
             <button onClick={updateGridSize}>Update</button>
-            <input onChange={onChangeGridColor} className={s.color} type='color' value={gridColor} />
-            {grid
-                ? <button onClick={onHideGrid} >Off</button>
-                : <button onClick={onShowGrid} >On</button>
-            }
-        </div>
 
-        <div>
-            <div>Same colors</div>
             {isSameColors
-                ? <button onClick={onSameColors} >Off</button>
-                : <button onClick={onSameColors} >On</button>
-            }
+                ? <input disabled onChange={onChangeGridColor} className={s.color} type='color' value={newGridColor} />
+                : <input onChange={onChangeGridColor} className={s.color} type='color' value={newGridColor} />}
+
+            <button className={grid ? 'button_on' : 'button_off'} onClick={onGrid}>Grid</button>
         </div>
 
         <div>
-            <div>Fullscreen</div>
-            {fullscreen
-                ? <button onClick={offFullscreen} >Off</button>
-                : <button onClick={onFullscreen} >On</button>
-            }
+            {isSameColors
+                ? <input onChange={onChangeBothColors} className={s.color} type='color' value={bothColors} />
+                : <input disabled onChange={onChangeBothColors} className={s.color} type='color' value={bothColors} />}
+        </div>
+        <button className={isSameColors ? 'button_on' : 'button_off'} onClick={onSameColors}>Same colors</button>
+
+
+        <div>
+            <button className={fullscreen ? 'button_on' : 'button_off'}
+                onClick={fullscreen ? offFullscreen : onFullscreen}>Fullscreen</button>
         </div>
     </div>
 }

@@ -23,3 +23,7 @@ export const getGridSize = (state: AppStateType) => {
 export const getIsSameColors = (state: AppStateType) => {
     return state.options.isSameColors
 }
+
+export const getBothColors = (state: AppStateType) => {
+    return state.options.bothColors
+}

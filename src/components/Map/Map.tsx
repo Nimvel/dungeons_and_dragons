@@ -50,10 +50,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     const [activeItemId, setActiveItemId] = useState(null)
 
-    const isItemId = itemRegExp.test(activeItemId)
-    const isItemWithImageId = itemWithImageRegExp.test(activeItemId)
-    const isBackgroundItemId = backgroundItemRegExp.test(activeItemId)
-
     const [currentLine, setCurrentLine] = useState(null)
     const [lines, setLines] = useState([])
 
@@ -62,9 +58,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const contextMenu = useMemo(() => ([
         {
             name: 'Delete All',
-            onClick: (e) => {
-                const id = e.target.name
-                setActiveItemId(id)
+            onClick: () => {
 
                 const item = items.find((i) => i.id === activeItemId)
                 const index = items.indexOf(item)
@@ -141,6 +135,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         const id = e.target.name()
         setActiveItemId(id)
 
+        const isItemId = itemRegExp.test(id)
+        const isItemWithImageId = itemWithImageRegExp.test(id)
+        const isBackgroundItemId = backgroundItemRegExp.test(id)
+
         if (isItemId || isItemWithImageId) {
             const item = items.find((i) => i.id === id)
             const index = items.indexOf(item)
@@ -172,6 +170,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
         setActiveItemId(id)
+
+        const isItemId = itemRegExp.test(id)
+        const isItemWithImageId = itemWithImageRegExp.test(id)
+        const isBackgroundItemId = backgroundItemRegExp.test(id)
 
         if (isItemId || isItemWithImageId) {
             const item = items.find((i) => i.id === id)
@@ -205,36 +207,32 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             for (let i = 0; i <= mapHeight / gridSize; i++) {
                 boxesY.push(i)
             }
-                if (isFreeMovement) {
-                    const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-                    const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+            if (isFreeMovement) {
+                const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-                    backgroundItemsOnMap[backgroundItemIndex] = {
-                        ...backgroundItem,
-                        x: e.target.x(),
-                        y: e.target.y(),
-                    }
-                    updateBackgroundItems(backgroundItemsOnMap)
+                backgroundItemsOnMap[backgroundItemIndex] = {
+                    ...backgroundItem,
+                    x: e.target.x(),
+                    y: e.target.y(),
                 }
+                updateBackgroundItems(backgroundItemsOnMap)
+            }
 
-                else {
-                    const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-                    const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+            else {
+                const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-                    const backgroundItemX = boxesX.filter(i => Math.floor(e.target.x() / gridSize) === i)[0] * gridSize
-                    const backgroundItemY = boxesY.filter(i => Math.floor(e.target.y() / gridSize) === i)[0] * gridSize
+                const backgroundItemX = boxesX.filter(i => Math.round(e.target.x() / gridSize) === i)[0] * gridSize
+                const backgroundItemY = boxesY.filter(i => Math.round(e.target.y() / gridSize) === i)[0] * gridSize
 
-                    backgroundItemsOnMap[backgroundItemIndex] = {
-                        ...backgroundItem,
-                        x: backgroundItemX,
-                        y: backgroundItemY
-                    }
-                    console.log(
-                        'x:', backgroundItemX,
-                        'y:', backgroundItemY
-                    )
-                    updateBackgroundItems(backgroundItemsOnMap)
+                backgroundItemsOnMap[backgroundItemIndex] = {
+                    ...backgroundItem,
+                    x: backgroundItemX,
+                    y: backgroundItemY
                 }
+                updateBackgroundItems(backgroundItemsOnMap)
+            }
         }
     }
 

@@ -38,19 +38,16 @@ const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, backgroundItem
     return <div className={s.options}>
         <button onClick={onCreateMap}>Create Map</button>
         <div>Dimentions</div>
-        <input onChange={onChangeWidth} className={s.enterNumber} value={width} placeholder={`map's width`} />
-        <input onChange={onChangeHeight} className={s.enterNumber} value={height} placeholder={`map's height`} />
+        <input onChange={onChangeWidth} className={s.enterNumber} placeholder={`x blocks`} />
+        <input onChange={onChangeHeight} className={s.enterNumber} placeholder={`y blocks`} />
         <button onClick={onChangeMapDimensions}>Update</button>
 
         <BackgroundItems width={width} height={height} gridSize={gridSize} backgroundItems={backgroundItems} 
         saveNewBackgroundItem={saveNewBackgroundItem} deleteBackgroundItem={deleteBackgroundItem} 
         addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} updateBackgroundItems={updateBackgroundItems} />
-        {isFreeMovement
-        ? <button onClick={onFreeMovement}>Free Off</button>
-        : <button onClick={onFreeMovement}>Free On</button>}
-        {isFixBackgroundItems
-        ? <button onClick={onFixBackgroundItems}>Fix Off</button>
-        : <button onClick={onFixBackgroundItems}>Fix On</button>}
+
+        <button className={isFreeMovement ? 'button_on' : 'button_off'} onClick={onFreeMovement}>Free</button>
+        <button className={isFixBackgroundItems ? 'button_on' : 'button_off'} onClick={onFixBackgroundItems}>Fix</button>
         
     </div>
 }

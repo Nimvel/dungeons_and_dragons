@@ -38,35 +38,13 @@ const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, dic
             <input onChange={onChangeDiceColorFace} className={s.color} type='color' value={diceColorFace} />
             <input onChange={onChangeDiceNumberColor} className={s.color} type='color' value={diceNumberColor} />
 
-            {D4
-                ? <button onClick={onD4} >D4 Off</button>
-                : <button onClick={onD4} >D4 On</button>
-            }
-
-            {D6
-                ? <button onClick={onD6} >D6 Off</button>
-                : <button onClick={onD6} >D6 On</button>
-            }
-            {D8
-                ? <button onClick={onD8} >D8 Off</button>
-                : <button onClick={onD8} >D8 On</button>
-            }
-            {D10
-                ? <button onClick={onD10} >D10 Off</button>
-                : <button onClick={onD10} >D10 On</button>
-            }
-            {D12
-                ? <button onClick={onD12} >D12 Off</button>
-                : <button onClick={onD12} >D12 On</button>
-            }
-            {D20
-                ? <button onClick={onD20} >D20 Off</button>
-                : <button onClick={onD20} >D20 On</button>
-            }
-            {D100
-                ? <button onClick={onD100} >D100 Off</button>
-                : <button onClick={onD100} >D100 On</button>
-            }
+            <button className={D4 ? 'button_on' : 'button_off'} onClick={onD4}>D4</button>
+            <button className={D6 ? 'button_on' : 'button_off'} onClick={onD6}>D6</button>
+            <button className={D8 ? 'button_on' : 'button_off'} onClick={onD8}>D8</button>
+            <button className={D10 ? 'button_on' : 'button_off'} onClick={onD10}>D10</button>
+            <button className={D12 ? 'button_on' : 'button_off'} onClick={onD12}>D12</button>
+            <button className={D20 ? 'button_on' : 'button_off'} onClick={onD20}>D20</button>
+            <button className={D100 ? 'button_on' : 'button_off'} onClick={onD100}>D100</button>
     </div>
 }
 

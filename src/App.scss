@@ -35,6 +35,19 @@
 
   button {
     @include dimensions(100px, 25px);
+    border: none;
+  }
+  .button_on { 
+    background: #F7941E; 
+  }
+  .button_on:hover { 
+    background: #f48706; 
+  }
+  .button_off { 
+    background: #8a8a8a;
+  }
+  .button_off:hover { 
+    background: #797979; 
   }
 }
 

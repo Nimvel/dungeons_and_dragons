@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { connect } from 'react-redux'
 
 import {
-    showBorders, hideBorders, changeBordersColor, showGrid, 
-    hideGrid, changeGridColor, changeGridSize, onSameColors
+    onBorders, onGrid, changeBordersColor, changeBothColors,
+    changeGridColor, changeGridSize, onSameColors
 } from '../../../redux/options-reducer'
 import {
-    getGridColor, getGridSize, getGrid, getBorders, getBordersColor, getIsSameColors
+    getGridColor, getGridSize, getGrid, getBorders, getBordersColor, getIsSameColors, getBothColors
 } from '../../../redux/options-selectors'
 import { AppStateType } from '../../../redux/store'
 
@@ -22,19 +22,19 @@ type MapStateToPropsType = {
     gridSize: number
 
     isSameColors: boolean
+    bothColors: string
 }
 
 type MapDispatchToPropsType = {
-    showBorders: () => void
-    hideBorders: () => void
-    changeBordersColor: (e: any) => void
+    onBorders: () => void
+    onGrid: () => void
+    changeBordersColor: (color: string) => void
 
-    showGrid: () => void
-    hideGrid: () => void
-    changeGridColor: (e: any) => void
+    changeGridColor: (color: string) => void
     changeGridSize: (newSize: number) => void
 
     onSameColors: () => void
+    changeBothColors: (color: string) => void
 }
 
 type OwnPropsType = {
@@ -43,21 +43,18 @@ type OwnPropsType = {
 type OptionsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const OptionsContainer: FC<OptionsContainerProps> = (
-    { borders, bordersColor, grid, gridColor, gridSize, isSameColors,
-        showBorders, hideBorders, changeBordersColor,
-        showGrid, hideGrid, changeGridColor, changeGridSize, onSameColors }) => {
+    { borders, bordersColor, grid, gridColor, gridSize, isSameColors, changeBothColors, bothColors,
+        onBorders, onGrid, changeBordersColor, changeGridColor, changeGridSize, onSameColors }) => {
 
     const [newSize, setSize] = useState(gridSize)
     const [fullscreen, setFullscreen] = useState(false)
 
+    const [newBordersColor, setNewBordersColor] = useState(bordersColor)
+    const [newGridColor, setNewGridColor] = useState(gridColor)
+
     const onChangeBordersColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isSameColors) {
-            changeGridColor(e.target.value)
-            changeBordersColor(e.target.value)
-        }
-        else {
-            changeBordersColor(e.target.value)
-        }
+        setNewBordersColor(e.target.value)
+        changeBordersColor(e.target.value)
     }
 
     const onChangeGridSize = (e: any) => {
@@ -65,13 +62,8 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     }
 
     const onChangeGridColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isSameColors) {
-            changeGridColor(e.target.value)
-            changeBordersColor(e.target.value)
-        }
-        else {
-            changeGridColor(e.target.value)
-        }
+        setNewGridColor(e.target.value)
+        changeGridColor(e.target.value)
     }
 
     const updateGridSize = () => {
@@ -102,12 +94,27 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         }
     }
 
+    const onChangeBothColors = (e: React.ChangeEvent<HTMLInputElement>) => {
+        changeBothColors(e.target.value)
+        changeGridColor(e.target.value)
+        changeBordersColor(e.target.value)
+    }
 
-    return <Options borders={borders} bordersColor={isSameColors ? gridColor : bordersColor} grid={grid} gridColor={gridColor}
+    const onSameColorsClick = () => {
+        onSameColors()
+        if (isSameColors) {
+            changeGridColor(newGridColor)
+            changeBordersColor(newBordersColor)
+        }
+    }
+
+
+    return <Options borders={borders} grid={grid} bordersColor={bordersColor} gridColor={gridColor}
+        newBordersColor={newBordersColor} newGridColor={newGridColor} bothColors={bothColors}
         fullscreen={fullscreen} onChangeGridSize={onChangeGridSize} updateGridSize={updateGridSize}
-        onChangeBordersColor={onChangeBordersColor} onShowBorders={showBorders} onHideBorders={hideBorders}
-        onChangeGridColor={onChangeGridColor} onShowGrid={showGrid} onHideGrid={hideGrid}
-        onFullscreen={openFullscreen} offFullscreen={closeFullscreen} isSameColors={isSameColors} onSameColors={onSameColors} />
+        onChangeBordersColor={onChangeBordersColor} onBorders={onBorders} onGrid={onGrid} onChangeGridColor={onChangeGridColor}
+        onFullscreen={openFullscreen} offFullscreen={closeFullscreen} isSameColors={isSameColors}
+        onSameColors={onSameColorsClick} onChangeBothColors={onChangeBothColors} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
@@ -119,10 +126,13 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         gridColor: getGridColor(state),
         gridSize: getGridSize(state),
 
-        isSameColors: getIsSameColors(state)
+        isSameColors: getIsSameColors(state),
+        bothColors: getBothColors(state)
     }
 }
 
-export default connect(mapStateToProps,
-    { showBorders, hideBorders, changeBordersColor, showGrid, hideGrid, changeGridColor, changeGridSize, onSameColors }
+export default connect(mapStateToProps, {
+    onBorders, onGrid, changeBordersColor, changeBothColors,
+    changeGridColor, changeGridSize, onSameColors
+}
 )(OptionsContainer)

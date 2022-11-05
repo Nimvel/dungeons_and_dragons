@@ -1,13 +1,12 @@
-const SHOW_BORDERS = 'options/SHOW_BORDERS'
-const HIDE_BORDERS = 'options/HIDE_BORDERS'
+const BORDERS = 'options/BORDERS'
 const CHANGE_BORDERS_COLOR = 'options/CHANGE_BORDERS_COLOR'
 
-const SHOW_GRID = 'options/SHOW_GRID'
-const HIDE_GRID = 'options/HIDE_GRID'
+const GRID = 'options/GRID'
 const CHANGE_GRID_COLOR = 'options/CHANGE_GRID_COLOR'
 const CHANGE_GRID_SIZE = 'options/CHANGE_GRID_SIZE'
 
 const ON_SAME_COLORS = 'options/ON_SAME_COLORS'
+const CHANGE_BOTH_COLORS = 'options/CHANGE_BOTH_COLORS'
 
 type initialStateType = {
     borders: boolean
@@ -18,6 +17,7 @@ type initialStateType = {
     gridSize: number
 
     isSameColors: boolean
+    bothColors: string
 }
 
 const initialState: initialStateType = {
@@ -28,22 +28,17 @@ const initialState: initialStateType = {
     gridColor: '#ffffff',
     gridSize: 50,
 
-    isSameColors: false
+    isSameColors: false,
+    bothColors: '#ffffff'
 }
 
 const optionsReducer = (state = initialState, action: ActionsTypes): initialStateType => {
 
     switch (action.type) {
-        case SHOW_BORDERS:
+        case BORDERS:
             return {
                 ...state,
-                borders: true
-            }
-
-        case HIDE_BORDERS:
-            return {
-                ...state,
-                borders: false
+                borders: !state.borders
             }
 
         case CHANGE_BORDERS_COLOR:
@@ -52,16 +47,10 @@ const optionsReducer = (state = initialState, action: ActionsTypes): initialStat
                 bordersColor: action.color
             }
 
-        case SHOW_GRID:
+        case GRID:
             return {
                 ...state,
-                grid: true
-            }
-
-        case HIDE_GRID:
-            return {
-                ...state,
-                grid: false
+                grid: !state.grid
             }
 
         case CHANGE_GRID_COLOR:
@@ -82,23 +71,24 @@ const optionsReducer = (state = initialState, action: ActionsTypes): initialStat
                 isSameColors: !state.isSameColors
             }
 
+        case CHANGE_BOTH_COLORS:
+            return {
+                ...state,
+                bothColors: action.color
+            }
+
         default:
             return state
     }
 }
 
-type ActionsTypes = ShowBordersType | HideBordersType | ChangeBordersColorType | 
-ShowGridType | HideGridType | ChangeGridColorType | ChangeGridSizeType | onSameColorsType
+type ActionsTypes = OnBordersType | ChangeBordersColorType | OnGridType | ChangeGridColorType |
+    ChangeGridSizeType | onSameColorsType | ChangeBothColorsType
 
-type ShowBordersType = {
-    type: typeof SHOW_BORDERS
+type OnBordersType = {
+    type: typeof BORDERS
 }
-export const showBorders = (): ShowBordersType => ({ type: SHOW_BORDERS })
-
-type HideBordersType = {
-    type: typeof HIDE_BORDERS
-}
-export const hideBorders = (): HideBordersType => ({ type: HIDE_BORDERS })
+export const onBorders = (): OnBordersType => ({ type: BORDERS })
 
 type ChangeBordersColorType = {
     type: typeof CHANGE_BORDERS_COLOR
@@ -106,15 +96,10 @@ type ChangeBordersColorType = {
 }
 export const changeBordersColor = (color: string): ChangeBordersColorType => ({ type: CHANGE_BORDERS_COLOR, color })
 
-type ShowGridType = {
-    type: typeof SHOW_GRID
+type OnGridType = {
+    type: typeof GRID
 }
-export const showGrid = (): ShowGridType => ({ type: SHOW_GRID })
-
-type HideGridType = {
-    type: typeof HIDE_GRID
-}
-export const hideGrid = (): HideGridType => ({ type: HIDE_GRID })
+export const onGrid = (): OnGridType => ({ type: GRID })
 
 type ChangeGridColorType = {
     type: typeof CHANGE_GRID_COLOR
@@ -132,5 +117,12 @@ type onSameColorsType = {
     type: typeof ON_SAME_COLORS
 }
 export const onSameColors = (): onSameColorsType => ({ type: ON_SAME_COLORS })
+
+type ChangeBothColorsType = {
+    type: typeof CHANGE_BOTH_COLORS
+    color: string
+}
+export const changeBothColors = (color: string): ChangeBothColorsType => ({ type: CHANGE_BOTH_COLORS, color })
+
 
 export default optionsReducer
