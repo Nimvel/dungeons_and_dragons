@@ -26,13 +26,13 @@ const paintReducer = (state = initialState, action: ActionsTypes): initialStateT
             case PENSIL_MODE:
             return {
                 ...state,
-                pensilMode: !state.pensilMode
+                pensilMode: action.pensilMode
             }
 
         case LINE_MODE:
             return {
                 ...state,
-                lineMode: !state.lineMode
+                lineMode: action.lineMode
             }
 
         default:
@@ -50,13 +50,15 @@ export const onChangePaintbrushColor = (color: string): onChangePaintbrushColorT
 
 type ChangePensilModeType = {
     type: typeof PENSIL_MODE
+    pensilMode: boolean
 }
-export const changePensilMode = (): ChangePensilModeType => ({ type: PENSIL_MODE })
+export const changePensilMode = (pensilMode: boolean): ChangePensilModeType => ({ type: PENSIL_MODE, pensilMode })
 
 
 type ChangeLineModeType = {
     type: typeof LINE_MODE
+    lineMode: boolean
 }
-export const changeLineMode = (): ChangeLineModeType => ({ type: LINE_MODE })
+export const changeLineMode = (lineMode: boolean): ChangeLineModeType => ({ type: LINE_MODE, lineMode })
 
 export default paintReducer

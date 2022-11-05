@@ -15,8 +15,8 @@ type MapStateToProps = {
 
 type MapDispatchToProps = {
     onChangePaintbrushColor: (color: string) => void
-    changePensilMode: () => void
-    changeLineMode: () => void
+    changePensilMode: (mode: boolean) => void
+    changeLineMode: (mode: boolean) => void
 }
 
 type PaintContainerProps = MapStateToProps & MapDispatchToProps
@@ -24,12 +24,22 @@ type PaintContainerProps = MapStateToProps & MapDispatchToProps
 const PaintContainer: FC<PaintContainerProps> = ({ paintbrushColor, pensilMode, lineMode,
     onChangePaintbrushColor, changePensilMode, changeLineMode }) => {
 
+    const onChangePensilMode = () => {
+        changePensilMode(!pensilMode)
+        changeLineMode(false)
+    }
+
+    const onChangeLineMode = () => {
+        changePensilMode(false)
+        changeLineMode(!lineMode)
+    }
+
     const onChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChangePaintbrushColor(e.target.value)
     }
 
     return <Paint paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode}
-        onChangeColor={onChangeColor} changePensilMode={changePensilMode} changeLineMode={changeLineMode} />
+        onChangeColor={onChangeColor} changePensilMode={onChangePensilMode} changeLineMode={onChangeLineMode} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToProps => {

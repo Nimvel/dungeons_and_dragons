@@ -33,9 +33,20 @@
 
   background-color: #85728a;
 
+  input {
+    @include dimensions(97px, 20px);
+  }
+  .color {
+    @include dimensions(105px, 27px);
+}
+
   button {
-    @include dimensions(100px, 25px);
+    @include dimensions(105px, 25px);
     border: none;
+    background: #5adc50;
+  }
+  button:hover {
+    background: #38cb2d; 
   }
   .button_on { 
     background: #F7941E; 
@@ -136,31 +147,4 @@
   
 .closeModal::after {
   transform: rotate(-45deg);
-}
-
-.block {
-  @include dimensions(150px, 25px);
-
-  input {
-      opacity: 0;
-      z-index: -1;
-  
-      @include dimensions(0.1px, 0.1px);
-  }
-
-  label {
-      font-size: 13px;
-      padding: 5px 20.5px;
-  
-      background-color: #f6f6f6;
-      color: black;
-  
-      @include border(#868686, 0);
-  
-      user-select: none;
-  }
-
-  label:hover {
-      background-color: #dfdfdf;
-  }
 }

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { BackgroundItemType } from '../../../../redux/backgrounds-reducer'
 import { BackgroundItemOnMapType } from '../../../../redux/map-reducer'
+import AddPictureButton from '../../../AddPictureButton/AddPictureButton'
 import BackgroundItem from './BackgroundItem'
 
 //@ts-ignore
@@ -33,15 +34,9 @@ const BackgroundItems: FC<BackgroundItemsProps> = ({ width, height, gridSize, ba
         deleteBackgroundItem={deleteBackgroundItem} addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} />)
 
     return <>
+        <AddPictureButton addPicture={addNewBackground} />
         <div className={s.backgroundItems}>
             {backgroundElements}
-        </div>
-        <div className='block'>
-            <label>
-                <input onChange={addNewBackground}
-                    type={'file'} accept='.jpg, .jpeg, .tiff, .png, .gif, .bmp, jp2' />  {/* multiple */}
-                <span>Add Item</span>
-            </label>
         </div>
     </>
 }

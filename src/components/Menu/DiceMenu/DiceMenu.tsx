@@ -34,9 +34,9 @@ const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, dic
 
     return <div className={s.options}>
             <div>Dice</div>
-            <input onChange={onChangeDiceColor} className={s.color} type='color' value={diceColor} />
-            <input onChange={onChangeDiceColorFace} className={s.color} type='color' value={diceColorFace} />
-            <input onChange={onChangeDiceNumberColor} className={s.color} type='color' value={diceNumberColor} />
+            <input onChange={onChangeDiceColor} className='color' type='color' value={diceColor} />
+            <input onChange={onChangeDiceColorFace} className='color' type='color' value={diceColorFace} />
+            <input onChange={onChangeDiceNumberColor} className='color' type='color' value={diceNumberColor} />
 
             <button className={D4 ? 'button_on' : 'button_off'} onClick={onD4}>D4</button>
             <button className={D6 ? 'button_on' : 'button_off'} onClick={onD6}>D6</button>

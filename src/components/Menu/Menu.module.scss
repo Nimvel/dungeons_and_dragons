@@ -1,20 +1,3 @@
-$amethystColor: #715678;
-$lightAmethystColor: #c1b0c8;
-$lightGrayColor: #c2c6c5;
-
-@mixin border($color, $radius) {
-    border: $color solid 1px;
-    border-radius: $radius;
-}
-  
-@mixin position($position, $top, $right, $bottom, $left) {
-    position: $position;
-    top: $top;
-    right: $right;
-    bottom: $bottom;
-    left: $left;
-}
-  
 @mixin dimensions($width, $height) {
     width: $width;
     height: $height;
@@ -24,17 +7,9 @@ $lightGrayColor: #c2c6c5;
         @include dimensions(100px, 80px);
         padding: 10px;
         display: grid;
-        gap: 5px;
-
-        .enterNumber {
-            @include dimensions(92px, 20px);
-        }
+        gap: 4px;
 }
 
 .grid {
     padding: 10px;
-}
-
-.color {
-    @include dimensions(100px, 27px);
 }

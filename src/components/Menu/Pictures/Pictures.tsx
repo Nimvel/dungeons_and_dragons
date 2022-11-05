@@ -7,6 +7,7 @@ import s from './Pictures.module.scss'
 //@ts-ignore
 import style from '../Menu.module.scss'
 import { BackgroundItemOnMapType } from '../../../redux/map-reducer'
+import AddPictureButton from '../../AddPictureButton/AddPictureButton'
 
 type PicturesProps = {
     pictures: Array<PicturesType>
@@ -29,13 +30,8 @@ const Pictures: FC<PicturesProps> = ({ pictures, saveNewPicture,
         deletePicture={deletePicture} updateBackgroundItems={updateBackgroundItems} />)
 
     return <div className={style.options}>
-        <div className='block'>
-            <label>
-                <input onChange={addNewPicture}
-                    type={'file'} accept='.jpg, .jpeg, .tiff, .png, .gif, .bmp, jp2' />  {/* multiple */}
-                <span>Add</span>
-            </label>
-        </div>
+        <AddPictureButton addPicture={addNewPicture} />
+
         <div className={s.pictures}>
         {picturesElements}
         </div>

@@ -39,40 +39,32 @@ const Options: FC<OptionsType> = ({ borders, bothColors,
     onChangeGridSize, updateGridSize, onFullscreen, offFullscreen, onSameColors }) => {
 
     return <div className={s.options}>
-        <div>
-            <div>Borders</div>
+        <div>Borders</div>
 
-            {isSameColors
-                ? <input disabled onChange={onChangeBordersColor} className={s.color} type='color' value={newBordersColor} />
-                : <input onChange={onChangeBordersColor} className={s.color} type='color' value={newBordersColor} />}
+        {isSameColors
+            ? <input disabled onChange={onChangeBordersColor} className='color' type='color' value={newBordersColor} />
+            : <input onChange={onChangeBordersColor} className='color' type='color' value={newBordersColor} />}
 
-            <button className={borders ? 'button_on' : 'button_off'} onClick={onBorders}>Borders</button>
-        </div>
+        <button className={borders ? 'button_on' : 'button_off'} onClick={onBorders}>Borders</button>
 
-        <div>
-            <div>Grid</div>
-            <input onChange={onChangeGridSize} className={s.enterNumber} placeholder='Enter size' />
-            <button onClick={updateGridSize}>Update</button>
+        <div>Grid</div>
+        <input onChange={onChangeGridSize} placeholder='Enter size' />
+        <button onClick={updateGridSize}>Update</button>
 
-            {isSameColors
-                ? <input disabled onChange={onChangeGridColor} className={s.color} type='color' value={newGridColor} />
-                : <input onChange={onChangeGridColor} className={s.color} type='color' value={newGridColor} />}
+        {isSameColors
+            ? <input disabled onChange={onChangeGridColor} className='color' type='color' value={newGridColor} />
+            : <input onChange={onChangeGridColor} className='color' type='color' value={newGridColor} />}
 
-            <button className={grid ? 'button_on' : 'button_off'} onClick={onGrid}>Grid</button>
-        </div>
+        <button className={grid ? 'button_on' : 'button_off'} onClick={onGrid}>Grid</button>
 
-        <div>
-            {isSameColors
-                ? <input onChange={onChangeBothColors} className={s.color} type='color' value={bothColors} />
-                : <input disabled onChange={onChangeBothColors} className={s.color} type='color' value={bothColors} />}
-        </div>
+        {isSameColors
+            ? <input onChange={onChangeBothColors} className='color' type='color' value={bothColors} />
+            : <input disabled onChange={onChangeBothColors} className='color' type='color' value={bothColors} />}
         <button className={isSameColors ? 'button_on' : 'button_off'} onClick={onSameColors}>Same colors</button>
 
 
-        <div>
-            <button className={fullscreen ? 'button_on' : 'button_off'}
-                onClick={fullscreen ? offFullscreen : onFullscreen}>Fullscreen</button>
-        </div>
+        <button className={fullscreen ? 'button_on' : 'button_off'}
+            onClick={fullscreen ? offFullscreen : onFullscreen}>Fullscreen</button>
     </div>
 }
 
