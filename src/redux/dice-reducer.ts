@@ -1,23 +1,10 @@
-const ADD_D4 = 'dice/ADD_D4'
-const DELETE_D4 = 'dice/DELETE_D4'
-
-const ADD_D6 = 'dice/ADD_D6'
-const DELETE_D6 = 'dice/DELETE_D6'
-
-const ADD_D8 = 'dice/ADD_D8'
-const DELETE_D8 = 'dice/DELETE_D8'
-
-const ADD_D10 = 'dice/ADD_D10'
-const DELETE_D10 = 'dice/DELETE_D10'
-
-const ADD_D12 = 'dice/ADD_D12'
-const DELETE_D12 = 'dice/DELETE_D12'
-
-const ADD_D20 = 'dice/ADD_D20'
-const DELETE_D20 = 'dice/DELETE_D20'
-
-const ADD_D100 = 'dice/ADD_D100'
-const DELETE_D100 = 'dice/DELETE_D100'
+const DICE_4 = 'dice/D4'
+const DICE_6 = 'dice/D6'
+const DICE_8 = 'dice/D8'
+const DICE_10 = 'dice/D10'
+const DICE_12 = 'dice/D12'
+const DICE_20 = 'dice/D20'
+const DICE_100 = 'dice/D100'
 
 const CHANGE_DICE_COLOR = 'dice/CHANGE_DICE_COLOR'
 const CHANGE_DICE_COLOR_FACE = 'dice/CHANGE_DICE_COLOR_FACE'
@@ -54,81 +41,46 @@ const initialState: initialStateType = {
 const diceReducer = (state = initialState, action: ActionsTypes): initialStateType => {
 
     switch (action.type) {
-        case ADD_D4:
+        case DICE_4:
             return {
                 ...state,
-                D4: true
-            }
-        case DELETE_D4:
-            return {
-                ...state,
-                D4: false
+                D4: !state.D4
             }
 
-        case ADD_D6:
+        case DICE_6:
             return {
                 ...state,
-                D6: true
-            }
-        case DELETE_D6:
-            return {
-                ...state,
-                D6: false
+                D6: !state.D6
             }
 
-        case ADD_D8:
+        case DICE_8:
             return {
                 ...state,
-                D8: true
-            }
-        case DELETE_D8:
-            return {
-                ...state,
-                D8: false
+                D8: !state.D8
             }
 
-        case ADD_D10:
+        case DICE_10:
             return {
                 ...state,
-                D10: true
-            }
-        case DELETE_D10:
-            return {
-                ...state,
-                D10: false
+                D10: !state.D10
             }
 
-        case ADD_D12:
+        case DICE_12:
             return {
                 ...state,
-                D12: true
-            }
-        case DELETE_D12:
-            return {
-                ...state,
-                D12: false
+                D12: !state.D12
             }
 
-        case ADD_D20:
+        case DICE_20:
             return {
                 ...state,
-                D20: true
-            }
-        case DELETE_D20:
-            return {
-                ...state,
-                D20: false
+                D20: !state.D20
             }
 
-        case ADD_D100:
+        case DICE_100:
             return {
                 ...state,
-                D100: true
-            }
-        case DELETE_D100:
-            return {
-                ...state,
-                D100: false
+                D100: !state.D100
             }
 
         case CHANGE_DICE_COLOR:
@@ -154,79 +106,43 @@ const diceReducer = (state = initialState, action: ActionsTypes): initialStateTy
     }
 }
 
-type ActionsTypes = addD4Type | deleteD4Type | addD6Type | deleteD6Type | addD8Type | deleteD8Type | addD10Type | deleteD10Type |
-    addD12Type | deleteD12Type | addD20Type | deleteD20Type | addD100Type | deleteD100Type | 
+type ActionsTypes = D4Type | D6Type | D8Type | D10Type | D12Type | D20Type | D100Type | 
     changeDiceColorType | changeDiceColorFaceType | changeDiceNumberColorType
 
-type addD4Type = {
-    type: typeof ADD_D4
+type D4Type = {
+    type: typeof DICE_4
 }
-export const addD4 = (): addD4Type => ({ type: ADD_D4 })
+export const onD4 = (): D4Type => ({ type: DICE_4 })
 
-type deleteD4Type = {
-    type: typeof DELETE_D4
+type D6Type = {
+    type: typeof DICE_6
 }
-export const deleteD4 = (): deleteD4Type => ({ type: DELETE_D4 })
+export const onD6 = (): D6Type => ({ type: DICE_6 })
 
-type addD6Type = {
-    type: typeof ADD_D6
+type D8Type = {
+    type: typeof DICE_8
 }
-export const addD6 = (): addD6Type => ({ type: ADD_D6 })
+export const onD8 = (): D8Type => ({ type: DICE_8 })
 
-type deleteD6Type = {
-    type: typeof DELETE_D6
+type D10Type = {
+    type: typeof DICE_10
 }
-export const deleteD6 = (): deleteD6Type => ({ type: DELETE_D6 })
+export const onD10 = (): D10Type => ({ type: DICE_10 })
 
-type addD8Type = {
-    type: typeof ADD_D8
+type D12Type = {
+    type: typeof DICE_12
 }
-export const addD8 = (): addD8Type => ({ type: ADD_D8 })
+export const onD12 = (): D12Type => ({ type: DICE_12 })
 
-type deleteD8Type = {
-    type: typeof DELETE_D8
+type D20Type = {
+    type: typeof DICE_20
 }
-export const deleteD8 = (): deleteD8Type => ({ type: DELETE_D8 })
+export const onD20 = (): D20Type => ({ type: DICE_20 })
 
-type addD10Type = {
-    type: typeof ADD_D10
+type D100Type = {
+    type: typeof DICE_100
 }
-export const addD10 = (): addD10Type => ({ type: ADD_D10 })
-
-type deleteD10Type = {
-    type: typeof DELETE_D10
-}
-export const deleteD10 = (): deleteD10Type => ({ type: DELETE_D10 })
-
-type addD12Type = {
-    type: typeof ADD_D12
-}
-export const addD12 = (): addD12Type => ({ type: ADD_D12 })
-
-type deleteD12Type = {
-    type: typeof DELETE_D12
-}
-export const deleteD12 = (): deleteD12Type => ({ type: DELETE_D12 })
-
-type addD20Type = {
-    type: typeof ADD_D20
-}
-export const addD20 = (): addD20Type => ({ type: ADD_D20 })
-
-type deleteD20Type = {
-    type: typeof DELETE_D20
-}
-export const deleteD20 = (): deleteD20Type => ({ type: DELETE_D20 })
-
-type addD100Type = {
-    type: typeof ADD_D100
-}
-export const addD100 = (): addD100Type => ({ type: ADD_D100 })
-
-type deleteD100Type = {
-    type: typeof DELETE_D100
-}
-export const deleteD100 = (): deleteD100Type => ({ type: DELETE_D100 })
+export const onD100 = (): D100Type => ({ type: DICE_100 })
 
 type changeDiceColorType = {
     type: typeof CHANGE_DICE_COLOR

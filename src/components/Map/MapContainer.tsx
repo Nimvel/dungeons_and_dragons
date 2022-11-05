@@ -12,6 +12,8 @@ import {
 import { getBackgroundItemOnMap, getItems,
       getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
 
+import { getIsFixBackgroundItems, getIsFreeMovement } from '../../redux/backgrounds-selectors'
+
 import { getGridSize } from '../../redux/options-selectors'
 
 import { getLineMode, getPaintbrushColor, getPensilMode } from '../../redux/paint-selectors'
@@ -24,6 +26,8 @@ type MapStateToPropsType = {
 
     items: Array<ItemType>
     backgroundItemsOnMap: Array<BackgroundItemOnMapType>
+    isFreeMovement: boolean
+    isFixBackgroundItems: boolean
 
     paintbrushColor: string
     pensilMode: boolean
@@ -41,8 +45,8 @@ type OwnPropsType = {
 
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
-    paintbrushColor, pensilMode, lineMode, updateItems, updateMapDimensions, updateBackgroundItems }) => {
+const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
+    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems }) => {
 
     const mapDimensions = () => {
         if (map) {
@@ -54,14 +58,15 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
         }
     }
 
+    useEffect(() => {})
     useEffect(() => {}, [mapWidth, mapHeight])
     useEffect(() => { mapDimensions() }, [map])
 
     return <>
-        <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap}
+        <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} isFreeMovement={isFreeMovement}
         mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
-        updateBackgroundItems={updateBackgroundItems} paintbrushColor={paintbrushColor} 
-        pensilMode={pensilMode} lineMode={lineMode} />
+        updateBackgroundItems={updateBackgroundItems} isFixBackgroundItems={isFixBackgroundItems}
+        paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
     </>
 }
 
@@ -72,6 +77,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         mapHeight: getMapHeight(state),
 
         backgroundItemsOnMap: getBackgroundItemOnMap(state),
+        isFreeMovement: getIsFreeMovement (state),
+        isFixBackgroundItems: getIsFixBackgroundItems(state),
         items: getItems(state),
         gridSize: getGridSize(state),
 

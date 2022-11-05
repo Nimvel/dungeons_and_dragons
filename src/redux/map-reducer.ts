@@ -116,8 +116,8 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 }
 
 type ActionsTypes = SetNewMapType | CleanMapType | UpdateMapDimensionsType |
-    AddNewBackgroundItemOnMapType | AddNewCircleType | AddNewItemWithImageType |
-    UpdateItemsType | updateBackgroundItemsType
+    AddNewBackgroundItemOnMapType | UpdateBackgroundItemsType | 
+    AddNewCircleType | AddNewItemWithImageType | UpdateItemsType
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP
@@ -144,11 +144,11 @@ type AddNewBackgroundItemOnMapType = {
 export const addNewBackgroundItemOnMap = (backgroundItemOnMap: string): AddNewBackgroundItemOnMapType =>
     ({ type: ADD_NEW_BACKGROUND_ITEM, backgroundItemOnMap })
 
-type updateBackgroundItemsType = {
+type UpdateBackgroundItemsType = {
     type: typeof UPDATE_BACKGROUND_ITEMS
     backgroundItemsOnMap: Array<BackgroundItemOnMapType>
 }
-export const updateBackgroundItems = (backgroundItemsOnMap: Array<BackgroundItemOnMapType>): updateBackgroundItemsType =>
+export const updateBackgroundItems = (backgroundItemsOnMap: Array<BackgroundItemOnMapType>): UpdateBackgroundItemsType =>
     ({ type: UPDATE_BACKGROUND_ITEMS, backgroundItemsOnMap })
 
 type AddNewCircleType = {

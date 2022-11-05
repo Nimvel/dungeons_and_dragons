@@ -46,7 +46,7 @@ const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, back
                 backgroundItemOnMap: backgroundItem,
                 x: x * 50,
                 y: y * 50,
-                id: id
+                id: `background-${items.length}`
             })
         }
     }

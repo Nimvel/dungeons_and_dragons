@@ -27,6 +27,8 @@ type MapProps = {
 
     items: Array<ItemType>
     backgroundItemsOnMap: Array<BackgroundItemOnMapType>
+    isFreeMovement: boolean
+    isFixBackgroundItems: boolean
 
     paintbrushColor: string
     pensilMode: boolean
@@ -36,15 +38,24 @@ type MapProps = {
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
-const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap,
-    paintbrushColor, pensilMode, lineMode, updateItems, updateBackgroundItems }) => {
+const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
+    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems }) => {
 
     let stage = null
+    let scale = 1
+
+    const itemRegExp = /item-/i
+    const itemWithImageRegExp = /itemWithImage-/i
+    const backgroundItemRegExp = /background-/i
+
+    const [activeItemId, setActiveItemId] = useState(null)
+
+    const isItemId = itemRegExp.test(activeItemId)
+    const isItemWithImageId = itemWithImageRegExp.test(activeItemId)
+    const isBackgroundItemId = backgroundItemRegExp.test(activeItemId)
 
     const [currentLine, setCurrentLine] = useState(null)
     const [lines, setLines] = useState([])
-
-    const [activeItemId, setActiveItemId] = useState(null)
 
     const { setContextMenu } = useContextMenu()
 
@@ -111,8 +122,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         // }
     }
 
-    let scale = 1
-
     const onScaling = () => {
         addOnWheel(elem, function (e: React.WheelEvent<HTMLInputElement>) {
 
@@ -132,14 +141,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         const id = e.target.name()
         setActiveItemId(id)
 
-        const itemRegExp = /item-/i
-        const itemWithImageRegExp = /itemWithImage-/i
-        const backgroundItemRegExp = /background-/i
-
-        const isItemId = itemRegExp.test(id)
-        const isItemWithImageId = itemWithImageRegExp.test(id)
-        const isBackgroundItemId = backgroundItemRegExp.test(id)
-
         if (isItemId || isItemWithImageId) {
             const item = items.find((i) => i.id === id)
             const index = items.indexOf(item)
@@ -157,7 +158,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 scaleY: 1.1
             })
         }
-
         else if (isBackgroundItemId) {
             const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
             const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
@@ -172,14 +172,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
         setActiveItemId(id)
-
-        const itemRegExp = /item-/i
-        const itemWithImageRegExp = /itemWithImage-/i
-        const backgroundItemRegExp = /background-/i
-
-        const isItemId = itemRegExp.test(id)
-        const isItemWithImageId = itemWithImageRegExp.test(id)
-        const isBackgroundItemId = backgroundItemRegExp.test(id)
 
         if (isItemId || isItemWithImageId) {
             const item = items.find((i) => i.id === id)
@@ -201,10 +193,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 shadowOffsetY: 5
             })
         }
-
         else if (isBackgroundItemId) {
-            const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-            const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+            const id = e.target.name()
+            setActiveItemId(id)
 
             const boxesX = []
             for (let i = 0; i <= mapWidth / gridSize; i++) {
@@ -214,20 +205,36 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             for (let i = 0; i <= mapHeight / gridSize; i++) {
                 boxesY.push(i)
             }
+                if (isFreeMovement) {
+                    const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                    const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-            const backgroundItemX = boxesX.filter(i => Math.floor(e.target.x() / gridSize) === i)[0] * gridSize
-            const backgroundItemY = boxesY.filter(i => Math.floor(e.target.y() / gridSize) === i)[0] * gridSize
+                    backgroundItemsOnMap[backgroundItemIndex] = {
+                        ...backgroundItem,
+                        x: e.target.x(),
+                        y: e.target.y(),
+                    }
+                    updateBackgroundItems(backgroundItemsOnMap)
+                }
 
-            backgroundItemsOnMap[backgroundItemIndex] = {
-                ...backgroundItem,
-                x: backgroundItemX,
-                y: backgroundItemY
-            }
-            console.log(
-                'x:', backgroundItemX,
-                'y:', backgroundItemY
-            )
-            updateBackgroundItems(backgroundItemsOnMap)
+                else {
+                    const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                    const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+
+                    const backgroundItemX = boxesX.filter(i => Math.floor(e.target.x() / gridSize) === i)[0] * gridSize
+                    const backgroundItemY = boxesY.filter(i => Math.floor(e.target.y() / gridSize) === i)[0] * gridSize
+
+                    backgroundItemsOnMap[backgroundItemIndex] = {
+                        ...backgroundItem,
+                        x: backgroundItemX,
+                        y: backgroundItemY
+                    }
+                    console.log(
+                        'x:', backgroundItemX,
+                        'y:', backgroundItemY
+                    )
+                    updateBackgroundItems(backgroundItemsOnMap)
+                }
         }
     }
 
@@ -270,6 +277,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             { ...currentLine, points: [...currentLine.points, x, y] }
             ])
         }
+
     }
 
     const setStageRef = ref => {
@@ -351,45 +359,45 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             <Layer>
                 {map && <MapBackground src={map} mapHeight={mapHeight} mapWidth={mapWidth} />}
 
-                <GridContainer />
-                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
-
                 {backgroundItemsOnMap.map(item => {
                     let image = document.createElement('img')
                     image.src = item.backgroundItemOnMap
                     image.alt = 'backgroundItem'
 
-                    if (pensilMode || lineMode) {
+                    if (pensilMode || lineMode || isFixBackgroundItems) {
                         return <Rect
-                        key={item.id}
-                        name={item.id}
-                        x={item.x}
-                        y={item.y}
-                        id={item.id}
-                        fillPatternImage={image}
-                        width={gridSize}
-                        height={gridSize}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                    />
+                            key={item.id}
+                            name={item.id}
+                            x={item.x}
+                            y={item.y}
+                            id={item.id}
+                            fillPatternImage={image}
+                            width={gridSize}
+                            height={gridSize}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                        />
                     }
                     else {
                         return <Rect
-                        key={item.id}
-                        name={item.id}
-                        draggable
-                        x={item.x}
-                        y={item.y}
-                        id={item.id}
-                        fillPatternImage={image}
-                        width={gridSize}
-                        height={gridSize}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                    />
+                            key={item.id}
+                            name={item.id}
+                            draggable
+                            x={item.x}
+                            y={item.y}
+                            id={item.id}
+                            fillPatternImage={image}
+                            width={gridSize}
+                            height={gridSize}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                        />
                     }
                 })
                 }
+
+                <GridContainer />
+                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
 
                 <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor}
                 />

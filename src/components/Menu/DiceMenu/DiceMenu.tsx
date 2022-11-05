@@ -16,20 +16,13 @@ type DiceType = {
     diceColorFace: string
     diceNumberColor: string
 
-    addD4: () => void
-    deleteD4: () => void
-    addD6: () => void
-    deleteD6: () => void
-    addD8: () => void
-    deleteD8: () => void
-    addD10: () => void
-    deleteD10: () => void
-    addD12: () => void
-    deleteD12: () => void
-    addD20: () => void
-    deleteD20: () => void
-    addD100: () => void
-    deleteD100: () => void
+    onD4: () => void
+    onD6: () => void
+    onD8: () => void
+    onD10: () => void
+    onD12: () => void
+    onD20: () => void
+    onD100: () => void
 
     onChangeDiceColor: (e: any) => void
     onChangeDiceColorFace: (e: any) => void
@@ -37,9 +30,7 @@ type DiceType = {
 }
 
 const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, diceNumberColor,
-    addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
-    onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
+    onD4, onD6, onD8, onD10, onD12, onD20, onD100, onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
 
     return <div className={s.options}>
             <div>Dice</div>
@@ -48,33 +39,33 @@ const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, dic
             <input onChange={onChangeDiceNumberColor} className={s.color} type='color' value={diceNumberColor} />
 
             {D4
-                ? <><button onClick={deleteD4} >D4 Off</button><br /></>
-                : <><button onClick={addD4} >D4 On</button><br /></>
+                ? <button onClick={onD4} >D4 Off</button>
+                : <button onClick={onD4} >D4 On</button>
             }
 
             {D6
-                ? <><button onClick={deleteD6} >D6 Off</button><br /></>
-                : <><button onClick={addD6} >D6 On</button><br /></>
+                ? <button onClick={onD6} >D6 Off</button>
+                : <button onClick={onD6} >D6 On</button>
             }
             {D8
-                ? <><button onClick={deleteD8} >D8 Off</button><br /></>
-                : <><button onClick={addD8} >D8 On</button><br /></>
+                ? <button onClick={onD8} >D8 Off</button>
+                : <button onClick={onD8} >D8 On</button>
             }
             {D10
-                ? <><button onClick={deleteD10} >D10 Off</button><br /></>
-                : <><button onClick={addD10} >D10 On</button><br /></>
+                ? <button onClick={onD10} >D10 Off</button>
+                : <button onClick={onD10} >D10 On</button>
             }
             {D12
-                ? <><button onClick={deleteD12} >D12 Off</button><br /></>
-                : <><button onClick={addD12} >D12 On</button><br /></>
+                ? <button onClick={onD12} >D12 Off</button>
+                : <button onClick={onD12} >D12 On</button>
             }
             {D20
-                ? <><button onClick={deleteD20} >D20 Off</button><br /></>
-                : <><button onClick={addD20} >D20 On</button><br /></>
+                ? <button onClick={onD20} >D20 Off</button>
+                : <button onClick={onD20} >D20 On</button>
             }
             {D100
-                ? <><button onClick={deleteD100} >D100 Off</button><br /></>
-                : <><button onClick={addD100} >D100 On</button><br /></>
+                ? <button onClick={onD100} >D100 Off</button>
+                : <button onClick={onD100} >D100 On</button>
             }
     </div>
 }

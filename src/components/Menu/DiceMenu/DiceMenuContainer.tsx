@@ -2,8 +2,7 @@ import React, { FC } from 'react'
 import { connect } from 'react-redux'
 
 import {
-    addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-    addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+    onD4, onD6, onD8, onD10, onD12, onD20, onD100,
     changeDiceColor, changeDiceColorFace, changeDiceNumberColor
 } from '../../../redux/dice-reducer'
 import { 
@@ -28,20 +27,13 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToPropsType = {
-    addD4: () => void
-    deleteD4: () => void
-    addD6: () => void
-    deleteD6: () => void
-    addD8: () => void
-    deleteD8: () => void
-    addD10: () => void
-    deleteD10: () => void
-    addD12: () => void
-    deleteD12: () => void
-    addD20: () => void
-    deleteD20: () => void
-    addD100: () => void
-    deleteD100: () => void
+    onD4: () => void
+    onD6: () => void
+    onD8: () => void
+    onD10: () => void
+    onD12: () => void
+    onD20: () => void
+    onD100: () => void
     changeDiceColor: (color: string) => void 
     changeDiceColorFace: (color: string) => void
     changeDiceNumberColor: (color: string) => void
@@ -53,9 +45,8 @@ type OwnPropsType = {
 type DiceMenuContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const DiceMenuContainer: FC<DiceMenuContainerProps> = (
-    { diceColor, diceColorFace, diceNumberColor, D4, D6, D8, D10, D12, D20, D100,
-        addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+    { diceColor, diceColorFace, diceNumberColor, D4, D6, D8, D10, D12, D20, D100, 
+        onD4, onD6, onD8, onD10, onD12, onD20, onD100,
         changeDiceColor, changeDiceColorFace, changeDiceNumberColor }) => {
 
     const onChangeDiceColor = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,9 +63,7 @@ const DiceMenuContainer: FC<DiceMenuContainerProps> = (
 
     return <DiceMenu diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} 
     D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100}
-        addD4={addD4} deleteD4={deleteD4} addD6={addD6} deleteD6={deleteD6} addD8={addD8} deleteD8={deleteD8}
-        addD10={addD10} deleteD10={deleteD10} addD12={addD12} deleteD12={deleteD12} addD20={addD20}
-        deleteD20={deleteD20} addD100={addD100} deleteD100={deleteD100}
+    onD4={onD4} onD6={onD6} onD8={onD8} onD10={onD10} onD12={onD12} onD20={onD20} onD100={onD100}
         onChangeDiceColor={onChangeDiceColor} onChangeDiceColorFace={onChangeDiceColorFace} onChangeDiceNumberColor={onChangeDiceNumberColor} />
 }
 
@@ -95,8 +84,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
 export default connect(mapStateToProps,
     {
-        addD4, deleteD4, addD6, deleteD6, addD8, deleteD8, addD10, deleteD10,
-        addD12, deleteD12, addD20, deleteD20, addD100, deleteD100,
+        onD4, onD6, onD8, onD10, onD12, onD20, onD100,
         changeDiceColor, changeDiceColorFace, changeDiceNumberColor
     }
 )(DiceMenuContainer)

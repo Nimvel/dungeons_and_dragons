@@ -14,6 +14,8 @@ type CreateMapProps = {
     gridSize: number
 
     backgroundItems: Array<BackgroundItemType>
+    isFreeMovement: boolean
+    isFixBackgroundItems: boolean
 
     onChangeWidth: (e: any) => void
     onChangeHeight: (e: any) => void
@@ -24,23 +26,32 @@ type CreateMapProps = {
     addNewBackgroundItemOnMap: (backgroundItem: string) => void
 
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
+    onFreeMovement: () => void
+    onFixBackgroundItems: () => void
     onChangeMapDimensions: () => void
 }
 
-const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, backgroundItems, onChangeMapDimensions,
-    onChangeWidth, onChangeHeight, onCreateMap, saveNewBackgroundItem,
-    deleteBackgroundItem, addNewBackgroundItemOnMap, updateBackgroundItems }) => {
+const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, backgroundItems, isFixBackgroundItems, isFreeMovement,
+    onChangeWidth, onChangeHeight, onCreateMap, saveNewBackgroundItem, onFixBackgroundItems, onFreeMovement,
+    onChangeMapDimensions,deleteBackgroundItem, addNewBackgroundItemOnMap, updateBackgroundItems }) => {
 
     return <div className={s.options}>
+        <button onClick={onCreateMap}>Create Map</button>
         <div>Dimentions</div>
         <input onChange={onChangeWidth} className={s.enterNumber} value={width} placeholder={`map's width`} />
         <input onChange={onChangeHeight} className={s.enterNumber} value={height} placeholder={`map's height`} />
-        <button onClick={onChangeMapDimensions} >Update</button>
-        <button onClick={onCreateMap} >Create Map</button>
+        <button onClick={onChangeMapDimensions}>Update</button>
 
         <BackgroundItems width={width} height={height} gridSize={gridSize} backgroundItems={backgroundItems} 
         saveNewBackgroundItem={saveNewBackgroundItem} deleteBackgroundItem={deleteBackgroundItem} 
         addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} updateBackgroundItems={updateBackgroundItems} />
+        {isFreeMovement
+        ? <button onClick={onFreeMovement}>Free Off</button>
+        : <button onClick={onFreeMovement}>Free On</button>}
+        {isFixBackgroundItems
+        ? <button onClick={onFixBackgroundItems}>Fix Off</button>
+        : <button onClick={onFixBackgroundItems}>Fix On</button>}
+        
     </div>
 }
 

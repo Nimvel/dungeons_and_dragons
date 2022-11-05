@@ -33,15 +33,15 @@ const BackgroundItems: FC<BackgroundItemsProps> = ({ width, height, gridSize, ba
         deleteBackgroundItem={deleteBackgroundItem} addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} />)
 
     return <>
+        <div className={s.backgroundItems}>
+            {backgroundElements}
+        </div>
         <div className='block'>
             <label>
                 <input onChange={addNewBackground}
                     type={'file'} accept='.jpg, .jpeg, .tiff, .png, .gif, .bmp, jp2' />  {/* multiple */}
                 <span>Add Item</span>
             </label>
-        </div>
-        <div className={s.backgroundItems}>
-            {backgroundElements}
         </div>
     </>
 }

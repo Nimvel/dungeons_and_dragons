@@ -58,6 +58,10 @@
 
   img {
     @include dimensions(60px, 60px);
+    @include possitionLeft(relative, 50%);
+    top: 10px;
+    transform: translate(-50%)
+
   }
 }
 
