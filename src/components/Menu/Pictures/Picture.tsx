@@ -10,12 +10,16 @@ type PictureProps = {
 
     setNewMap: (picture: string) => void
     deletePicture: (id: number) => void
+    cleanLines: () => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
-const Picture: FC<PictureProps> = ({ picture, id, updateBackgroundItems, setNewMap, deletePicture }) => {
+const Picture: FC<PictureProps> = ({ picture, id, cleanLines, updateBackgroundItems, 
+    setNewMap, deletePicture }) => {
+
     const onPictureClick = () => {
         updateBackgroundItems([])
+        cleanLines()
         setNewMap(picture)
     }
 

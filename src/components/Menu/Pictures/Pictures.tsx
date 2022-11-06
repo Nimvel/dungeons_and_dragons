@@ -15,10 +15,11 @@ type PicturesProps = {
     saveNewPicture: (picture: Blob | MediaSource) => void
     setNewMap: (map: string) => void
     deletePicture: (id: number) => void
+    cleanLines: () => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
-const Pictures: FC<PicturesProps> = ({ pictures, saveNewPicture, 
+const Pictures: FC<PicturesProps> = ({ pictures, saveNewPicture, cleanLines,
     setNewMap, deletePicture, updateBackgroundItems }) => {
 
     const addNewPicture = (e: any) => {
@@ -26,7 +27,7 @@ const Pictures: FC<PicturesProps> = ({ pictures, saveNewPicture,
     }
 
     const picturesElements = pictures.map(p => <Picture
-        picture={p.picture} key={p.id} id={p.id} setNewMap={setNewMap}
+        picture={p.picture} key={p.id} id={p.id} setNewMap={setNewMap} cleanLines={cleanLines}
         deletePicture={deletePicture} updateBackgroundItems={updateBackgroundItems} />)
 
     return <div className={style.options}>
