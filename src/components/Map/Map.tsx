@@ -219,17 +219,19 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 updateBackgroundItems(backgroundItemsOnMap)
             }
 
+
             else {
                 const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
                 const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-                const backgroundItemX = boxesX.filter(i => Math.round(e.target.x() / gridSize) === i)[0] * gridSize
-                const backgroundItemY = boxesY.filter(i => Math.round(e.target.y() / gridSize) === i)[0] * gridSize
+            const x = (window.innerWidth - mapWidth) / 2
+            const y = (window.innerHeight - mapHeight) / 2
+
 
                 backgroundItemsOnMap[backgroundItemIndex] = {
                     ...backgroundItem,
-                    x: backgroundItemX,
-                    y: backgroundItemY
+                    x: Math.round((e.target.x() - x) / gridSize) * gridSize + x,
+                    y: Math.round((e.target.y() - y) / gridSize) * gridSize + y
                 }
                 updateBackgroundItems(backgroundItemsOnMap)
             }

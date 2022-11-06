@@ -44,8 +44,8 @@ const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, back
         for (let x = 0; x <= boxesX.length; x++) {
             items.push({
                 backgroundItemOnMap: backgroundItem,
-                x: x * 50,
-                y: y * 50,
+                x: (x * 50) + (window.innerWidth - width) / 2,
+                y: (y * 50) + (window.innerHeight - height) / 2,
                 id: `background-${items.length}`
             })
         }
