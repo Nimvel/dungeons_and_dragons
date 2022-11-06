@@ -6,6 +6,7 @@ import s from '../Menu.module.scss'
 import ItemImages from './ItemImages/ItemImages'
 
 type ItemsType = {
+    newQuantity: number
     itemColor: string
     itemImages: Array<itemImagesType>
 
@@ -18,13 +19,13 @@ type ItemsType = {
     addNewItemWithImage: (itemImage: string) => void
 }
 
-const Items: FC<ItemsType> = ({ itemColor, itemImages, onAddNewCircle, 
+const Items: FC<ItemsType> = ({ newQuantity, itemColor, itemImages, onAddNewCircle, 
     onChangeQuantity, onChangeColor, saveNewItemImage, deleteItemImage, addNewItemWithImage }) => {
 
     return (
         <div className={s.options}>
             <div>Circles</div>
-            <input onChange={onChangeQuantity} placeholder='Enter quantity of circles' />
+            <input onChange={onChangeQuantity} value={newQuantity} />
             <input onChange={onChangeColor} className='color' type='color' value={itemColor} />
             <button onClick={onAddNewCircle}>Add</button>
 

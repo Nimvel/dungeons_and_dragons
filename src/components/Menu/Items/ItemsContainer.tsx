@@ -42,7 +42,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight,
     items, itemColor, itemsQuantity, itemImages, addNewCircle, updateItems, 
     saveNewItemImage, deleteItemImage, addNewItemWithImage }) => {
 
-    const [newQuantity, setQuantity] = useState(itemsQuantity)
+    const [newQuantity, setQuantity] = useState(1)
     const [newColor, setColor] = useState(itemColor)
 
     const onChangeQuantity = (e: any) => {
@@ -53,12 +53,19 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight,
         setColor(e.target.value)
     }
 
+    const xMin = ((window.innerWidth - mapWidth) / 2)
+    const xMax = xMin + mapWidth
+
+    const yMin = ((window.innerHeight - mapHeight) / 2)
+    const yMax = yMin + mapHeight
+
+
     const generateItems = (items: Array<ItemType>, newQuantity: number, newColor: string) => {
         const circles: Array<ItemType> = []
         for (let i = 1; i <= newQuantity; i++) {
             circles.push({
-                x: Math.random() * (mapWidth - 100) + 50,
-                y: Math.random() * (mapHeight - 100) + 50,
+                x: Math.random() * (xMax - xMin - 50) + xMin + 25,
+                y: Math.random() * (yMax - yMin - 50) + yMin + 25,
                 id: 'item-' + (items.length + i),
                 color: newColor,
                 image: null
@@ -72,7 +79,7 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight,
         generateItems(items, newQuantity, newColor)
     }
 
-    return <Items itemColor={newColor} onAddNewCircle={onAddNewCircle} itemImages={itemImages}
+    return <Items itemColor={newColor} newQuantity={newQuantity} onAddNewCircle={onAddNewCircle} itemImages={itemImages}
     onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} saveNewItemImage={saveNewItemImage}
     deleteItemImage={deleteItemImage} addNewItemWithImage={addNewItemWithImage}  />
 }
