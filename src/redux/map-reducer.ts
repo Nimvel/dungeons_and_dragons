@@ -117,7 +117,7 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 
 type ActionsTypes = SetNewMapType | CleanMapType | UpdateMapDimensionsType |
     AddNewBackgroundItemOnMapType | UpdateBackgroundItemsType | 
-    AddNewCircleType | AddNewItemWithImageType | UpdateItemsType
+    AddNewCircleType | AddNewItemWithImageType | UpdateItemsType 
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP

@@ -5,18 +5,23 @@ import Map from './Map'
 
 import { AppStateType } from '../../redux/store'
 
-import { 
-    BackgroundItemOnMapType, ItemType, updateItems, updateBackgroundItems, updateMapDimensions
+import {
+    BackgroundItemOnMapType, ItemType, updateItems, updateBackgroundItems,
+    updateMapDimensions
 } from '../../redux/map-reducer'
 
-import { getBackgroundItemOnMap, getItems,
-      getMap, getMapHeight, getMapWidth } from '../../redux/map-selectors'
+import { drawLine, LineType } from '../../redux/paint-reducer'
+
+import {
+    getBackgroundItemOnMap, getItems,
+    getMap, getMapHeight, getMapWidth
+} from '../../redux/map-selectors'
 
 import { getIsFixBackgroundItems, getIsFreeMovement } from '../../redux/backgrounds-selectors'
 
 import { getGridSize } from '../../redux/options-selectors'
 
-import { getLineMode, getPaintbrushColor, getPensilMode } from '../../redux/paint-selectors'
+import { getLineMode, getPaintbrushColor, getPensilMode, getLines, getStrokeWidth } from '../../redux/paint-selectors'
 
 type MapStateToPropsType = {
     map: null | string
@@ -30,14 +35,18 @@ type MapStateToPropsType = {
     isFixBackgroundItems: boolean
 
     paintbrushColor: string
+    strokeWidth: number
     pensilMode: boolean
     lineMode: boolean
+    lines: Array<LineType>
 }
 
 type MapDispatchToPropsType = {
     updateItems: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
     updateMapDimensions: (mapWidth: number, mapHeight: number) => void
+
+    drawLine: (line: LineType) => void
 }
 
 type OwnPropsType = {
@@ -45,8 +54,10 @@ type OwnPropsType = {
 
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
-    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems }) => {
+const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items,
+    backgroundItemsOnMap, isFreeMovement, paintbrushColor, strokeWidth, pensilMode, lineMode,
+    isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems,
+    lines, drawLine }) => {
 
     const mapDimensions = () => {
         if (map) {
@@ -58,14 +69,15 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
         }
     }
 
-    useEffect(() => {}, [mapWidth, mapHeight, backgroundItemsOnMap])
+    useEffect(() => { }, [mapWidth, mapHeight, backgroundItemsOnMap])
     useEffect(() => { mapDimensions() }, [map])
 
     return <>
         <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} isFreeMovement={isFreeMovement}
-        mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
-        updateBackgroundItems={updateBackgroundItems} isFixBackgroundItems={isFixBackgroundItems}
-        paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} />
+            mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
+            updateBackgroundItems={updateBackgroundItems} isFixBackgroundItems={isFixBackgroundItems}
+            paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode}
+            lines={lines} drawLine={drawLine} strokeWidth={strokeWidth} />
     </>
 }
 
@@ -76,17 +88,19 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         mapHeight: getMapHeight(state),
 
         backgroundItemsOnMap: getBackgroundItemOnMap(state),
-        isFreeMovement: getIsFreeMovement (state),
+        isFreeMovement: getIsFreeMovement(state),
         isFixBackgroundItems: getIsFixBackgroundItems(state),
         items: getItems(state),
         gridSize: getGridSize(state),
 
         paintbrushColor: getPaintbrushColor(state),
+        strokeWidth: getStrokeWidth(state),
         pensilMode: getPensilMode(state),
-        lineMode: getLineMode(state)
+        lineMode: getLineMode(state),
+        lines: getLines(state)
     }
 }
 
-export default connect(mapStateToProps, { 
-    updateItems, updateMapDimensions, updateBackgroundItems
+export default connect(mapStateToProps, {
+    updateItems, updateMapDimensions, updateBackgroundItems, drawLine
 })(MapContainer)

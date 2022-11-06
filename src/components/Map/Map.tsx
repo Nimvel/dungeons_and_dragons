@@ -2,20 +2,19 @@ import * as React from 'react'
 import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
+import { KonvaEventObject } from 'konva/lib/Node'
 import { Layer, Stage, Circle, Line, Rect } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
 import MapBackground from './MapBackground/MapBackground'
-import {
-    BackgroundItemOnMapType, ItemType
-} from '../../redux/map-reducer'
-import { KonvaEventObject } from 'konva/lib/Node'
 import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
 import BordersContainer from './Borders/BordersContainer'
 
-import './../../App.scss'
+import { BackgroundItemOnMapType, ItemType } from '../../redux/map-reducer'
+import { LineType } from '../../redux/paint-reducer'
+
 //@ts-ignore
 import s from './Map.module.scss'
 
@@ -31,15 +30,20 @@ type MapProps = {
     isFixBackgroundItems: boolean
 
     paintbrushColor: string
+    strokeWidth: number
     pensilMode: boolean
     lineMode: boolean
+    lines: Array<LineType>
+
+    drawLine: (line: LineType) => void
 
     updateItems: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
-    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems }) => {
+    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems, 
+    lines, drawLine, strokeWidth }) => {
 
     let stage = null
     let scale = 1
@@ -51,7 +55,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const [activeItemId, setActiveItemId] = useState(null)
 
     const [currentLine, setCurrentLine] = useState(null)
-    const [lines, setLines] = useState([])
 
     const { setContextMenu } = useContextMenu()
 
@@ -219,7 +222,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 updateBackgroundItems(backgroundItemsOnMap)
             }
 
-
             else {
                 const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
                 const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
@@ -240,7 +242,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     const getScaledPoint = (stage, scale) => {
         const { x, y } = stage.getPointerPosition()
-        return { x: x / scale, y: y / scale }
+        return { x, y }
+        // return { x: x / scale, y: y / scale }
     }
 
     const onMouseDown = () => {
@@ -273,9 +276,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         if (pensilMode || lineMode) {
             const { x, y } = getScaledPoint(stage, 1)
             setCurrentLine(null)
-            setLines([...lines,
-            { ...currentLine, points: [...currentLine.points, x, y] }
-            ])
+            drawLine({ ...currentLine, 
+                points: [...currentLine.points, x, y], 
+                color: paintbrushColor, 
+                strokeWidth: strokeWidth })
         }
 
     }
@@ -351,8 +355,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
             width={window.innerWidth}
             height={window.innerHeight}
-            // width={mapWidth > window.innerWidth - 100 ? mapWidth : mapWidth + 80}
-            // height={mapHeight}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
@@ -403,16 +405,16 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 <GridContainer />
                 <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
 
-                <Line {...currentLine} strokeWidth={1} stroke={paintbrushColor}
-                />
                 {lines.map((line, index) => (
                     <Line
                         key={index}
                         {...line}
-                        strokeWidth={1}
-                        stroke={paintbrushColor}
+                        stroke={line.color}
+                        strokeWidth={line.strokeWidth}
                     />
                 ))}
+                <Line {...currentLine} strokeWidth={strokeWidth} stroke={paintbrushColor}
+                />
 
                 {items.map(item => {
                     let image = document.createElement('img')
