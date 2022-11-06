@@ -342,11 +342,15 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     return <div id='canvas' className={s.map} >
         <Stage onWheel={onScaling}
+        draggable = {(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
+        
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             // width={window.innerWidth} height={window.innerHeight}
 
-            width={mapWidth > window.innerWidth - 100 ? mapWidth : mapWidth + 80}
-            height={mapHeight}
+            width={window.innerWidth}
+            height={window.innerHeight}
+            // width={mapWidth > window.innerWidth - 100 ? mapWidth : mapWidth + 80}
+            // height={mapHeight}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
@@ -439,7 +443,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 {/* <Item items={items} itemsWithImages={itemsWithImages} gridSize={gridSize} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd}
                         handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} /> */}
 
-                <DiceContainer width={mapWidth} />
+                <DiceContainer width={mapWidth}/>
 
             </Layer>
         </Stage>

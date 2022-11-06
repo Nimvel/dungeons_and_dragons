@@ -15,8 +15,8 @@ const VerticalLines: FC<VerticalLinesProps> = ({ gridColor, gridSize, width, hei
     }
 
     const verticalLines = lines.map(l => <Line key={l}
-        x={0}
-        y={0}
+        x={(window.innerWidth - width) / 2}
+        y={(window.innerHeight - height) / 2}
         points={[l * gridSize, 0, l * gridSize, height]}
         stroke={gridColor} />)
 

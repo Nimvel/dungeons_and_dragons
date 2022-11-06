@@ -6,6 +6,8 @@ const DICE_12 = 'dice/D12'
 const DICE_20 = 'dice/D20'
 const DICE_100 = 'dice/D100'
 
+const TYPES_OF_DICE = 'dice/TYPE_OF_DICE'
+
 const CHANGE_DICE_COLOR = 'dice/CHANGE_DICE_COLOR'
 const CHANGE_DICE_COLOR_FACE = 'dice/CHANGE_DICE_COLOR_FACE'
 const CHANGE_DICE_NUMBER_COLOR = 'dice/CHANGE_DICE_NUMBER_COLOR'
@@ -18,6 +20,8 @@ type initialStateType = {
     D12: boolean
     D20: boolean
     D100: boolean
+
+    isTypesOfDice: boolean
 
     diceColor: string
     diceColorFace: string
@@ -32,6 +36,8 @@ const initialState: initialStateType = {
     D12: true,
     D20: true,
     D100: true,
+
+    isTypesOfDice: false,
 
     diceColor: '#cb9d9d',
     diceColorFace: '#ffffff',
@@ -83,6 +89,12 @@ const diceReducer = (state = initialState, action: ActionsTypes): initialStateTy
                 D100: !state.D100
             }
 
+        case TYPES_OF_DICE:
+            return {
+                ...state,
+                isTypesOfDice: !state.isTypesOfDice
+            }
+
         case CHANGE_DICE_COLOR:
             return {
                 ...state,
@@ -106,7 +118,7 @@ const diceReducer = (state = initialState, action: ActionsTypes): initialStateTy
     }
 }
 
-type ActionsTypes = D4Type | D6Type | D8Type | D10Type | D12Type | D20Type | D100Type | 
+type ActionsTypes = D4Type | D6Type | D8Type | D10Type | D12Type | D20Type | D100Type | OnTypesOfDiceType |
     changeDiceColorType | changeDiceColorFaceType | changeDiceNumberColorType
 
 type D4Type = {
@@ -143,6 +155,11 @@ type D100Type = {
     type: typeof DICE_100
 }
 export const onD100 = (): D100Type => ({ type: DICE_100 })
+
+type OnTypesOfDiceType = {
+    type: typeof TYPES_OF_DICE
+}
+export const onTypesOfDice = (): OnTypesOfDiceType => ({ type: TYPES_OF_DICE })
 
 type changeDiceColorType = {
     type: typeof CHANGE_DICE_COLOR

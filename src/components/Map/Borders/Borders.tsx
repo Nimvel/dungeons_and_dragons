@@ -11,12 +11,15 @@ type BordersProps = {
 
 const Borders: FC<BordersProps> = ({ bordersColor, mapWidth, mapHeight }) => {
 
+    const x = (window.innerWidth - mapWidth) / 2
+    const y = (window.innerHeight - mapHeight) / 2
+
     return <Line key={'borders'}
         points={[
-            0, 0, mapWidth, 0,
-            mapWidth, 0, mapWidth, mapHeight,
-            mapWidth, mapHeight, 0, mapHeight,
-            0, mapHeight, 0, 0
+            x, y, x + mapWidth, y,
+            x + mapWidth, y, x + mapWidth, y + mapHeight,
+            x + mapWidth, y + mapHeight, x, y + mapHeight,
+            x, y + mapHeight, x, y
         ]}
         stroke={bordersColor}
     />

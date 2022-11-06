@@ -17,7 +17,7 @@ class MapBackground extends React.Component<MapBackgroundProps> {
         this.loadImage()
     }
 
-    componentDidUpdate(oldProps) {
+    componentDidUpdate(oldProps: any) {
         if (oldProps.src !== this.props.src) {
             this.loadImage()
         }
@@ -53,8 +53,8 @@ class MapBackground extends React.Component<MapBackgroundProps> {
 
         return (
             <Image
-                x={0}
-                y={0}
+                x={(window.innerWidth - this.props.mapWidth) / 2}
+                y={(window.innerHeight - this.props.mapHeight) / 2}
                 width={this.props.mapWidth}
                 height={this.props.mapHeight}
                 resizeMode={'contain'}

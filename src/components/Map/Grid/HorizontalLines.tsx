@@ -15,8 +15,8 @@ const HorizontalLines: FC<HorizontalLinesProps> = ({ gridColor, gridSize, width,
     }
 
     const horizontalLines = lines.map(l => <Line key={l}
-        x={0}
-        y={0}
+        x={(window.innerWidth - width) / 2}
+        y={(window.innerHeight - height) / 2}
         points={[0, l * gridSize, width, l * gridSize]}
         stroke={gridColor}
     />)

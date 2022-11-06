@@ -9,12 +9,16 @@ type DiceProps = {
   width: number
   text: string
 
+  isTypesOfDice: boolean
+
   diceColor: string
   diceColorFace: string
   diceNumberColor: string
 }
 
-const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFace, diceNumberColor }) => {
+const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, 
+  diceColorFace, diceNumberColor, isTypesOfDice }) => {
+
   const [numberDice, setNumberDice] = React.useState(String(Math.round(Math.random() * number + 1)))
 
   const onNumberClick = (e: any) => {
@@ -160,14 +164,16 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, diceColorFa
       onTouchStart={onNumberClick}
     />
 
-    {/* <Text
+{isTypesOfDice &&
+    <Text
       fontSize={15}
       text={text}
       x={x + 50}
       y={y + 20}
       align='center'
       width={width}
-    /> */}
+      fill={'#ffffff'}
+    />}
   </div>
 }
 

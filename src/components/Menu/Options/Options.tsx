@@ -68,4 +68,4 @@ const Options: FC<OptionsType> = ({ borders, bothColors,
     </div>
 }
 
-export default Options;
+export default Options

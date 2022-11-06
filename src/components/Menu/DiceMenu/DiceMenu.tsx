@@ -11,6 +11,8 @@ type DiceType = {
     D12: boolean
     D20: boolean
     D100: boolean
+
+    isTypesOfDice: boolean
     
     diceColor: string
     diceColorFace: string
@@ -24,16 +26,21 @@ type DiceType = {
     onD20: () => void
     onD100: () => void
 
+    onTypesOfDice: () => void
+
     onChangeDiceColor: (e: any) => void
     onChangeDiceColorFace: (e: any) => void
     onChangeDiceNumberColor: (e: any) => void
 }
 
-const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, diceNumberColor,
-    onD4, onD6, onD8, onD10, onD12, onD20, onD100, onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
+const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, 
+    diceNumberColor, isTypesOfDice, onTypesOfDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, 
+    onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
 
     return <div className={s.options}>
             <div>Dice</div>
+            <button className={isTypesOfDice ? 'button_on' : 'button_off'} onClick={onTypesOfDice}>Types of dice</button>
+
             <input onChange={onChangeDiceColor} className='color' type='color' value={diceColor} />
             <input onChange={onChangeDiceColorFace} className='color' type='color' value={diceColorFace} />
             <input onChange={onChangeDiceNumberColor} className='color' type='color' value={diceNumberColor} />

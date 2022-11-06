@@ -28,6 +28,10 @@ export const getD100 = (state: AppStateType) => {
     return state.dice.D100
 }
 
+export const getIsTypesOfDice = (state: AppStateType) => {
+    return state.dice.isTypesOfDice
+}
+
 export const getDiceColor = (state: AppStateType) => {
     return state.dice.diceColor
 }
