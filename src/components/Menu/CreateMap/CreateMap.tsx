@@ -19,7 +19,7 @@ type CreateMapProps = {
 
     onChangeWidth: (e: any) => void
     onChangeHeight: (e: any) => void
-    onCreateMap: () => void
+    onCleanMap: () => void
 
     saveNewBackgroundItem: (backgroundItem: Blob | MediaSource) => void
     deleteBackgroundItem: (id: number) => void
@@ -32,11 +32,11 @@ type CreateMapProps = {
 }
 
 const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, backgroundItems, isFixBackgroundItems, isFreeMovement,
-    onChangeWidth, onChangeHeight, onCreateMap, saveNewBackgroundItem, onFixBackgroundItems, onFreeMovement,
+    onChangeWidth, onChangeHeight, onCleanMap, saveNewBackgroundItem, onFixBackgroundItems, onFreeMovement,
     onChangeMapDimensions,deleteBackgroundItem, addNewBackgroundItemOnMap, updateBackgroundItems }) => {
 
     return <div className={s.options}>
-        <button onClick={onCreateMap}>Clean Map</button>
+        <button onClick={onCleanMap}>Clean Map</button>
         <div>Dimentions</div>
         <input onChange={onChangeWidth} value={width / gridSize} placeholder={`x blocks`} />
         <input onChange={onChangeHeight} value={height / gridSize} placeholder={`y blocks`} />

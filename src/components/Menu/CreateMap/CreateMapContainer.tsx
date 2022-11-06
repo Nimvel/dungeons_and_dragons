@@ -13,6 +13,7 @@ import {
 } from '../../../redux/backgrounds-reducer'
 import { BackgroundItemType } from '../../../redux/backgrounds-reducer'
 import { onBorders, onGrid } from '../../../redux/options-reducer'
+import { cleanLines } from '../../../redux/paint-reducer'
 
 import { getMapHeight, getMapWidth } from '../../../redux/map-selectors'
 import { getBackgroundsItems, getIsFixBackgroundItems, getIsFreeMovement } from '../../../redux/backgrounds-selectors'
@@ -34,6 +35,7 @@ type MapStateToProps = {
 
 type MapDispatchToProps = {
     cleanMap: () => void
+    cleanLines: () => void
     updateMapDimensions: (width: number, height: number) => void
 
     saveNewBackgroundItem: (backgroundItem: Blob | MediaSource) => void
@@ -53,10 +55,10 @@ type OwnProps = {}
 type CreateMapContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
 const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, gridSize, backgroundItems, isFreeMovement,
-    borders, grid, isFixBackgroundItems, cleanMap, updateMapDimensions, saveNewBackgroundItem, deleteBackgroundItem,
+    borders, grid, isFixBackgroundItems, cleanMap, updateMapDimensions, saveNewBackgroundItem, deleteBackgroundItem, cleanLines,
     addNewBackgroundItemOnMap,  onBorders, onGrid, updateBackgroundItems, onFixBackgroundItems, onFreeMovement }) => {
 
-        React.useEffect(() => {}, [isFixBackgroundItems])
+    React.useEffect(() => {}, [isFixBackgroundItems])
 
     const [width, setWidth] = useState(mapWidth)
     const [height, setHeight] = useState(mapHeight)
@@ -73,8 +75,9 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
         updateMapDimensions(width, height)
     }
 
-    const onCreateMap = () => {
+    const onCleanMap = () => {
         cleanMap()
+        cleanLines()
         updateMapDimensions(width, height)
         updateBackgroundItems([])
 
@@ -83,7 +86,7 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
     }
 
     return <CreateMap width={width} height={height} gridSize={gridSize} backgroundItems={backgroundItems}
-        onCreateMap={onCreateMap} onChangeWidth={onChangeWidth} onChangeHeight={onChangeHeight} 
+    onCleanMap={onCleanMap} onChangeWidth={onChangeWidth} onChangeHeight={onChangeHeight} 
         isFixBackgroundItems={isFixBackgroundItems} onFixBackgroundItems={onFixBackgroundItems} 
         saveNewBackgroundItem={saveNewBackgroundItem} deleteBackgroundItem={deleteBackgroundItem}
         addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} updateBackgroundItems={updateBackgroundItems}
@@ -105,6 +108,6 @@ const MapStateToProps = (state: AppStateType): MapStateToProps => {
 
 export default connect(MapStateToProps, {
     updateMapDimensions, cleanMap, saveNewBackgroundItem, deleteBackgroundItem, addNewBackgroundItemOnMap, 
-    onBorders, onGrid, updateBackgroundItems, onFixBackgroundItems, onFreeMovement
+    onBorders, onGrid, updateBackgroundItems, onFixBackgroundItems, onFreeMovement, cleanLines
 }
 )(CreateMapContainer)
