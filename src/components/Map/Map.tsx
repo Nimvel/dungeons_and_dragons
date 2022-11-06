@@ -98,41 +98,41 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         })
     }
 
-    const elem = document.documentElement
-    const canvas = document.getElementById('canvas')
+    // const elem = document.documentElement
+    // const canvas = document.getElementById('canvas')
 
-    const addOnWheel = (elem, handler) => {
-        if (elem.addEventListener) {
-            if ('onwheel' in document) {
-                // IE9+, FF17+
-                elem.addEventListener("wheel", handler)
-            } else if ('onmousewheel' in document) {
-                // устаревший вариант события
-                elem.addEventListener("mousewheel", handler)
-            } else {
-                // 3.5 <= Firefox < 17, более старое событие DOMMouseScroll пропустим
-                elem.addEventListener("MozMousePixelScroll", handler)
-            }
-        }
-        // else { // IE8-
-        //     canvas.attachEvent("onmousewheel", handler)
-        // }
-    }
+    // const addOnWheel = (elem, handler) => {
+    //     if (elem.addEventListener) {
+    //         if ('onwheel' in document) {
+    //             // IE9+, FF17+
+    //             elem.addEventListener("wheel", handler)
+    //         } else if ('onmousewheel' in document) {
+    //             // устаревший вариант события
+    //             elem.addEventListener("mousewheel", handler)
+    //         } else {
+    //             // 3.5 <= Firefox < 17, более старое событие DOMMouseScroll пропустим
+    //             elem.addEventListener("MozMousePixelScroll", handler)
+    //         }
+    //     }
+    //     // else { // IE8-
+    //     //     canvas.attachEvent("onmousewheel", handler)
+    //     // }
+    // }
 
-    const onScaling = () => {
-        addOnWheel(elem, function (e: React.WheelEvent<HTMLInputElement>) {
+    // const onScaling = () => {
+    //     addOnWheel(elem, function (e: React.WheelEvent<HTMLInputElement>) {
 
-            let delta = e.deltaY || e.detail
-            // || e.wheelDelta
+    //         let delta = e.deltaY || e.detail
+    //         // || e.wheelDelta
 
-            if (delta > 0) scale += 0.05
-            else { if (scale > 1) scale -= 0.05 }
+    //         if (delta > 0) scale += 0.05
+    //         else { if (scale > 1) scale -= 0.05 }
 
-            canvas.style.transform = canvas.style.webkitTransform = canvas.style.transform = `scale(${scale})`
+    //         canvas.style.transform = canvas.style.webkitTransform = canvas.style.transform = `scale(${scale})`
 
-            e.preventDefault()
-        })
-    }
+    //         e.preventDefault()
+    //     })
+    // }
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
@@ -347,7 +347,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     // }
 
     return <div id='canvas' className={s.map} >
-        <Stage onWheel={onScaling}
+        <Stage 
+        // onWheel={onScaling}
         draggable = {(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
         
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
