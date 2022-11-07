@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { BackgroundItemOnMapType } from '../../../../redux/map-reducer'
 
 //@ts-ignore
-import s from './BackgroundItems.module.scss'
+import s from '../../Menu.module.scss'
 
 type BackgroundItemProps = {
     width: number
@@ -10,18 +10,23 @@ type BackgroundItemProps = {
     gridSize: number
 
     backgroundItem: string
-    id: number
+    clickedItemId: string
+    id: string
 
-    deleteBackgroundItem: (id: number) => void
-    addNewBackgroundItemOnMap: (backgroundItem: string) => void
+    deleteBackgroundItem: (id: string) => void
+    // addNewBackgroundItemOnMap: (backgroundItem: string) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
+
+    setClickedItemId: (clickedItemId: null | string) => void
 }
 
-const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, backgroundItem, id,
-    deleteBackgroundItem, addNewBackgroundItemOnMap, updateBackgroundItems }) => {
+const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, backgroundItem, id, clickedItemId, 
+    setClickedItemId, deleteBackgroundItem, updateBackgroundItems }) => {
 
     const onBackgroundItemClick = () => {
-        addNewBackgroundItemOnMap(backgroundItem)
+        clickedItemId && clickedItemId === id
+        ? setClickedItemId(null)
+        : setClickedItemId(id)
     }
 
     const onCrossClick = () => {
@@ -41,23 +46,23 @@ const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, back
         }
         for (let y = 0; y <= boxesY.length; y++) {
 
-        for (let x = 0; x <= boxesX.length; x++) {
-            items.push({
-                backgroundItemOnMap: backgroundItem,
-                x: (x * 50) + (window.innerWidth - width) / 2,
-                y: (y * 50) + (window.innerHeight - height) / 2,
-                id: `background-${items.length}`
-            })
+            for (let x = 0; x <= boxesX.length; x++) {
+                items.push({
+                    backgroundItemOnMap: backgroundItem,
+                    x: (x * 50) + (window.innerWidth - width) / 2,
+                    y: (y * 50) + (window.innerHeight - height) / 2,
+                    id: `background-${items.length}`
+                })
+            }
         }
-    }
         updateBackgroundItems(items)
     }
 
-    return <div className={s.backgroundItem}>
+    return <div className={clickedItemId === id ? `${s.item} ${s.item_active}` : s.item}>
         <div className={s.holder}>
             <img src={backgroundItem} alt={backgroundItem} onClick={onBackgroundItemClick} onDoubleClick={onFillClick} />
 
-            <div className='closeModal' onClick={onCrossClick} />
+            <div className={s.closeModal} onClick={onCrossClick} />
         </div>
     </div>
 }

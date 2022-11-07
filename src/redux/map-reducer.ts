@@ -67,15 +67,17 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
             }
 
         case ADD_NEW_BACKGROUND_ITEM:
-            let itemWithImage = {
+            let backgroundItemOnMap = {
                 backgroundItemOnMap: action.backgroundItemOnMap,
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
+                x: action.x,
+                y: action.y,
+                // x: window.innerWidth / 2,
+                // y: window.innerHeight / 2,
                 id: `background-${state.backgroundItemsOnMap.length}`
             }
             return {
                 ...state,
-                backgroundItemsOnMap: [...state.backgroundItemsOnMap, itemWithImage]
+                backgroundItemsOnMap: [...state.backgroundItemsOnMap, backgroundItemOnMap]
             }
 
         case UPDATE_BACKGROUND_ITEMS:
@@ -140,9 +142,11 @@ export const cleanMap = (): CleanMapType => ({ type: CLEAN_MAP })
 type AddNewBackgroundItemOnMapType = {
     type: typeof ADD_NEW_BACKGROUND_ITEM
     backgroundItemOnMap: string
+    x: number
+    y: number
 }
-export const addNewBackgroundItemOnMap = (backgroundItemOnMap: string): AddNewBackgroundItemOnMapType =>
-    ({ type: ADD_NEW_BACKGROUND_ITEM, backgroundItemOnMap })
+export const addNewBackgroundItemOnMap = (backgroundItemOnMap: string, x: number, y: number): AddNewBackgroundItemOnMapType =>
+    ({ type: ADD_NEW_BACKGROUND_ITEM, backgroundItemOnMap, x, y })
 
 type UpdateBackgroundItemsType = {
     type: typeof UPDATE_BACKGROUND_ITEMS

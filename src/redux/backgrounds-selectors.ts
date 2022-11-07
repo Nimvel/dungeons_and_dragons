@@ -11,3 +11,7 @@ export const getIsFreeMovement = (state: AppStateType) => {
 export const getIsFixBackgroundItems = (state: AppStateType) => {
     return state.backgroundItems.isFixBackgroundItems
 }
+
+export const getClickedItemId = (state: AppStateType) => {
+    return state.backgroundItems.clickedItemId
+}

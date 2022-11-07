@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { itemImagesType } from '../../../redux/itemImages-reducer'
+import ItemImages from './ItemImages/ItemImages'
 
 //@ts-ignore
 import s from '../Menu.module.scss'
-import ItemImages from './ItemImages/ItemImages'
 
 type ItemsType = {
     newQuantity: number
@@ -23,7 +23,7 @@ const Items: FC<ItemsType> = ({ newQuantity, itemColor, itemImages, onAddNewCirc
     onChangeQuantity, onChangeColor, saveNewItemImage, deleteItemImage, addNewItemWithImage }) => {
 
     return (
-        <div className={s.options}>
+        <div className={s.menu}>
             <div>Circles</div>
             <input onChange={onChangeQuantity} value={newQuantity} />
             <input onChange={onChangeColor} className='color' type='color' value={itemColor} />

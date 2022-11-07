@@ -4,7 +4,7 @@ import AddPictureButton from '../../../AddPictureButton/AddPictureButton'
 import ItemImage from './ItemImage'
 
 //@ts-ignore
-import s from './ItemImages.module.scss'
+import s from '../../Menu.module.scss'
 
 type ItemImagesProps = {
     itemImages: Array<itemImagesType>
@@ -25,7 +25,7 @@ const ItemImages: FC<ItemImagesProps> = ({itemImages, saveNewItemImage, deleteIt
 
     return <>
         <AddPictureButton addPicture={addNewItemImage} />
-        <div className={s.backgroundItems}>
+        <div className={s.items}>
             {itemImagesElements}
         </div>
     </>

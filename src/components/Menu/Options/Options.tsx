@@ -38,7 +38,7 @@ const Options: FC<OptionsType> = ({ borders, bothColors,
     onBorders, onGrid, onChangeGridColor, onChangeBordersColor, onChangeBothColors,
     onChangeGridSize, updateGridSize, onFullscreen, offFullscreen, onSameColors }) => {
 
-    return <div className={s.options}>
+    return <div className={s.menu}>
         <div>Borders</div>
 
         {isSameColors

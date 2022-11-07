@@ -7,7 +7,7 @@ import { AppStateType } from '../../redux/store'
 
 import {
     BackgroundItemOnMapType, ItemType, updateItems, updateBackgroundItems,
-    updateMapDimensions
+    updateMapDimensions, addNewBackgroundItemOnMap
 } from '../../redux/map-reducer'
 
 import { drawLine, LineType } from '../../redux/paint-reducer'
@@ -17,11 +17,12 @@ import {
     getMap, getMapHeight, getMapWidth
 } from '../../redux/map-selectors'
 
-import { getIsFixBackgroundItems, getIsFreeMovement } from '../../redux/backgrounds-selectors'
+import { getBackgroundsItems, getClickedItemId, getIsFixBackgroundItems, getIsFreeMovement } from '../../redux/backgrounds-selectors'
 
 import { getGridSize } from '../../redux/options-selectors'
 
 import { getLineMode, getPaintbrushColor, getPensilMode, getLines, getStrokeWidth } from '../../redux/paint-selectors'
+import { BackgroundItemType } from '../../redux/backgrounds-reducer'
 
 type MapStateToPropsType = {
     map: null | string
@@ -30,7 +31,9 @@ type MapStateToPropsType = {
     gridSize: number
 
     items: Array<ItemType>
+    backgroundItems: Array<BackgroundItemType>
     backgroundItemsOnMap: Array<BackgroundItemOnMapType>
+    clickedItemId: null | string
     isFreeMovement: boolean
     isFixBackgroundItems: boolean
 
@@ -47,6 +50,7 @@ type MapDispatchToPropsType = {
     updateMapDimensions: (mapWidth: number, mapHeight: number) => void
 
     drawLine: (line: LineType) => void
+    addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
 }
 
 type OwnPropsType = {
@@ -56,8 +60,8 @@ type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnProps
 
 const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items,
     backgroundItemsOnMap, isFreeMovement, paintbrushColor, strokeWidth, pensilMode, lineMode,
-    isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems,
-    lines, drawLine }) => {
+    isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems, clickedItemId,
+    lines, drawLine, addNewBackgroundItemOnMap, backgroundItems }) => {
 
     const mapDimensions = () => {
         if (map) {
@@ -76,8 +80,9 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
         <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} isFreeMovement={isFreeMovement}
             mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
             updateBackgroundItems={updateBackgroundItems} isFixBackgroundItems={isFixBackgroundItems}
-            paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode}
-            lines={lines} drawLine={drawLine} strokeWidth={strokeWidth} />
+            paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} 
+            addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} backgroundItems={backgroundItems}
+            lines={lines} drawLine={drawLine} strokeWidth={strokeWidth} clickedItemId={clickedItemId} />
     </>
 }
 
@@ -87,9 +92,12 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         mapWidth: getMapWidth(state),
         mapHeight: getMapHeight(state),
 
+        backgroundItems: getBackgroundsItems(state),
         backgroundItemsOnMap: getBackgroundItemOnMap(state),
+        clickedItemId: getClickedItemId(state),
         isFreeMovement: getIsFreeMovement(state),
         isFixBackgroundItems: getIsFixBackgroundItems(state),
+
         items: getItems(state),
         gridSize: getGridSize(state),
 
@@ -102,5 +110,5 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default connect(mapStateToProps, {
-    updateItems, updateMapDimensions, updateBackgroundItems, drawLine
+    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap
 })(MapContainer)

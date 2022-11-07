@@ -25,7 +25,7 @@ type PaintProps = {
 const Paint: FC<PaintProps> = ({ paintbrushColor, strokeWidth, pensilMode, lineMode, lines, 
   onChangeColor, onChangeStrokeWidth, onUpdateStrokeWidth, changePensilMode, changeLineMode, deleteLine, cleanLines }) => {
 
-  return <div className={s.options}>
+  return <div className={s.menu}>
     <button className={pensilMode ? 'button_on' : 'button_off'} onClick={changePensilMode}>Pencil</button>
     <button className={lineMode ? 'button_on' : 'button_off'} onClick={changeLineMode}>Line</button>
 

@@ -6,6 +6,7 @@ import Picture from './Picture'
 import s from './Pictures.module.scss'
 //@ts-ignore
 import style from '../Menu.module.scss'
+
 import { BackgroundItemOnMapType } from '../../../redux/map-reducer'
 import AddPictureButton from '../../AddPictureButton/AddPictureButton'
 
@@ -30,7 +31,7 @@ const Pictures: FC<PicturesProps> = ({ pictures, saveNewPicture, cleanLines,
         picture={p.picture} key={p.id} id={p.id} setNewMap={setNewMap} cleanLines={cleanLines}
         deletePicture={deletePicture} updateBackgroundItems={updateBackgroundItems} />)
 
-    return <div className={style.options}>
+    return <div className={style.menu}>
         <AddPictureButton addPicture={addNewPicture} />
 
         <div className={s.pictures}>

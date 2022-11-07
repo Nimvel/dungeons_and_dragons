@@ -3,6 +3,8 @@ import { BackgroundItemOnMapType } from '../../../redux/map-reducer'
 
 //@ts-ignore
 import s from './Pictures.module.scss'
+//@ts-ignore
+import style from '../Menu.module.scss'
 
 type PictureProps = {
     picture: string
@@ -31,7 +33,7 @@ const Picture: FC<PictureProps> = ({ picture, id, cleanLines, updateBackgroundIt
         <div className={s.holder}>
             <img src={picture} alt={picture} onClick={onPictureClick} />
 
-            <div className='closeModal' onClick={onCrossClick} />
+            <div className={style.closeModal} onClick={onCrossClick} />
         </div>
     </div>
 }

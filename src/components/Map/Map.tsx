@@ -17,6 +17,7 @@ import { LineType } from '../../redux/paint-reducer'
 
 //@ts-ignore
 import s from './Map.module.scss'
+import { BackgroundItemType } from '../../redux/backgrounds-reducer'
 
 type MapProps = {
     map: null | string
@@ -25,7 +26,9 @@ type MapProps = {
     gridSize: number
 
     items: Array<ItemType>
+    backgroundItems: Array<BackgroundItemType>
     backgroundItemsOnMap: Array<BackgroundItemOnMapType>
+    clickedItemId: null | string
     isFreeMovement: boolean
     isFixBackgroundItems: boolean
 
@@ -39,11 +42,13 @@ type MapProps = {
 
     updateItems: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
+
+    addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
 }
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
-    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems, 
-    lines, drawLine, strokeWidth }) => {
+    paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems, clickedItemId,
+    lines, drawLine, strokeWidth, addNewBackgroundItemOnMap, backgroundItems }) => {
 
     let stage = null
     // let scale = 1
@@ -51,6 +56,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const itemRegExp = /item-/i
     const itemWithImageRegExp = /itemWithImage-/i
     const backgroundItemRegExp = /background-/i
+
+    const startX = (window.innerWidth - mapWidth) / 2
+    const startY = (window.innerHeight - mapHeight) / 2
 
     const [activeItemId, setActiveItemId] = useState(null)
 
@@ -236,9 +244,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
                 const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-                const startX = (window.innerWidth - mapWidth) / 2
-                const startY = (window.innerHeight - mapHeight) / 2
-
                 setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
                 setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
 
@@ -299,6 +304,17 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const setStageRef = ref => {
         if (ref) {
             stage = ref
+        }
+    }
+
+    const onCanvasClick = (e: any) => {
+        if (clickedItemId) {
+            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+
+            const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
+            const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
+
+            addNewBackgroundItemOnMap(item, itemX, itemY)
         }
     }
 
@@ -372,7 +388,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             ref={setStageRef}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp} >
+            onMouseUp={onMouseUp}
+            onClick={onCanvasClick}
+            >
 
             <Layer>
                 {map && <MapBackground src={map} mapHeight={mapHeight} mapWidth={mapWidth} />}

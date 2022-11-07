@@ -37,7 +37,7 @@ const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, dic
     diceNumberColor, isTypesOfDice, onTypesOfDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, 
     onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor }) => {
 
-    return <div className={s.options}>
+    return <div className={s.menu}>
             <div>Dice</div>
             <button className={isTypesOfDice ? 'button_on' : 'button_off'} onClick={onTypesOfDice}>Types of dice</button>
 

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 //@ts-ignore
-import s from './ItemImages.module.scss'
+import s from '../../Menu.module.scss'
 
 type ItemImageProps = {
     itemImage: string
@@ -21,36 +21,11 @@ const ItemImage: FC<ItemImageProps> = ({ itemImage, id, deleteItemImage, addNewI
         deleteItemImage(id)
     }
 
-    // const onFillClick = () => {
-    //     const boxesX = []
-    //     const boxesY = []
-    //     const items = []
-
-    //     for (let i = 0; i <= Math.ceil((width - 100) / gridSize); i++) {
-    //         boxesX.push(i)
-    //     }
-    //     for (let i = 0; i <= Math.ceil((height - 100) / gridSize); i++) {
-    //         boxesY.push(i)
-    //     }
-    //     for (let y = 0; y <= boxesY.length; y++) {
-
-    //     for (let x = 0; x <= boxesX.length; x++) {
-    //         items.push({
-    //             backgroundItemOnMap: backgroundItem,
-    //             x: x * 50,
-    //             y: y * 50,
-    //             id: id
-    //         })
-    //     }
-    // }
-    //     updateBackgroundItems(items)
-    // }
-
-    return <div className={s.backgroundItem}>
+    return <div className={s.item}>
         <div className={s.holder}>
             <img src={itemImage} alt={itemImage} onClick={onItemImageClick} />
 
-            <div className='closeModal' onClick={onCrossClick} />
+            <div className={s.closeModal} onClick={onCrossClick} />
         </div>
     </div>
 }

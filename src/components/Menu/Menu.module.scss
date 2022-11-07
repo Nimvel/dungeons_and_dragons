@@ -1,14 +1,91 @@
+@mixin position($position, $top, $right, $bottom, $left) {
+    position: $position;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+  }
+  
 @mixin dimensions($width, $height) {
     width: $width;
     height: $height;
 }
 
-.options {
+@mixin border($color, $radius) {
+    border: $color solid 1px;
+    border-radius: $radius;
+  }
+
+.menu {
         @include dimensions(100px, 80px);
         padding: 10px;
         display: grid;
         gap: 4px;
 }
+
+.items {
+    padding-top: 5px;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 50px 50px;
+  
+    .item {
+        @include dimensions(50px, 50px);
+        overflow: hidden;
+        @include border(black, 15px);
+        cursor: pointer;
+    }
+    .item:hover {
+        border-color: green;
+    }
+    .item_active {
+        @include border(red, 15px);
+    }
+    .item_active:hover {
+      border-color: red;
+  
+    }
+  }
+  
+  .holder {
+    position: relative;
+  
+    img {
+        @include dimensions(50px, 50px);
+        @include position(relative, 0, 0, 0, 50%);
+        transform: translate(-50%);
+        object-fit: cover;
+    }
+  }
+  
+  .closeModal {
+    @include position(absolute, 0, 0, null, null);
+    @include dimensions(15px, 15px);
+    opacity: 0.2;
+    cursor: pointer;
+    transition: opacity ease 0.5s;
+    
+    &:hover {
+        opacity: 1;
+    }
+  }
+    
+  .closeModal::before,
+  .closeModal::after {
+    content: '';
+    @include position(absolute, 10px, 5px, null, null);
+    @include dimensions(17px, 2px);
+    display: block;
+    background: white;
+  }
+    
+  .closeModal::before {
+    transform: rotate(45deg);
+  }
+    
+  .closeModal::after {
+    transform: rotate(-45deg);
+  }
 
 .grid {
     padding: 10px;

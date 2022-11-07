@@ -1,19 +1,16 @@
 import * as React from 'react'
 import { FC } from 'react'
-import { BackgroundItemType } from '../../../redux/backgrounds-reducer'
-import { BackgroundItemOnMapType } from '../../../redux/map-reducer'
 
 //@ts-ignore
 import s from '../Menu.module.scss'
 
-import BackgroundItems from './Backgrounds/BackgroundItems'
+import BackgroundItemContainer from './Backgrounds/BackgroundItemContainer'
 
 type CreateMapProps = {
     width: number
     height: number
     gridSize: number
 
-    backgroundItems: Array<BackgroundItemType>
     isFreeMovement: boolean
     isFixBackgroundItems: boolean
 
@@ -21,34 +18,26 @@ type CreateMapProps = {
     onChangeHeight: (e: any) => void
     onCleanMap: () => void
 
-    saveNewBackgroundItem: (backgroundItem: Blob | MediaSource) => void
-    deleteBackgroundItem: (id: number) => void
-    addNewBackgroundItemOnMap: (backgroundItem: string) => void
-
-    updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
     onFreeMovement: () => void
     onFixBackgroundItems: () => void
     onChangeMapDimensions: () => void
 }
 
-const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, backgroundItems, isFixBackgroundItems, isFreeMovement,
-    onChangeWidth, onChangeHeight, onCleanMap, saveNewBackgroundItem, onFixBackgroundItems, onFreeMovement,
-    onChangeMapDimensions,deleteBackgroundItem, addNewBackgroundItemOnMap, updateBackgroundItems }) => {
+const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, isFixBackgroundItems, isFreeMovement,
+    onChangeWidth, onChangeHeight, onCleanMap, onFixBackgroundItems, onFreeMovement, onChangeMapDimensions }) => {
 
-    return <div className={s.options}>
+    return <div className={s.menu}>
         <button onClick={onCleanMap}>Clean Map</button>
         <div>Dimentions</div>
         <input onChange={onChangeWidth} value={Math.round(width / gridSize)} placeholder={`x blocks`} />
         <input onChange={onChangeHeight} value={Math.round(height / gridSize)} placeholder={`y blocks`} />
         <button onClick={onChangeMapDimensions}>Update</button>
 
-        <BackgroundItems width={width} height={height} gridSize={gridSize} backgroundItems={backgroundItems} 
-        saveNewBackgroundItem={saveNewBackgroundItem} deleteBackgroundItem={deleteBackgroundItem} 
-        addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} updateBackgroundItems={updateBackgroundItems} />
+        <BackgroundItemContainer width={width} height={height} gridSize={gridSize} />
 
         <button className={isFreeMovement ? 'button_on' : 'button_off'} onClick={onFreeMovement}>Free</button>
         <button className={isFixBackgroundItems ? 'button_on' : 'button_off'} onClick={onFixBackgroundItems}>Fix</button>
-        
+
     </div>
 }
 

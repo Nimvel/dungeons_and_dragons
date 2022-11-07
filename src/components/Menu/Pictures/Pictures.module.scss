@@ -12,14 +12,15 @@
 }
 
 .pictures {
-    padding: 10px;
+    padding: 5px;
     display: grid;
-    gap: 10px;
+    gap: 7px;
 
     .picture {
-        @include dimensions(80px, 80px);
+        @include dimensions(95px, 95px);
         border-radius: 15px;
         overflow: hidden;
+        cursor: pointer;
     }
 }
 
@@ -27,7 +28,7 @@
     position: relative;
 
     img {
-        @include dimensions(80px, 80px);
+        @include dimensions(100px, 100px);
         @include position(relative, 0, 0, 0, 50%);
         transform: translate(-50%);
         object-fit: cover;
@@ -35,6 +36,6 @@
     }
 
     img:hover {
-        @include dimensions(100px, 100px);
+        @include dimensions(120px, 120px);
     }
 }
