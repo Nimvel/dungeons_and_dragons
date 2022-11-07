@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/dungeons_and_dragons/static/css/main.a6639924.css",
-    "main.js": "/dungeons_and_dragons/static/js/main.ca1fdd3f.js",
+    "main.js": "/dungeons_and_dragons/static/js/main.9da2c59b.js",
     "static/js/787.ef748355.chunk.js": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js",
     "static/media/img_9.jpg": "/dungeons_and_dragons/static/media/img_9.2b2ea9952ff937f5b70b.jpg",
     "static/media/img_8.jpg": "/dungeons_and_dragons/static/media/img_8.b44a03e722170596cd4c.jpg",
@@ -20,7 +20,7 @@
     "static/media/map_item.png": "/dungeons_and_dragons/static/media/map_item.529136e8e5abd90d986a.png",
     "static/media/options_item.png": "/dungeons_and_dragons/static/media/options_item.17239efe49fa43337e36.png",
     "static/media/background_1.png": "/dungeons_and_dragons/static/media/background_1.49381fc2f1ce9b97c6d9.png",
-    "static/media/create_map_item.png": "/dungeons_and_dragons/static/media/create_map_item.64c95304f2d8f4294510.png",
+    "static/media/create_map_item.png": "/dungeons_and_dragons/static/media/create_map_item.21a852de7e94c7b046a1.png",
     "static/media/background_3.png": "/dungeons_and_dragons/static/media/background_3.4c6b437d8f39f5c799e8.png",
     "static/media/background_9.png": "/dungeons_and_dragons/static/media/background_9.63c3fc04010462c983d0.png",
     "static/media/itemImage_5.png": "/dungeons_and_dragons/static/media/itemImage_5.ce2133bf4c141acb82a3.png",
@@ -38,11 +38,11 @@
     "static/media/itemImage_3.png": "/dungeons_and_dragons/static/media/itemImage_3.6a8fe1048c3a5206e907.png",
     "index.html": "/dungeons_and_dragons/index.html",
     "main.a6639924.css.map": "/dungeons_and_dragons/static/css/main.a6639924.css.map",
-    "main.ca1fdd3f.js.map": "/dungeons_and_dragons/static/js/main.ca1fdd3f.js.map",
+    "main.9da2c59b.js.map": "/dungeons_and_dragons/static/js/main.9da2c59b.js.map",
     "787.ef748355.chunk.js.map": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a6639924.css",
-    "static/js/main.ca1fdd3f.js"
+    "static/js/main.9da2c59b.js"
   ]
 }
