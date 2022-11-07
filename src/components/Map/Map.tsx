@@ -46,7 +46,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     lines, drawLine, strokeWidth }) => {
 
     let stage = null
-    let scale = 1
+    // let scale = 1
 
     const itemRegExp = /item-/i
     const itemWithImageRegExp = /itemWithImage-/i
@@ -55,6 +55,12 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const [activeItemId, setActiveItemId] = useState(null)
 
     const [currentLine, setCurrentLine] = useState(null)
+
+    const [x, setX] = useState((window.innerWidth - mapWidth) / 2)
+    const [y, setY] = useState((window.innerHeight - mapHeight) / 2)
+
+    React.useEffect(() => {}, [x, y, backgroundItemsOnMap])
+
 
     const { setContextMenu } = useContextMenu()
 
@@ -169,6 +175,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             updateBackgroundItems(backgroundItemsOnMap)
         }
     }
+    
+    const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
+        const id = e.target.name()
+        setActiveItemId(id)
+    }
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
@@ -199,8 +210,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             })
         }
         else if (isBackgroundItemId) {
-            const id = e.target.name()
-            setActiveItemId(id)
 
             const boxesX = []
             for (let i = 0; i <= mapWidth / gridSize; i++) {
@@ -210,6 +219,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             for (let i = 0; i <= mapHeight / gridSize; i++) {
                 boxesY.push(i)
             }
+
             if (isFreeMovement) {
                 const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
                 const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
@@ -226,14 +236,16 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
                 const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-            const x = (window.innerWidth - mapWidth) / 2
-            const y = (window.innerHeight - mapHeight) / 2
+                const startX = (window.innerWidth - mapWidth) / 2
+                const startY = (window.innerHeight - mapHeight) / 2
 
+                setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
+                setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
 
                 backgroundItemsOnMap[backgroundItemIndex] = {
                     ...backgroundItem,
-                    x: Math.round((e.target.x() - x) / gridSize) * gridSize + x,
-                    y: Math.round((e.target.y() - y) / gridSize) * gridSize + y
+                    x: Math.round((e.target.x() - startX) / gridSize) * gridSize + startX,
+                    y: Math.round((e.target.y() - startY) / gridSize) * gridSize + startY
                 }
                 updateBackgroundItems(backgroundItemsOnMap)
             }
@@ -347,8 +359,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     // }
 
     return <div id='canvas' className={s.map} >
-        <Stage 
-        // onWheel={onScaling}
+        <Stage  // onWheel={onScaling}
         draggable = {(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
         
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
@@ -382,6 +393,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                             width={gridSize}
                             height={gridSize}
                             onDragStart={handleDragStart}
+                            onDragMove={handleDragMove}
                             onDragEnd={handleDragEnd}
                         />
                     }
@@ -397,6 +409,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                             width={gridSize}
                             height={gridSize}
                             onDragStart={handleDragStart}
+                            onDragMove={handleDragMove}
                             onDragEnd={handleDragEnd}
                         />
                     }

@@ -78,7 +78,7 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
     const onCleanMap = () => {
         cleanMap()
         cleanLines()
-        updateMapDimensions(width, height)
+        updateMapDimensions(Math.round(width / gridSize) * gridSize, Math.round(height / gridSize) * gridSize)
         updateBackgroundItems([])
 
         !borders && onBorders()

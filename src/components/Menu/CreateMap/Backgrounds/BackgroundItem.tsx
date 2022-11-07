@@ -33,10 +33,10 @@ const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, back
         const boxesY = []
         const items = []
 
-        for (let i = 0; i <= Math.ceil((width - 100) / gridSize); i++) {
+        for (let i = 0; i <= Math.round((width - 100) / gridSize); i++) {
             boxesX.push(i)
         }
-        for (let i = 0; i <= Math.ceil((height - 100) / gridSize); i++) {
+        for (let i = 0; i <= Math.round((height - 100) / gridSize); i++) {
             boxesY.push(i)
         }
         for (let y = 0; y <= boxesY.length; y++) {

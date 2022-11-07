@@ -38,8 +38,8 @@ const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, backgroundItem
     return <div className={s.options}>
         <button onClick={onCleanMap}>Clean Map</button>
         <div>Dimentions</div>
-        <input onChange={onChangeWidth} value={width / gridSize} placeholder={`x blocks`} />
-        <input onChange={onChangeHeight} value={height / gridSize} placeholder={`y blocks`} />
+        <input onChange={onChangeWidth} value={Math.round(width / gridSize)} placeholder={`x blocks`} />
+        <input onChange={onChangeHeight} value={Math.round(height / gridSize)} placeholder={`y blocks`} />
         <button onClick={onChangeMapDimensions}>Update</button>
 
         <BackgroundItems width={width} height={height} gridSize={gridSize} backgroundItems={backgroundItems} 

@@ -60,8 +60,9 @@ const picturesReducer = (state = initialState, action: ActionsTypes): initialSta
     switch (action.type) {
         case SAVE_NEW_PICTURE:
             return {
-                ...state, pictures: [...state.pictures,
-                { id: state.pictures.length, picture: URL.createObjectURL(action.picture) }]
+                ...state, pictures: [
+                { id: state.pictures.length, picture: URL.createObjectURL(action.picture) },
+                ...state.pictures]
             }
 
         case DELETE_PICTURE:
