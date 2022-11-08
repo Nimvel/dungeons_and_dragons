@@ -46,19 +46,18 @@ const OptionsContainer: FC<OptionsContainerProps> = (
     { borders, bordersColor, grid, gridColor, gridSize, isSameColors, changeBothColors, bothColors,
         onBorders, onGrid, changeBordersColor, changeGridColor, changeGridSize, onSameColors }) => {
 
+    const elem = document.documentElement
+
     const [newSize, setSize] = useState(gridSize)
     const [fullscreen, setFullscreen] = useState(false)
 
     const [newBordersColor, setNewBordersColor] = useState(bordersColor)
     const [newGridColor, setNewGridColor] = useState(gridColor)
+    const [newBothColors, setNewBothColors] = useState(bothColors)
 
     const onChangeBordersColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewBordersColor(e.target.value)
         changeBordersColor(e.target.value)
-    }
-
-    const onChangeGridSize = (e: any) => {
-        setSize(e.target.value)
     }
 
     const onChangeGridColor = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,11 +65,32 @@ const OptionsContainer: FC<OptionsContainerProps> = (
         changeGridColor(e.target.value)
     }
 
+    const onChangeBothColors = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewBothColors(e.target.value)
+        changeBothColors(e.target.value)
+        changeGridColor(e.target.value)
+        changeBordersColor(e.target.value)
+    }
+
+    const onSameColorsClick = () => {
+        onSameColors()
+        if (isSameColors) {
+            changeGridColor(newGridColor)
+            changeBordersColor(newBordersColor)
+        }
+        else {
+            changeGridColor(newBothColors)
+            changeBordersColor(newBothColors)
+        }
+    }
+
+    const onChangeGridSize = (e: any) => {
+        setSize(e.target.value)
+    }
+    
     const updateGridSize = () => {
         changeGridSize(newSize)
     }
-
-    const elem = document.documentElement
 
     const openFullscreen = () => {
         if (elem.requestFullscreen) {
@@ -93,21 +113,6 @@ const OptionsContainer: FC<OptionsContainerProps> = (
             //     document.msExitFullscreen()
         }
     }
-
-    const onChangeBothColors = (e: React.ChangeEvent<HTMLInputElement>) => {
-        changeBothColors(e.target.value)
-        changeGridColor(e.target.value)
-        changeBordersColor(e.target.value)
-    }
-
-    const onSameColorsClick = () => {
-        onSameColors()
-        if (isSameColors) {
-            changeGridColor(newGridColor)
-            changeBordersColor(newBordersColor)
-        }
-    }
-
 
     return <Options borders={borders} grid={grid} bordersColor={bordersColor} gridColor={gridColor}
         newBordersColor={newBordersColor} newGridColor={newGridColor} bothColors={bothColors}

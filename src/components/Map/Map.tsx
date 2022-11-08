@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
 import { KonvaEventObject } from 'konva/lib/Node'
-import { Layer, Stage, Circle, Line, Rect } from 'react-konva'
+import { Layer, Stage, Circle, Line, Rect, Shape } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
@@ -67,7 +67,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const [x, setX] = useState((window.innerWidth - mapWidth) / 2)
     const [y, setY] = useState((window.innerHeight - mapHeight) / 2)
 
-    React.useEffect(() => {}, [x, y, backgroundItemsOnMap])
+    React.useEffect(() => { }, [x, y, backgroundItemsOnMap])
 
 
     const { setContextMenu } = useContextMenu()
@@ -183,7 +183,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             updateBackgroundItems(backgroundItemsOnMap)
         }
     }
-    
+
     const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
         const id = e.target.name()
         setActiveItemId(id)
@@ -293,10 +293,12 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         if (pensilMode || lineMode) {
             const { x, y } = getScaledPoint(stage, 1)
             setCurrentLine(null)
-            drawLine({ ...currentLine, 
-                points: [...currentLine.points, x, y], 
-                color: paintbrushColor, 
-                strokeWidth: strokeWidth })
+            drawLine({
+                ...currentLine,
+                points: [...currentLine.points, x, y],
+                color: paintbrushColor,
+                strokeWidth: strokeWidth
+            })
         }
 
     }
@@ -376,8 +378,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     return <div id='canvas' className={s.map} >
         <Stage  // onWheel={onScaling}
-        draggable = {(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
-        
+            draggable={(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
+
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             // width={window.innerWidth} height={window.innerHeight}
 
@@ -390,7 +392,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
             onClick={onCanvasClick}
-            >
+        >
 
             <Layer>
                 {map && <MapBackground src={map} mapHeight={mapHeight} mapWidth={mapWidth} />}
@@ -400,7 +402,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     image.src = item.backgroundItemOnMap
                     image.alt = 'backgroundItem'
 
-                    if (pensilMode || lineMode || isFixBackgroundItems) {
+                    if (pensilMode || lineMode || isFixBackgroundItems || clickedItemId) {
                         return <Rect
                             key={item.id}
                             name={item.id}
@@ -479,7 +481,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 {/* <Item items={items} itemsWithImages={itemsWithImages} gridSize={gridSize} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd}
                         handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} /> */}
 
-                <DiceContainer width={mapWidth}/>
+                <DiceContainer width={mapWidth} />
 
             </Layer>
         </Stage>
