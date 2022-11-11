@@ -1,5 +1,13 @@
 import { AppStateType } from './store'
 
+export const getArrows = (state: AppStateType) => {
+    return state.education.arrows
+}
+
+export const getIcons = (state: AppStateType) => {
+    return state.education.icons
+}
+
 export const getIsIntroduction = (state: AppStateType) => {
     return state.education.isIntroduction
 }

@@ -21,13 +21,16 @@ import {
     getNavbarDiceChapter, getNavbarItemsChapter, getNavbarMapChapter, getNavbarPaintChapter, getNavbarSettingsChapter,
     getIsSettingsMenuChapter, getIsCreateMapDimentionsChapter, getIsCreateMapItemsChapter, getIsCreateMapFillChapter,
     getIsCreateMapMoveItemsChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapFixButtonChapter, getIsEndChapter,
-    getIsAllDiceMenuChapter, getIsChangeDiceMenuChapter, getDiceNames, getDiceColor, getDiceBorderColor, getDiceNumberColor, getIsChangeColorLineChapter
+    getIsAllDiceMenuChapter, getIsChangeDiceMenuChapter, getDiceNames, getDiceColor, getDiceBorderColor, getDiceNumberColor, getIsChangeColorLineChapter, getArrows, getIcons
 } from '../../redux/education-selectors'
 
 import { } from '../../redux/education-selectors'
 
 
 type MapStateToPropsType = {
+    arrows: Array<string>
+    icons: Array<string>
+
     isIntroduction: boolean
     isNavbarChapter: boolean
     isNavbarIconsChapter: boolean
@@ -94,7 +97,7 @@ const EducationContainer: FC<EducationContainerProps> = ({ isIntroduction, isNav
     isDiceMenuChapter, isAllDiceMenuChapter, isChangeDiceMenuChapter, isPaintMenuChapter, isChangeColorLineChapter, isSettingsMenuChapter, isEndChapter,
     map, createMap, items, dice, paint, settings, diceNames, diceColor, diceBorderColor, diceNumberColor,
     onBorders, onGrid, onAllDice, openNavbar, closeEducation, introduction, navbarChapter,
-    updateMapDimensions, createMapDimentionsChapter, createMapFillChapter, endChapter
+    updateMapDimensions, createMapDimentionsChapter, createMapFillChapter, endChapter, arrows, icons
 }) => {
 
     const onNoClick = () => {
@@ -121,11 +124,11 @@ const EducationContainer: FC<EducationContainerProps> = ({ isIntroduction, isNav
         closeEducation()
     }
 
-    return <Education isIntroduction={isIntroduction} isNavbarChapter={isNavbarChapter}
+    return <Education isIntroduction={isIntroduction} isNavbarChapter={isNavbarChapter} arrows={arrows}
         isNavbarIconsChapter={isNavbarIconsChapter} isMapMenuChapter={isMapMenuChapter} isCreateMapMenuChapter={isCreateMapMenuChapter}
         isCreateMapDimentionsChapter={isCreateMapDimentionsChapter} isCreateMapFillChapter={isCreateMapFillChapter} isCreateMapItemsChapter={isCreateMapItemsChapter}
         isCreateMapMoveItemsChapter={isCreateMapMoveItemsChapter} isCreateMapFreeButtonChapter={isCreateMapFreeButtonChapter}
-        isCreateMapFixButtonChapter={isCreateMapFixButtonChapter} isEndChapter={isEndChapter}
+        isCreateMapFixButtonChapter={isCreateMapFixButtonChapter} isEndChapter={isEndChapter} icons={icons}
         isAddIconsMenuChapter={isAddIconsMenuChapter} isDiceMenuChapter={isDiceMenuChapter} isAllDiceMenuChapter={isAllDiceMenuChapter}
         isChangeDiceMenuChapter={isChangeDiceMenuChapter} isPaintMenuChapter={isPaintMenuChapter} isChangeColorLineChapter={isChangeColorLineChapter}
         isSettingsMenuChapter={isSettingsMenuChapter} map={map} createMap={createMap} items={items} dice={dice} paint={paint}
@@ -135,6 +138,9 @@ const EducationContainer: FC<EducationContainerProps> = ({ isIntroduction, isNav
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
+        arrows: getArrows(state),
+        icons: getIcons(state),
+
         isIntroduction: getIsIntroduction(state),
         isNavbarChapter: getIsNavbarChapter(state),
         isNavbarIconsChapter: getIsNavbarIconsChapter(state),

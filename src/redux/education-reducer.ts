@@ -1,3 +1,19 @@
+const arrow_1 = require('../assets/education/arrow_1.png')
+const arrow_2 = require('../assets/education/arrow_2.png')
+const arrow_3 = require('../assets/education/arrow_3.png')
+const arrow_4 = require('../assets/education/arrow_4.png')
+const arrow_5 = require('../assets/education/arrow_5.png')
+const arrow_6 = require('../assets/education/arrow_6.png')
+const arrow_7 = require('../assets/education/arrow_7.png')
+const arrow_8 = require('../assets/education/arrow_8.png')
+
+const bracket_1 = require('../assets/education/bracket_1.png')
+const bracket_2 = require('../assets/education/bracket_2.png')
+const bracket_3 = require('../assets/education/bracket_3.png')
+
+const firework_1 = require('../assets/education/firework_1.png')
+const firework_2 = require('../assets/education/firework_2.png')
+
 const INTRODUCTION = 'education/INTRODUCTION'
 const NAVBAR_CHAPTER = 'education/NAVBAR_CHAPTER'
 const NAVBAR_ICONS_CHAPTER = 'education/NAVBAR_ICONS_CHAPTER'
@@ -27,6 +43,9 @@ const END_CHAPTER = 'education/END_CHAPTER'
 // const SETTINGS_MENU_CHAPTER = 'education/SETTINGS_MENU_CHAPTER'
 
 type initialStateType = {
+    arrows: Array<string>
+    icons: Array<string>
+
     isIntroduction: boolean
     isNavbarChapter: boolean
     isNavbarIconsChapter: boolean
@@ -71,6 +90,9 @@ type initialStateType = {
 }
 
 const initialState = {
+    arrows: [arrow_1, bracket_1, arrow_2, arrow_3, arrow_4, arrow_5, arrow_6, arrow_7, bracket_2, bracket_3, arrow_8],
+    icons: [firework_1, firework_2],
+    
     isIntroduction: true,
     isNavbarChapter: false,
     isNavbarIconsChapter: false,
