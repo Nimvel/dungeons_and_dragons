@@ -56,7 +56,6 @@ const PaintContainer: FC<PaintContainerProps> = ({ paintbrushColor, strokeWidth,
     if (isPaintMenuChapter) {
         updateMapDimensions(250, 250)
         cleanMap()
-        cleanLines()
     }
 
     const onChangePensilMode = () => {

@@ -24,7 +24,8 @@ type CreateMapProps = {
 }
 
 const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, isFixBackgroundItems, isFreeMovement,
-    onChangeWidth, onChangeHeight, onCreateMap, onFixClick, onFreeMovement, onChangeMapDimensions }) => {
+    onChangeWidth, onChangeHeight, onCreateMap, onFixClick, onFreeMovement, onChangeMapDimensions,
+ }) => {
 
     return <div className={s.menu}>
         <button onClick={onCreateMap}>Create map</button>

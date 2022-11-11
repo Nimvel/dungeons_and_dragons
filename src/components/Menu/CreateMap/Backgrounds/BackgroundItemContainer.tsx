@@ -38,9 +38,12 @@ type MapDispatchToProps = {
 
     createMapFillChapter: (isCreateMapFillChapter: boolean) => void
     createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
+
+    
 }
 
 type OwnProps = {
+
     width: number
     height: number
     gridSize: number
@@ -48,20 +51,66 @@ type OwnProps = {
 
 type BackgroundItemContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
-const BackgroundItemContainer: FC<BackgroundItemContainerProps> = ({ width, height, gridSize, backgroundItems,
-    clickedItemId, saveNewBackgroundItem, deleteBackgroundItem, updateBackgroundItems, setClickedItemId, 
-    isCreateMapFillChapter, createMapFillChapter, createMapItemsChapter  }) => {
+const BackgroundItemContainer: FC<BackgroundItemContainerProps> = ({ width, height, gridSize, backgroundItems, clickedItemId,
+    isCreateMapFillChapter, saveNewBackgroundItem, deleteBackgroundItem, updateBackgroundItems, setClickedItemId, 
+    createMapFillChapter, createMapItemsChapter,
+    
+  }) => {
 
     const addNewBackground = (e: any) => {
         e.target.files.length && saveNewBackgroundItem(e.target.files[0])
     }
 
+    const onCrossClick = (id: string) => {
+        deleteBackgroundItem(id)
+    }
+    
+    const onBackgroundItemClick = (id: string) => {
+        clickedItemId && clickedItemId === id
+            ? setClickedItemId(null)
+            : setClickedItemId(id)
+    }
+
+    const onFillClick = (backgroundItem) => {
+        const boxesX = []
+        const boxesY = []
+        const items = []
+
+        for (let i = 0; i <= Math.round((width - 100) / gridSize); i++) {
+            boxesX.push(i)
+        }
+        for (let i = 0; i <= Math.round((height - 100) / gridSize); i++) {
+            boxesY.push(i)
+        }
+        for (let y = 0; y <= boxesY.length; y++) {
+
+            for (let x = 0; x <= boxesX.length; x++) {
+                items.push({
+                    backgroundItemOnMap: backgroundItem,
+                    x: (x * 50) + (window.innerWidth - width) / 2,
+                    y: (y * 50) + (window.innerHeight - height) / 2,
+                    id: `background-${items.length}`
+                })
+            }
+        }
+        updateBackgroundItems(items)
+
+        if (isCreateMapFillChapter) {
+            createMapFillChapter(false)
+            createMapItemsChapter(true)
+        }
+    }
+
     const backgroundElements = backgroundItems.map(b => <BackgroundItem key={b.id} 
-        width={width} height={height} gridSize={gridSize} id={b.id} setClickedItemId={setClickedItemId}
-        backgroundItem={b.backgroundItem} updateBackgroundItems={updateBackgroundItems}
-        deleteBackgroundItem={deleteBackgroundItem} clickedItemId={clickedItemId}
-        isCreateMapFillChapter={isCreateMapFillChapter}
-        createMapFillChapter={createMapFillChapter} createMapItemsChapter={createMapItemsChapter} />)
+        // width={width} height={height} gridSize={gridSize} 
+        id={b.id} backgroundItem={b.backgroundItem} clickedItemId={clickedItemId}
+        onBackgroundItemClick={onBackgroundItemClick} onFillClick={onFillClick} onCrossClick={onCrossClick}
+        // setClickedItemId={setClickedItemId}
+        //  updateBackgroundItems={updateBackgroundItems}
+        // deleteBackgroundItem={deleteBackgroundItem} 
+        // isCreateMapFillChapter={isCreateMapFillChapter}
+        // createMapFillChapter={createMapFillChapter} createMapItemsChapter={createMapItemsChapter} 
+        />)
 
     return <>
         <AddPictureButton addPicture={addNewBackground} />

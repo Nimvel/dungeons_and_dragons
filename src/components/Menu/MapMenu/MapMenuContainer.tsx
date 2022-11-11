@@ -27,7 +27,7 @@ type MapDispatchToProps = {
     deletePicture: (id: number) => void
     cleanLines: () => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
-    
+
     menuChapters: (icon: string) => void
     endChapter: (isEndChapter: boolean) => void
 }
@@ -37,24 +37,42 @@ type OwnProps = {}
 type MapMenuContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
 const MapMenuContainer: FC<MapMenuContainerProps> = ({ pictures, cleanLines,
-    saveNewPicture, setNewMap, deletePicture, updateBackgroundItems,
+    saveNewPicture, setNewMap, deletePicture, updateBackgroundItems, 
     isMapMenuChapter, menuChapters, endChapter }) => {
 
-    React.useEffect(() => {}, [pictures])
+    React.useEffect(() => { }, [pictures])
 
-    return <MapMenu pictures={pictures} updateBackgroundItems={updateBackgroundItems} cleanLines={cleanLines}
-    saveNewPicture={saveNewPicture} setNewMap={setNewMap} deletePicture={deletePicture}
-    isMapMenuChapter={isMapMenuChapter} menuChapters={menuChapters} endChapter={endChapter} />
+    const addNewPicture = (e: any) => {
+        e.target.files.length && saveNewPicture(e.target.files[0])
+    }
+
+    const onPictureClick = (picture) => {
+        updateBackgroundItems([])
+        cleanLines()
+        setNewMap(picture)
+
+        if (isMapMenuChapter) {
+            menuChapters('')
+            endChapter(true)
+        }
+    }
+
+    const onCrossClick = (id) => {
+        deletePicture(id)
+    }
+
+    return <MapMenu onPictureClick={onPictureClick} onCrossClick={onCrossClick}
+        pictures={pictures} addNewPicture={addNewPicture} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
         pictures: getPictures(state),
-        isMapMenuChapter: getIsMapMenuChapter(state),
+        isMapMenuChapter: getIsMapMenuChapter(state)
     }
 }
 
-export default connect(mapStateToProps, { 
+export default connect(mapStateToProps, {
     saveNewPicture, setNewMap, deletePicture, updateBackgroundItems, cleanLines,
     menuChapters, endChapter
 })(MapMenuContainer)

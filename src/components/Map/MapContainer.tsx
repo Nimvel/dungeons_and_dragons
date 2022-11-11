@@ -86,7 +86,7 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
             const $ = require("jquery")
             $("<img/>").attr('src', map)
                 .on('load', function () {
-                    updateMapDimensions(this.width, this.height)
+                            updateMapDimensions(this.width, this.height)
                 })
         }
     }
@@ -137,6 +137,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default connect(mapStateToProps, {
-    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap, 
+    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap,
     createMapItemsChapter, createMapMoveItemsChapter, createMapFreeButtonChapter, createMapFixButtonChapter
 })(MapContainer)

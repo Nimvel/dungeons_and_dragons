@@ -7,40 +7,29 @@ import s from './MapMenu.module.scss'
 //@ts-ignore
 import style from '../Menu.module.scss'
 
-import { BackgroundItemOnMapType } from '../../../redux/map-reducer'
 import AddPictureButton from '../../AddPictureButton/AddPictureButton'
 
 type MapMenuProps = {
     pictures: Array<PicturesType>
 
-    isMapMenuChapter: boolean
-menuChapters: (icon: string) => void
-    endChapter: (isEndChapter: boolean) => void
+    addNewPicture: (picture: Blob | MediaSource) => void
+    onPictureClick: (picture: string) => void
+    onCrossClick: (id: number) => void
 
-    saveNewPicture: (picture: Blob | MediaSource) => void
-    setNewMap: (map: string) => void
-    deletePicture: (id: number) => void
-    cleanLines: () => void
-    updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 }
 
-const MapMenu: FC<MapMenuProps> = ({ pictures, saveNewPicture, cleanLines,
-    setNewMap, deletePicture, updateBackgroundItems, isMapMenuChapter, menuChapters, endChapter }) => {
-
-    const addNewPicture = (e: any) => {
-        e.target.files.length && saveNewPicture(e.target.files[0])
-    }
+const MapMenu: FC<MapMenuProps> = ({ pictures, addNewPicture, onPictureClick, onCrossClick }) => {
 
     const picturesElements = pictures.map(p => <Picture
-        picture={p.picture} key={p.id} id={p.id} setNewMap={setNewMap} cleanLines={cleanLines}
-        deletePicture={deletePicture} updateBackgroundItems={updateBackgroundItems}
-        isMapMenuChapter={isMapMenuChapter} menuChapters={menuChapters} endChapter={endChapter} />)
+        picture={p.picture} key={p.id} id={p.id}
+        onPictureClick={onPictureClick}
+        onCrossClick={onCrossClick} />)
 
     return <div className={style.menu}>
         <AddPictureButton addPicture={addNewPicture} />
 
         <div className={s.pictures}>
-        {picturesElements}
+            {picturesElements}
         </div>
     </div>
 }
