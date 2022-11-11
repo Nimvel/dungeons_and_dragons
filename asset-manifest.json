@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/dungeons_and_dragons/static/css/main.afdc978a.css",
-    "main.js": "/dungeons_and_dragons/static/js/main.7892097f.js",
+    "main.css": "/dungeons_and_dragons/static/css/main.e03a6447.css",
+    "main.js": "/dungeons_and_dragons/static/js/main.0b85ef8f.js",
     "static/js/787.ef748355.chunk.js": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js",
     "static/media/img_9.jpg": "/dungeons_and_dragons/static/media/img_9.2b2ea9952ff937f5b70b.jpg",
     "static/media/img_8.jpg": "/dungeons_and_dragons/static/media/img_8.b44a03e722170596cd4c.jpg",
@@ -14,6 +14,8 @@
     "static/media/img_11.jpg": "/dungeons_and_dragons/static/media/img_11.2bde6f3704ac0226effd.jpg",
     "static/media/img_17.jpg": "/dungeons_and_dragons/static/media/img_17.4f5a19ee573880ae67e8.jpg",
     "static/media/img_2.jpg": "/dungeons_and_dragons/static/media/img_2.5403188cd8a8aec67007.jpg",
+    "static/media/firework_2.png": "/dungeons_and_dragons/static/media/firework_2.7e0fe59af3c189f2a0c1.png",
+    "static/media/firework_1.png": "/dungeons_and_dragons/static/media/firework_1.57a1fa9bb8f06bd78ef8.png",
     "static/media/items_item.png": "/dungeons_and_dragons/static/media/items_item.780f0c1a010069225aa9.png",
     "static/media/dice_item.png": "/dungeons_and_dragons/static/media/dice_item.72ddd511112599575a94.png",
     "static/media/paint_item.png": "/dungeons_and_dragons/static/media/paint_item.f13b6f5aa2a62bdf13c1.png",
@@ -35,12 +37,12 @@
     "static/media/background_6.png": "/dungeons_and_dragons/static/media/background_6.19e7e6edd29b18bb64dc.png",
     "static/media/itemImage_3.png": "/dungeons_and_dragons/static/media/itemImage_3.6a8fe1048c3a5206e907.png",
     "index.html": "/dungeons_and_dragons/index.html",
-    "main.afdc978a.css.map": "/dungeons_and_dragons/static/css/main.afdc978a.css.map",
-    "main.7892097f.js.map": "/dungeons_and_dragons/static/js/main.7892097f.js.map",
+    "main.e03a6447.css.map": "/dungeons_and_dragons/static/css/main.e03a6447.css.map",
+    "main.0b85ef8f.js.map": "/dungeons_and_dragons/static/js/main.0b85ef8f.js.map",
     "787.ef748355.chunk.js.map": "/dungeons_and_dragons/static/js/787.ef748355.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.afdc978a.css",
-    "static/js/main.7892097f.js"
+    "static/css/main.e03a6447.css",
+    "static/js/main.0b85ef8f.js"
   ]
 }
