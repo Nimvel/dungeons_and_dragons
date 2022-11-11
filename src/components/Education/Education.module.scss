@@ -1,0 +1,113 @@
+@mixin positionTopLeft($position, $top, $left) {
+    position: $position;
+    top: $top;
+    left: $left;
+  }
+
+@mixin dimensions($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+.education {
+    font-size: 25px;
+    color: white;
+    // text-align: center
+}
+
+.introduction {
+    @include positionTopLeft(absolute, 50%, 50%);
+    transform: translate(-50%, -50%);
+    @include dimensions(550px, 150px);
+    margin: 5px;
+
+    button {
+        @include positionTopLeft(relative, 0px, 10px);
+    }
+
+    // background-color: black
+}
+
+.navbarChapter {
+    @include positionTopLeft(absolute, 25px, 100px);
+}
+
+.navbarIconsChapter {
+    @include positionTopLeft(absolute, 185px, 400px);
+    @include dimensions(470px, 80px);
+}
+
+.createMapChapter {
+    @include positionTopLeft(absolute, 145px, 400px);
+    @include dimensions(470px, 200px);
+
+    button {
+    @include positionTopLeft(relative, 15px, 40px);
+
+    }
+}
+
+.EndChapter {
+    @include positionTopLeft(absolute, 105px, 400px);
+    @include dimensions(470px, 220px);
+
+    button {
+    @include positionTopLeft(relative, -20px, 350px);
+    margin: 5px;
+    }
+}
+
+.changeDiceChapter {
+    @include positionTopLeft(absolute, 75px, 450px);
+    @include dimensions(450px, 120px);
+}
+
+.icons {
+    // @include dimensions(250px, null);
+    transform: translate(0, -50%);
+    padding: 10px;
+    background-color: red;
+    border-radius: 10px;
+    font-size: 15px;
+    z-index: 5;
+}
+
+.icons::after {
+    content: ''; 
+    @include positionTopLeft(absolute, 50%, -25px);
+    transform: translate(0, -50%);
+    border: 15px solid transparent;
+    border-right: 20px solid red;
+}
+
+.map {
+    @include positionTopLeft(absolute, 45px, 80px);
+}
+.createMap {
+    @include positionTopLeft(absolute, 95px, 80px);
+}
+.items {
+    @include positionTopLeft(absolute, 165px, 80px);
+}
+.dice {
+    @include positionTopLeft(absolute, 235px, 80px);
+}
+.paint {
+    @include positionTopLeft(absolute, 295px, 80px);
+}
+.settings {
+    @include positionTopLeft(absolute, 365px, 80px);
+}
+
+.diceNames {
+    @include positionTopLeft(absolute, 75px, 210px);
+}
+.diceColor {
+    @include positionTopLeft(absolute, 105px, 210px);
+}
+.diceBorderColor {
+    @include positionTopLeft(absolute, 135px, 210px);
+}
+.diceNumberColor {
+    @include positionTopLeft(absolute, 165px, 210px);
+}

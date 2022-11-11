@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import OptionsContainer from './Options/OptionsContainer'
-import PicturesContainer from './Pictures/PicturesContainer'
+import MapMenuContainer from './MapMenu/MapMenuContainer'
 import CreateMapContainer from './CreateMap/CreateMapContainer'
 import ItemsContainer from './Items/ItemsContainer'
 import DiceMenuContainer from './DiceMenu/DiceMenuContainer'
@@ -12,28 +12,25 @@ import PaintContainer from './Paint/PaintContainer'
 import s from '../Navbar/Navbar.module.scss'
 
 type MenuProps = {
-    isMenuActive: boolean
-
     onCrossClick: () => void
 }
 
-const Menu: FC<MenuProps> = ({ isMenuActive, onCrossClick }) => {
+const Menu: FC<MenuProps> = ({ onCrossClick }) => {
+    
 
-    return <>
-        {isMenuActive &&
-            <div className='menu'>
+    return <div className='menu'>
                 <div className={s.closeModal} onClick={onCrossClick} />
                 <Routes>
-                    <Route path='/pictures' element={<PicturesContainer />} />
-                    <Route path='/create_map' element={<CreateMapContainer />} />
-                    <Route path='/items' element={<ItemsContainer />} />
-                    <Route path='/dice' element={<DiceMenuContainer />} />
-                    <Route path='/paint' element={<PaintContainer />} />
-                    <Route path='/options' element={<OptionsContainer />} />
+                <Route path='/ready_maps' element={<MapMenuContainer />} />
+                   <Route path='/create_map' element={<CreateMapContainer />} />
+                   <Route path='/items' element={<ItemsContainer />} />
+                   <Route path='/dice' element={<DiceMenuContainer />} />
+                   <Route path='/paint' element={<PaintContainer />} />
+                   <Route path='/settings' element={<OptionsContainer />} />
                 </Routes>
+                   
             </div>
-        }
-    </>
 }
 
 export default Menu
+

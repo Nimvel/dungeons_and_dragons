@@ -38,17 +38,29 @@ type MapProps = {
     lineMode: boolean
     lines: Array<LineType>
 
+    isCreateMapItemsChapter: boolean
+    isCreateMapMoveItemsChapter: boolean
+    isCreateMapFreeButtonChapter: boolean
+
     drawLine: (line: LineType) => void
 
     updateItems: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 
     addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
+
+    createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
+    createMapMoveItemsChapter: (isCreateMapMoveItemsChapter: boolean) => void
+    createMapFreeButtonChapter: (isCreateMapFreeButtonChapter: boolean) => void
+    createMapFixButtonChapter: (isCreateMapFixButtonChapter: boolean) => void
 }
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
     paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems, clickedItemId,
-    lines, drawLine, strokeWidth, addNewBackgroundItemOnMap, backgroundItems }) => {
+    lines, drawLine, strokeWidth, addNewBackgroundItemOnMap, backgroundItems,
+    isCreateMapItemsChapter, isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter,
+    createMapItemsChapter, createMapMoveItemsChapter,
+    createMapFreeButtonChapter, createMapFixButtonChapter }) => {
 
     let stage = null
     // let scale = 1
@@ -66,6 +78,10 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     const [x, setX] = useState((window.innerWidth - mapWidth) / 2)
     const [y, setY] = useState((window.innerHeight - mapHeight) / 2)
+
+    // const [ghostX, setGhostX] = useState(0)
+    // const [ghostY, setGhostY] = useState(0)
+    // const [ghost, setGhost] = useState(null)
 
     React.useEffect(() => { }, [x, y, backgroundItemsOnMap])
 
@@ -255,6 +271,18 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 updateBackgroundItems(backgroundItemsOnMap)
             }
         }
+
+        if (isCreateMapMoveItemsChapter) {
+            createMapMoveItemsChapter(false)
+            createMapFreeButtonChapter(true)
+        }
+
+        if (!isFreeMovement) {
+            if (isCreateMapFreeButtonChapter) {
+                createMapFreeButtonChapter(false)
+                createMapFixButtonChapter(true)
+            }
+        }
     }
 
     const getScaledPoint = (stage, scale) => {
@@ -271,6 +299,19 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     }
 
     const onMouseMove = () => {
+        // const { x, y } = getScaledPoint(stage, 1)
+
+        // ghost.to({
+        //     x: x,
+        //     y: y,
+
+        //   onFinish: () => {
+        //     ghost.to({
+        //         opacity: 0.5,
+        //     })
+        //   }
+        // })
+
         if (pensilMode || lineMode) {
             if (currentLine) {
                 const { x, y } = getScaledPoint(stage, 1)
@@ -300,7 +341,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 strokeWidth: strokeWidth
             })
         }
-
     }
 
     const setStageRef = ref => {
@@ -318,7 +358,39 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
             addNewBackgroundItemOnMap(item, itemX, itemY)
         }
+        if (isCreateMapItemsChapter) {
+            createMapItemsChapter(false)
+            createMapMoveItemsChapter(true)
+        }
     }
+
+    // const getPosition = (el) => {
+    //     var xPosition = 0;
+    //     var yPosition = 0;
+
+    //     while (el) {
+    //         if (el.tagName == "ghost") {
+    //             // deal with browser quirks with body/window/document and page scroll
+    //             var xScrollPos = el.scrollLeft || document.documentElement.scrollLeft;
+    //             var yScrollPos = el.scrollTop || document.documentElement.scrollTop;
+
+    //             xPosition += (el.offsetLeft - xScrollPos + el.clientLeft);
+    //             yPosition += (el.offsetTop - yScrollPos + el.clientTop);
+    //         } else {
+    //             xPosition += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+    //             yPosition += (el.offsetTop - el.scrollTop + el.clientTop);
+    //         }
+
+    //         el = el.offsetParent;
+    //     }
+
+    //     setGhostX(xPosition)
+    //     setGhostY(yPosition)
+    //     // return {
+    //     //   x: xPosition,
+    //     //   y: yPosition
+    //     // };
+    // }
 
     //     const [touchStart, setTouchStart] = useState(null) //Точка начала касания
     //     const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
@@ -377,6 +449,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     // }
 
     return <div id='canvas' className={s.map} >
+
         <Stage  // onWheel={onScaling}
             draggable={(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
 

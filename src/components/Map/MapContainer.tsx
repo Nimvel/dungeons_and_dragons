@@ -10,7 +10,12 @@ import {
     updateMapDimensions, addNewBackgroundItemOnMap
 } from '../../redux/map-reducer'
 
+import { BackgroundItemType } from '../../redux/backgrounds-reducer'
 import { drawLine, LineType } from '../../redux/paint-reducer'
+import { 
+    createMapItemsChapter, createMapMoveItemsChapter, createMapFreeButtonChapter, 
+    createMapFixButtonChapter 
+} from '../../redux/education-reducer'
 
 import {
     getBackgroundItemOnMap, getItems,
@@ -22,7 +27,7 @@ import { getBackgroundsItems, getClickedItemId, getIsFixBackgroundItems, getIsFr
 import { getGridSize } from '../../redux/options-selectors'
 
 import { getLineMode, getPaintbrushColor, getPensilMode, getLines, getStrokeWidth } from '../../redux/paint-selectors'
-import { BackgroundItemType } from '../../redux/backgrounds-reducer'
+import { getIsCreateMapFreeButtonChapter, getIsCreateMapItemsChapter, getIsCreateMapMoveItemsChapter } from '../../redux/education-selectors'
 
 type MapStateToPropsType = {
     map: null | string
@@ -42,6 +47,10 @@ type MapStateToPropsType = {
     pensilMode: boolean
     lineMode: boolean
     lines: Array<LineType>
+
+    isCreateMapItemsChapter: boolean
+    isCreateMapMoveItemsChapter: boolean
+    isCreateMapFreeButtonChapter: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -51,6 +60,12 @@ type MapDispatchToPropsType = {
 
     drawLine: (line: LineType) => void
     addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
+
+    createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
+    createMapMoveItemsChapter: (isCreateMapMoveItemsChapter: boolean) => void
+    createMapFreeButtonChapter: (isCreateMapFreeButtonChapter: boolean) => void
+    createMapFixButtonChapter: (isCreateMapFixButtonChapter: boolean) => void
+
 }
 
 type OwnPropsType = {
@@ -61,7 +76,10 @@ type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnProps
 const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items,
     backgroundItemsOnMap, isFreeMovement, paintbrushColor, strokeWidth, pensilMode, lineMode,
     isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems, clickedItemId,
-    lines, drawLine, addNewBackgroundItemOnMap, backgroundItems }) => {
+    lines, drawLine, addNewBackgroundItemOnMap, backgroundItems,
+    isCreateMapItemsChapter, isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter,
+    createMapItemsChapter, createMapMoveItemsChapter,
+    createMapFreeButtonChapter, createMapFixButtonChapter }) => {
 
     const mapDimensions = () => {
         if (map) {
@@ -82,7 +100,12 @@ const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSiz
             updateBackgroundItems={updateBackgroundItems} isFixBackgroundItems={isFixBackgroundItems}
             paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} 
             addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} backgroundItems={backgroundItems}
-            lines={lines} drawLine={drawLine} strokeWidth={strokeWidth} clickedItemId={clickedItemId} />
+            lines={lines} drawLine={drawLine} strokeWidth={strokeWidth} clickedItemId={clickedItemId} 
+
+            isCreateMapItemsChapter={isCreateMapItemsChapter} isCreateMapMoveItemsChapter={isCreateMapMoveItemsChapter}
+            isCreateMapFreeButtonChapter={isCreateMapFreeButtonChapter}
+            createMapItemsChapter={createMapItemsChapter} createMapMoveItemsChapter={createMapMoveItemsChapter}
+            createMapFreeButtonChapter={createMapFreeButtonChapter} createMapFixButtonChapter={createMapFixButtonChapter} />
     </>
 }
 
@@ -105,10 +128,15 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         strokeWidth: getStrokeWidth(state),
         pensilMode: getPensilMode(state),
         lineMode: getLineMode(state),
-        lines: getLines(state)
+        lines: getLines(state),
+
+        isCreateMapItemsChapter: getIsCreateMapItemsChapter(state),
+        isCreateMapMoveItemsChapter: getIsCreateMapMoveItemsChapter(state),
+        isCreateMapFreeButtonChapter: getIsCreateMapFreeButtonChapter(state)
     }
 }
 
 export default connect(mapStateToProps, {
-    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap
+    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap, 
+    createMapItemsChapter, createMapMoveItemsChapter, createMapFreeButtonChapter, createMapFixButtonChapter
 })(MapContainer)

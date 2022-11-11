@@ -1,13 +1,16 @@
 import React, { FC } from 'react'
 import { useState } from 'react'
 import { connect } from 'react-redux'
+import { getIsAddIconsMenuChapter } from '../../../redux/education-selectors'
 import { saveNewItemImage, deleteItemImage, itemImagesType } from '../../../redux/itemImages-reducer'
 import { getItemImages } from '../../../redux/itemImages-selectors'
 
 import {
-    addNewCircle, addNewItemWithImage, updateItems, ItemType
+    addNewCircle, addNewItemWithImage, updateItems, ItemType, updateMapDimensions, cleanMap
 } from '../../../redux/map-reducer'
-import { 
+import { cleanLines } from '../../../redux/paint-reducer'
+
+import {
     getItemColor, getItems, getMapHeight, getMapWidth, getItemsQuantity
 } from '../../../redux/map-selectors'
 import { AppStateType } from '../../../redux/store'
@@ -22,6 +25,8 @@ type MapStateToPropsType = {
     itemImages: Array<itemImagesType>
     itemColor: string
     itemsQuantity: number
+
+    isAddIconsMenuChapter: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -31,6 +36,10 @@ type MapDispatchToPropsType = {
     saveNewItemImage: (itemImage: Blob | MediaSource) => void
     deleteItemImage: (id: number) => void
     addNewItemWithImage: (itemImage: string) => void
+
+    updateMapDimensions: (width: number, height: number) => void
+    cleanMap: () => void
+    cleanLines: () => void
 }
 
 type OwnPropsType = {
@@ -38,12 +47,19 @@ type OwnPropsType = {
 
 type ItemsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight, 
-    items, itemColor, itemsQuantity, itemImages, addNewCircle, updateItems, 
-    saveNewItemImage, deleteItemImage, addNewItemWithImage }) => {
+const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight,
+    items, itemColor, itemsQuantity, itemImages, addNewCircle, updateItems,
+    saveNewItemImage, deleteItemImage, addNewItemWithImage,
+    isAddIconsMenuChapter, updateMapDimensions, cleanMap, cleanLines }) => {
 
     const [newQuantity, setQuantity] = useState(1)
     const [newColor, setColor] = useState(itemColor)
+
+    if (isAddIconsMenuChapter) {
+        updateMapDimensions(250, 250)
+        cleanMap()
+        cleanLines()
+    }
 
     const onChangeQuantity = (e: any) => {
         setQuantity(e.target.value)
@@ -80,8 +96,8 @@ const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight,
     }
 
     return <Items itemColor={newColor} newQuantity={newQuantity} onAddNewCircle={onAddNewCircle} itemImages={itemImages}
-    onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} saveNewItemImage={saveNewItemImage}
-    deleteItemImage={deleteItemImage} addNewItemWithImage={addNewItemWithImage}  />
+        onChangeQuantity={onChangeQuantity} onChangeColor={onChangeColor} saveNewItemImage={saveNewItemImage}
+        deleteItemImage={deleteItemImage} addNewItemWithImage={addNewItemWithImage} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
@@ -92,10 +108,13 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         itemColor: getItemColor(state),
         itemsQuantity: getItemsQuantity(state),
         items: getItems(state),
-        itemImages: getItemImages(state)
+        itemImages: getItemImages(state),
+
+        isAddIconsMenuChapter: getIsAddIconsMenuChapter(state),
     }
 }
 
-export default connect(mapStateToProps,
-    { addNewCircle, updateItems, saveNewItemImage, deleteItemImage, addNewItemWithImage }
-)(ItemsContainer)
+export default connect(mapStateToProps, {
+    addNewCircle, updateItems, saveNewItemImage, deleteItemImage, addNewItemWithImage,
+    updateMapDimensions, cleanMap, cleanLines
+})(ItemsContainer)

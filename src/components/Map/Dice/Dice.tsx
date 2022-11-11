@@ -14,10 +14,16 @@ type DiceProps = {
   diceColor: string
   diceColorFace: string
   diceNumberColor: string
+
+  isAllDiceMenuChapter: boolean
+
+  allDiceMenuChapter: (isAllDiceMenuChapter: boolean) => void
+  changeDiceMenuChapter: (isChangeDiceMenuChapter: boolean) => void
 }
 
 const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor, 
-  diceColorFace, diceNumberColor, isTypesOfDice }) => {
+  diceColorFace, diceNumberColor, isTypesOfDice, 
+  isAllDiceMenuChapter, allDiceMenuChapter, changeDiceMenuChapter }) => {
 
   const [numberDice, setNumberDice] = React.useState(String(Math.round(Math.random() * number + 1)))
 
@@ -49,6 +55,11 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor,
         })
       }
     })
+
+    if (isAllDiceMenuChapter) {
+      allDiceMenuChapter(false)
+      changeDiceMenuChapter(true)
+    }
   }
 
   return <div>

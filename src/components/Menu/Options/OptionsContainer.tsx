@@ -6,12 +6,15 @@ import {
     onBorders, onGrid, changeBordersColor, changeBothColors,
     changeGridColor, changeGridSize, onSameColors
 } from '../../../redux/options-reducer'
+import { updateMapDimensions, cleanMap } from '../../../redux/map-reducer'
+import { cleanLines } from '../../../redux/paint-reducer'
 import {
     getGridColor, getGridSize, getGrid, getBorders, getBordersColor, getIsSameColors, getBothColors
 } from '../../../redux/options-selectors'
 import { AppStateType } from '../../../redux/store'
 
 import Options from './Options'
+import { getIsSettingsMenuChapter } from '../../../redux/education-selectors'
 
 type MapStateToPropsType = {
     borders: boolean
@@ -23,6 +26,8 @@ type MapStateToPropsType = {
 
     isSameColors: boolean
     bothColors: string
+
+    isSettingsMenuChapter: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -35,6 +40,10 @@ type MapDispatchToPropsType = {
 
     onSameColors: () => void
     changeBothColors: (color: string) => void
+
+    updateMapDimensions: (width: number, height: number) => void
+    cleanMap: () => void
+    cleanLines: () => void
 }
 
 type OwnPropsType = {
@@ -44,7 +53,14 @@ type OptionsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnP
 
 const OptionsContainer: FC<OptionsContainerProps> = (
     { borders, bordersColor, grid, gridColor, gridSize, isSameColors, changeBothColors, bothColors,
-        onBorders, onGrid, changeBordersColor, changeGridColor, changeGridSize, onSameColors }) => {
+        onBorders, onGrid, changeBordersColor, changeGridColor, changeGridSize, onSameColors,
+        isSettingsMenuChapter, updateMapDimensions, cleanMap, cleanLines }) => {
+
+            if (isSettingsMenuChapter) {
+                updateMapDimensions(250, 250)
+                cleanMap()
+                cleanLines()
+            }
 
     const elem = document.documentElement
 
@@ -132,12 +148,13 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         gridSize: getGridSize(state),
 
         isSameColors: getIsSameColors(state),
-        bothColors: getBothColors(state)
+        bothColors: getBothColors(state),
+        isSettingsMenuChapter: getIsSettingsMenuChapter(state)
     }
 }
 
 export default connect(mapStateToProps, {
     onBorders, onGrid, changeBordersColor, changeBothColors,
-    changeGridColor, changeGridSize, onSameColors
+    changeGridColor, changeGridSize, onSameColors, updateMapDimensions, cleanMap, cleanLines
 }
 )(OptionsContainer)

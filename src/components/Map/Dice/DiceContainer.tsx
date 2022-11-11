@@ -4,10 +4,14 @@ import { connect } from 'react-redux'
 
 import { AppStateType } from '../../../redux/store'
 
+import { allDiceMenuChapter, changeDiceMenuChapter } from '../../../redux/education-reducer'
+
 import {
     getD10, getD100, getD12, getD20, getD4, getD6, getD8,
     getDiceColor, getDiceColorFace, getDiceNumberColor, getIsTypesOfDice
 } from '../../../redux/dice-selectors'
+import { getIsAllDiceMenuChapter } from '../../../redux/education-selectors'
+
 
 import Dice from './Dice'
 
@@ -25,9 +29,13 @@ type MapStateToPropsType = {
     diceColor: string
     diceColorFace: string
     diceNumberColor: string
+
+    isAllDiceMenuChapter: boolean
 }
 
 type MapDispatchToPropsType = {
+    allDiceMenuChapter: (isAllDiceMenuChapter: boolean) => void
+    changeDiceMenuChapter: (isChangeDiceMenuChapter: boolean) => void
 }
 
 type OwnPropsType = {
@@ -38,31 +46,52 @@ type DiceContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnProp
 
 const DiceContainer: FC<DiceContainerProps> = ({
     width, D4, D6, D8, D10, D12, D20, D100, isTypesOfDice,
-    diceColor, diceColorFace, diceNumberColor }) => {
+    diceColor, diceColorFace, diceNumberColor,
+    isAllDiceMenuChapter, allDiceMenuChapter, changeDiceMenuChapter }) => {
 
     React.useEffect(() => { }, [width, window.innerWidth])
 
-    const x = width > window.innerWidth - 105 
-    ? width + 30
-    : isTypesOfDice 
-    ? window.innerWidth - 105 
-    : window.innerWidth - 75
+    const x = width > window.innerWidth - 105
+        ? width + 30
+        : isTypesOfDice
+            ? window.innerWidth - 105
+            : window.innerWidth - 75
 
     return <>
         {D4 && <Dice number={4} x={x} y={20} width={50} text={'D4'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
+
         {D6 && <Dice number={6} x={x} y={90} width={50} text={'D6'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
+
         {D8 && <Dice number={8} x={x} y={160} width={50} text={'D8'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
+
         {D10 && <Dice number={10} x={x} y={230} width={50} text={'D10'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
+
         {D12 && <Dice number={12} x={x} y={300} width={50} text={'D12'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
+
         {D20 && <Dice number={20} x={x} y={370} width={50} text={'D20'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
+
         {D100 && <Dice number={100} x={x} y={440} width={50} text={'D100'} isTypesOfDice={isTypesOfDice}
-            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor} />}
+            diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
+            isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
+            changeDiceMenuChapter={changeDiceMenuChapter} />}
     </>
 }
 
@@ -80,8 +109,10 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
         diceColor: getDiceColor(state),
         diceColorFace: getDiceColorFace(state),
-        diceNumberColor: getDiceNumberColor(state)
+        diceNumberColor: getDiceNumberColor(state),
+
+        isAllDiceMenuChapter: getIsAllDiceMenuChapter(state),
     }
 }
 
-export default connect(mapStateToProps, {})(DiceContainer)
+export default connect(mapStateToProps, { allDiceMenuChapter, changeDiceMenuChapter })(DiceContainer)

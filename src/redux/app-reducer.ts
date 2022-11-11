@@ -1,3 +1,5 @@
+const CLOSE_EDUCATION = 'app/CLOSE_EDUCATION'
+
 const CLOSE_NAVBAR = 'app/CLOSE_NAVBAR'
 const OPEN_NAVBAR = 'app/OPEN_NAVBAR'
 
@@ -5,17 +7,22 @@ const CLOSE_MENU = 'app/CLOSE_MENU'
 const OPEN_MENU = 'app/OPEN_MENU'
 
 type initialStateType = {
+    isEducationActive: boolean
     isNavbarActive: boolean
     isMenuActive: boolean
 }
 
 const initialState = {
-    isNavbarActive: true,
+    isEducationActive: true,
+    isNavbarActive: false,
     isMenuActive: false
 }
 
 const appReducer = (state = initialState, action: ActionsTypes): initialStateType => {
     switch (action.type) {
+        case CLOSE_EDUCATION:
+            return { ...state, isEducationActive: false }
+
         case CLOSE_NAVBAR:
             return { ...state, isNavbarActive: false }
 
@@ -33,7 +40,12 @@ const appReducer = (state = initialState, action: ActionsTypes): initialStateTyp
     }
 }
 
-type ActionsTypes = closeNavbarType | openNavbarType | closeMenuType | openMenuType
+type ActionsTypes = closeEducationType | closeNavbarType | openNavbarType | closeMenuType | openMenuType
+
+type closeEducationType = {
+    type: typeof CLOSE_EDUCATION
+}
+export const closeEducation = (): closeEducationType => ({ type: CLOSE_EDUCATION })
 
 type closeNavbarType = {
     type: typeof CLOSE_NAVBAR

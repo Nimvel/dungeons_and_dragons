@@ -1,5 +1,9 @@
 import { AppStateType } from './store'
 
+export const getAllDice = (state: AppStateType) => {
+    return state.dice.allDice
+}
+
 export const getD4 = (state: AppStateType) => {
     return state.dice.D4
 }

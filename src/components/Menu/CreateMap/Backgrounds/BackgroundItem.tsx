@@ -13,24 +13,28 @@ type BackgroundItemProps = {
     clickedItemId: string
     id: string
 
+    isCreateMapFillChapter: boolean
+
     deleteBackgroundItem: (id: string) => void
-    // addNewBackgroundItemOnMap: (backgroundItem: string) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 
     setClickedItemId: (clickedItemId: null | string) => void
+
+    createMapFillChapter: (isCreateMapFillChapter: boolean) => void
+    createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
 }
 
-const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, backgroundItem, id, clickedItemId, 
-    setClickedItemId, deleteBackgroundItem, updateBackgroundItems }) => {
-
-    const onBackgroundItemClick = () => {
-        clickedItemId && clickedItemId === id
-        ? setClickedItemId(null)
-        : setClickedItemId(id)
-    }
+const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, backgroundItem, id, clickedItemId,
+    setClickedItemId, deleteBackgroundItem, updateBackgroundItems, isCreateMapFillChapter, createMapFillChapter, createMapItemsChapter }) => {
 
     const onCrossClick = () => {
         deleteBackgroundItem(id)
+    }
+    
+    const onBackgroundItemClick = () => {
+        clickedItemId && clickedItemId === id
+            ? setClickedItemId(null)
+            : setClickedItemId(id)
     }
 
     const onFillClick = () => {
@@ -56,6 +60,11 @@ const BackgroundItem: FC<BackgroundItemProps> = ({ width, height, gridSize, back
             }
         }
         updateBackgroundItems(items)
+
+        if (isCreateMapFillChapter) {
+            createMapFillChapter(false)
+            createMapItemsChapter(true)
+        }
     }
 
     return <div className={clickedItemId === id ? `${s.item} ${s.item_active}` : s.item}>

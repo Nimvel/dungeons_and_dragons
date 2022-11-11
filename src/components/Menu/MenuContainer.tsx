@@ -2,35 +2,34 @@ import { FC } from 'react'
 import { connect } from 'react-redux'
 
 import { closeMenu } from '../../redux/app-reducer'
+import { navbarChapter, menuChapters } from '../../redux/education-reducer'
 import { AppStateType } from '../../redux/store'
-
-import { getIsMenuActive } from '../../redux/app-selectors'
 
 import Menu from './Menu'
 
 type MapStateToProps = {
-    isMenuActive: boolean
 }
 
 type MapDispatchToProps = {
     closeMenu: () => void
+    
 }
 
 type MenuContainerProps = MapStateToProps & MapDispatchToProps
 
-const MenuContainer: FC<MenuContainerProps> = ({isMenuActive, closeMenu}) => {
+const MenuContainer: FC<MenuContainerProps> = ({closeMenu}) => {
 
     const onCrossClick = () => {
         closeMenu()
     }
 
-    return <Menu isMenuActive={isMenuActive} onCrossClick={onCrossClick} />
+
+    return <Menu onCrossClick={onCrossClick} />
 }
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
-        isMenuActive: getIsMenuActive(state)
     }
 }
 
-export default connect(mapStateToProps, { closeMenu })(MenuContainer)
+export default connect(mapStateToProps, { closeMenu, navbarChapter, menuChapters })(MenuContainer)

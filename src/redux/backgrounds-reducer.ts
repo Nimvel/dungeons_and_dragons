@@ -60,7 +60,7 @@ const initialState = {
         { id: 'background-16', backgroundItem: left_top_turn },
         { id: 'background-17', backgroundItem: crossroads },
     ],
-    isFreeMovement: false,
+    isFreeMovement: true,
     isFixBackgroundItems: false,
     clickedItemId: null
 }

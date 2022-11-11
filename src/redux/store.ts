@@ -2,6 +2,7 @@ import { combineReducers, legacy_createStore as createStore } from 'redux'
 import appReducer from './app-reducer'
 import backgroundItemsReducer from './backgrounds-reducer'
 import diceReducer from './dice-reducer'
+import educationReducer from './education-reducer'
 import itemImagesReducer from './itemImages-reducer'
 import mapReducer from './map-reducer'
 import navbarReducer from './navbar-reducer'
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     map: mapReducer,
     dice: diceReducer,
     options: optionsReducer,
-    paint: paintReducer
+    paint: paintReducer, 
+    education: educationReducer
 })
 
 type RootReducerType = typeof rootReducer
