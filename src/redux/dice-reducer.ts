@@ -43,7 +43,7 @@ const initialState: initialStateType = {
 
     isTypesOfDice: false,
 
-    diceColor: '#cb9d9d',
+    diceColor: '#1c1824',
     diceColorFace: '#ffffff',
     diceNumberColor: '#ffffff'
 }

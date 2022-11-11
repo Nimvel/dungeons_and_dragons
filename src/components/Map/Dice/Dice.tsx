@@ -49,7 +49,7 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor,
               scaleX: 1,
               scaleY: 1,
               x: x,
-              y: y + 10,
+              y: y + 15,
             })
           }
         })
@@ -164,11 +164,11 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor,
     />}
 
     <Text
-      fontSize={35}
+      fontSize={25}
       text={numberDice}
       fill={diceNumberColor}
       x={x}
-      y={y + 10}
+      y={y + 15}
       align='center'
       width={width}
       onClick={onNumberClick}

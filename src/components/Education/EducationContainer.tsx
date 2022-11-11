@@ -9,19 +9,23 @@ import { updateMapDimensions } from '../../redux/map-reducer'
 import { onBorders, onGrid } from '../../redux/options-reducer'
 import { onAllDice } from '../../redux/dice-reducer'
 import {
-    introduction, navbarChapter, createMapDimentionsChapter, createMapFillChapter,
-    endChapter
+    introduction, navbarChapter, createMapDimentionsChapter, 
+    createMapFillChapter, endChapter
 } from '../../redux/education-reducer'
 // import {} from '../../redux/dice-selectors'
 
 import Education from './Education'
 import {
-    getIsAddIconsMenuChapter, getIsCreateMapMenuChapter, getIsDiceMenuChapter, getIsIntroduction,
-    getIsMapMenuChapter, getIsNavbarChapter, getIsNavbarIconsChapter, getIsPaintMenuChapter, getNavbarCreateMapChapter,
-    getNavbarDiceChapter, getNavbarItemsChapter, getNavbarMapChapter, getNavbarPaintChapter, getNavbarSettingsChapter,
-    getIsSettingsMenuChapter, getIsCreateMapDimentionsChapter, getIsCreateMapItemsChapter, getIsCreateMapFillChapter,
-    getIsCreateMapMoveItemsChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapFixButtonChapter, getIsEndChapter,
-    getIsAllDiceMenuChapter, getIsChangeDiceMenuChapter, getDiceNames, getDiceColor, getDiceBorderColor, getDiceNumberColor, getIsChangeColorLineChapter, getArrows, getIcons
+    getIsAddIconsMenuChapter, getIsCreateMapMenuChapter, getIsDiceMenuChapter, 
+    getIsIntroduction, getIsMapMenuChapter, getIsNavbarChapter, 
+    getIsNavbarIconsChapter, getIsPaintMenuChapter, getNavbarCreateMapChapter,
+    getNavbarDiceChapter, getNavbarItemsChapter, getNavbarMapChapter, 
+    getNavbarPaintChapter, getNavbarSettingsChapter, getIsSettingsMenuChapter, 
+    getIsCreateMapDimentionsChapter, getIsCreateMapItemsChapter, getIsCreateMapFillChapter,
+    getIsCreateMapMoveItemsChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapFixButtonChapter, 
+    getIsEndChapter, getIsAllDiceMenuChapter, getIsChangeDiceMenuChapter, 
+    getDiceNames, getDiceColor, getDiceBorderColor, getDiceNumberColor, 
+    getIsChangeColorLineChapter, getArrows, getIcons
 } from '../../redux/education-selectors'
 
 import { } from '../../redux/education-selectors'
