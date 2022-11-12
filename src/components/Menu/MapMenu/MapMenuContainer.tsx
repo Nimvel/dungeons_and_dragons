@@ -9,6 +9,7 @@ import { saveNewPicture, deletePicture, PicturesType } from '../../../redux/pict
 import { setNewMap } from '../../../redux/map-reducer'
 import { cleanLines } from '../../../redux/paint-reducer'
 import { menuChapters, endChapter } from '../../../redux/education-reducer'
+import { onBorders, onGrid } from '../../../redux/options-reducer'
 
 import { getPictures } from '../../../redux/pictures-selectors'
 import { getIsMapMenuChapter } from '../../../redux/education-selectors'
@@ -30,6 +31,9 @@ type MapDispatchToProps = {
 
     menuChapters: (icon: string) => void
     endChapter: (isEndChapter: boolean) => void
+
+    onBorders: (borders: boolean) => void
+    onGrid: (grid: boolean) => void
 }
 
 type OwnProps = {}
@@ -38,7 +42,12 @@ type MapMenuContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
 const MapMenuContainer: FC<MapMenuContainerProps> = ({ pictures, cleanLines,
     saveNewPicture, setNewMap, deletePicture, updateBackgroundItems, 
-    isMapMenuChapter, menuChapters, endChapter }) => {
+    isMapMenuChapter, menuChapters, endChapter, onBorders, onGrid }) => {
+
+        if (isMapMenuChapter) {
+            onBorders(false)
+            onGrid(false)
+        }
 
     React.useEffect(() => { }, [pictures])
 
@@ -73,6 +82,6 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
 }
 
 export default connect(mapStateToProps, {
-    saveNewPicture, setNewMap, deletePicture, updateBackgroundItems, cleanLines,
-    menuChapters, endChapter
+    saveNewPicture, setNewMap, deletePicture, updateBackgroundItems, 
+    cleanLines, menuChapters, endChapter, onBorders, onGrid
 })(MapMenuContainer)

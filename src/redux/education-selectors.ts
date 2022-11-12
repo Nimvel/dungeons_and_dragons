@@ -4,6 +4,10 @@ export const getArrows = (state: AppStateType) => {
     return state.education.arrows
 }
 
+export const getSmallArrows = (state: AppStateType) => {
+    return state.education.smallArrows
+}
+
 export const getIcons = (state: AppStateType) => {
     return state.education.icons
 }

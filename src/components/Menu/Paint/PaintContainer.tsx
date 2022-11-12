@@ -3,7 +3,6 @@ import { FC } from 'react'
 
 import { connect } from 'react-redux'
 import { AppStateType } from '../../../redux/store'
-import { updateMapDimensions, cleanMap } from '../../../redux/map-reducer'
 import {
     changePaintbrushColor, updateStrokeWidth, changePensilMode,
     changeLineMode, deleteLine, cleanLines, LineType
@@ -39,24 +38,15 @@ type MapDispatchToProps = {
     changeColorLineChapter: (isChangeColorLineChapter: boolean) => void
     menuChapters: (icon: string) => void
     endChapter: (isEndChapter: boolean) => void
-
-    updateMapDimensions: (width: number, height: number) => void
-    cleanMap: () => void
 }
 
 type PaintContainerProps = MapStateToProps & MapDispatchToProps
 
 const PaintContainer: FC<PaintContainerProps> = ({ paintbrushColor, strokeWidth, pensilMode, lineMode, lines,
     changePaintbrushColor, updateStrokeWidth, changePensilMode, changeLineMode, deleteLine, cleanLines,
-    isPaintMenuChapter, isChangeColorLineChapter, changeColorLineChapter, menuChapters, endChapter,
-    updateMapDimensions, cleanMap }) => {
+    isPaintMenuChapter, isChangeColorLineChapter, changeColorLineChapter, menuChapters, endChapter }) => {
 
     const [newStrokeWidth, setNewStrokeWidth] = React.useState(strokeWidth)
-
-    if (isPaintMenuChapter) {
-        updateMapDimensions(250, 250)
-        cleanMap()
-    }
 
     const onChangePensilMode = () => {
         changePensilMode(!pensilMode)
@@ -120,6 +110,6 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
 }
 
 export default connect(mapStateToProps, {
-    changePaintbrushColor, updateStrokeWidth, changePensilMode, changeLineMode, deleteLine, cleanLines,
-    changeColorLineChapter, menuChapters, endChapter, updateMapDimensions, cleanMap
+    changePaintbrushColor, updateStrokeWidth, changePensilMode, changeLineMode, 
+    deleteLine, cleanLines, changeColorLineChapter, menuChapters, endChapter
 })(PaintContainer)

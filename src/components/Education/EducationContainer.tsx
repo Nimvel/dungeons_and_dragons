@@ -9,23 +9,23 @@ import { updateMapDimensions } from '../../redux/map-reducer'
 import { onBorders, onGrid } from '../../redux/options-reducer'
 import { onAllDice } from '../../redux/dice-reducer'
 import {
-    introduction, navbarChapter, createMapDimentionsChapter, 
+    introduction, navbarChapter, createMapDimentionsChapter,
     createMapFillChapter, endChapter
 } from '../../redux/education-reducer'
 // import {} from '../../redux/dice-selectors'
 
 import Education from './Education'
 import {
-    getIsAddIconsMenuChapter, getIsCreateMapMenuChapter, getIsDiceMenuChapter, 
-    getIsIntroduction, getIsMapMenuChapter, getIsNavbarChapter, 
+    getIsAddIconsMenuChapter, getIsCreateMapMenuChapter, getIsDiceMenuChapter,
+    getIsIntroduction, getIsMapMenuChapter, getIsNavbarChapter,
     getIsNavbarIconsChapter, getIsPaintMenuChapter, getNavbarCreateMapChapter,
-    getNavbarDiceChapter, getNavbarItemsChapter, getNavbarMapChapter, 
-    getNavbarPaintChapter, getNavbarSettingsChapter, getIsSettingsMenuChapter, 
+    getNavbarDiceChapter, getNavbarItemsChapter, getNavbarMapChapter,
+    getNavbarPaintChapter, getNavbarSettingsChapter, getIsSettingsMenuChapter,
     getIsCreateMapDimentionsChapter, getIsCreateMapItemsChapter, getIsCreateMapFillChapter,
-    getIsCreateMapMoveItemsChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapFixButtonChapter, 
-    getIsEndChapter, getIsAllDiceMenuChapter, getIsChangeDiceMenuChapter, 
-    getDiceNames, getDiceColor, getDiceBorderColor, getDiceNumberColor, 
-    getIsChangeColorLineChapter, getArrows, getIcons
+    getIsCreateMapMoveItemsChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapFixButtonChapter,
+    getIsEndChapter, getIsAllDiceMenuChapter, getIsChangeDiceMenuChapter,
+    getDiceNames, getDiceColor, getDiceBorderColor, getDiceNumberColor,
+    getIsChangeColorLineChapter, getArrows, getIcons, getSmallArrows
 } from '../../redux/education-selectors'
 
 import { } from '../../redux/education-selectors'
@@ -33,6 +33,7 @@ import { } from '../../redux/education-selectors'
 
 type MapStateToPropsType = {
     arrows: Array<string>
+    smallArrows: Array<string>
     icons: Array<string>
 
     isIntroduction: boolean
@@ -76,8 +77,8 @@ type MapStateToPropsType = {
 
 type MapDispatchToPropsType = {
     openNavbar: () => void
-    onBorders: () => void
-    onGrid: () => void
+    onBorders: (borders: boolean) => void
+    onGrid: (grid: boolean) => void
     onAllDice: () => void
     closeEducation: () => void
 
@@ -95,19 +96,32 @@ type OwnPropsType = {
 
 type EducationContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const EducationContainer: FC<EducationContainerProps> = ({ isIntroduction, isNavbarChapter, isNavbarIconsChapter,
-    isMapMenuChapter, isCreateMapMenuChapter, isCreateMapDimentionsChapter, isCreateMapFillChapter, isCreateMapItemsChapter,
-    isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter, isCreateMapFixButtonChapter, isAddIconsMenuChapter,
-    isDiceMenuChapter, isAllDiceMenuChapter, isChangeDiceMenuChapter, isPaintMenuChapter, isChangeColorLineChapter, isSettingsMenuChapter, isEndChapter,
-    map, createMap, items, dice, paint, settings, diceNames, diceColor, diceBorderColor, diceNumberColor,
-    onBorders, onGrid, onAllDice, openNavbar, closeEducation, introduction, navbarChapter,
-    updateMapDimensions, createMapDimentionsChapter, createMapFillChapter, endChapter, arrows, icons
+const EducationContainer: FC<EducationContainerProps> = ({
+    arrows, smallArrows, icons, 
+    map, createMap, items, dice, paint, settings,
+
+    isIntroduction, isNavbarChapter, isNavbarIconsChapter,
+
+    isMapMenuChapter, isAddIconsMenuChapter, isDiceMenuChapter,
+    isAllDiceMenuChapter, isChangeDiceMenuChapter, isEndChapter,
+    isPaintMenuChapter, isChangeColorLineChapter, isSettingsMenuChapter, isCreateMapMenuChapter,
+
+    isCreateMapDimentionsChapter, isCreateMapFillChapter, isCreateMapItemsChapter,
+    isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter, isCreateMapFixButtonChapter,
+
+    diceNames, diceColor, diceBorderColor, diceNumberColor,
+
+    openNavbar, onBorders, onGrid, onAllDice, closeEducation,
+    introduction, navbarChapter, updateMapDimensions,
+    createMapDimentionsChapter, createMapFillChapter, endChapter,
 }) => {
+
+    React.useEffect(() => {}, [window.innerWidth])
 
     const onNoClick = () => {
         openNavbar()
-        onBorders()
-        onGrid()
+        onBorders(false)
+        onGrid(false)
         onAllDice()
         closeEducation()
     }
@@ -128,7 +142,7 @@ const EducationContainer: FC<EducationContainerProps> = ({ isIntroduction, isNav
         closeEducation()
     }
 
-    return <Education isIntroduction={isIntroduction} isNavbarChapter={isNavbarChapter} arrows={arrows}
+    return <Education isIntroduction={isIntroduction} smallArrows={smallArrows} isNavbarChapter={isNavbarChapter} arrows={arrows}
         isNavbarIconsChapter={isNavbarIconsChapter} isMapMenuChapter={isMapMenuChapter} isCreateMapMenuChapter={isCreateMapMenuChapter}
         isCreateMapDimentionsChapter={isCreateMapDimentionsChapter} isCreateMapFillChapter={isCreateMapFillChapter} isCreateMapItemsChapter={isCreateMapItemsChapter}
         isCreateMapMoveItemsChapter={isCreateMapMoveItemsChapter} isCreateMapFreeButtonChapter={isCreateMapFreeButtonChapter}
@@ -143,6 +157,7 @@ const EducationContainer: FC<EducationContainerProps> = ({ isIntroduction, isNav
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         arrows: getArrows(state),
+        smallArrows: getSmallArrows(state),
         icons: getIcons(state),
 
         isIntroduction: getIsIntroduction(state),
@@ -185,7 +200,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default connect(mapStateToProps, {
-    onBorders, onGrid, onAllDice, openNavbar, closeEducation,
-    introduction, navbarChapter, updateMapDimensions, createMapDimentionsChapter,
-    createMapFillChapter, endChapter
+    openNavbar, onBorders, onGrid, onAllDice, closeEducation,
+    introduction, navbarChapter, updateMapDimensions,
+    createMapDimentionsChapter, createMapFillChapter, endChapter,
 })(EducationContainer)

@@ -38,7 +38,7 @@ const optionsReducer = (state = initialState, action: ActionsTypes): initialStat
         case BORDERS:
             return {
                 ...state,
-                borders: !state.borders
+                borders: action.borders
             }
 
         case CHANGE_BORDERS_COLOR:
@@ -50,7 +50,7 @@ const optionsReducer = (state = initialState, action: ActionsTypes): initialStat
         case GRID:
             return {
                 ...state,
-                grid: !state.grid
+                grid: action.grid
             }
 
         case CHANGE_GRID_COLOR:
@@ -87,8 +87,9 @@ type ActionsTypes = OnBordersType | ChangeBordersColorType | OnGridType | Change
 
 type OnBordersType = {
     type: typeof BORDERS
+    borders: boolean
 }
-export const onBorders = (): OnBordersType => ({ type: BORDERS })
+export const onBorders = (borders: boolean): OnBordersType => ({ type: BORDERS, borders })
 
 type ChangeBordersColorType = {
     type: typeof CHANGE_BORDERS_COLOR
@@ -98,8 +99,9 @@ export const changeBordersColor = (color: string): ChangeBordersColorType => ({ 
 
 type OnGridType = {
     type: typeof GRID
+    grid: boolean
 }
-export const onGrid = (): OnGridType => ({ type: GRID })
+export const onGrid = (grid: boolean): OnGridType => ({ type: GRID, grid })
 
 type ChangeGridColorType = {
     type: typeof CHANGE_GRID_COLOR

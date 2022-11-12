@@ -13,29 +13,61 @@
     font-size: 25px;
     color: white;
     user-select: none;
+    text-align:justify;
+
+    p { text-indent: 30px; }
     // text-align: center
 }
 
 .introduction {
     @include positionTopLeft(absolute, 50%, 50%);
     transform: translate(-50%, -50%);
-    @include dimensions(550px, 150px);
+    @include dimensions(590px, 350px);
     margin: 5px;
 
     button {
-        @include positionTopLeft(relative, 0px, 10px);
+        @include positionTopLeft(relative, -55px, 350px);
     }
-    // background-color: black
+
+    @media (max-width: 1100px) {
+        @include dimensions(450px, 490px);
+
+        button {
+            @include positionTopLeft(relative, 0px, 200px);
+        }
+    }
 }
 
 .navbarChapter {
     @include positionTopLeft(absolute, 50%, 50%);
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 50%, 150px);
+        transform: translate(0, -50%);
+    }
 }
 
 .navbarIconsChapter {
-    @include positionTopLeft(absolute, 185px, 400px);
+    @include positionTopLeft(absolute, 105px, 420px);
     @include dimensions(470px, 80px);
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 105px, 270px);
+    @include dimensions(270px, 80px);
+    }
+}
+
+.menuChapter {
+    @include positionTopLeft(absolute, 50%, 50%);
+    transform: translate(-50%, -50%);
+    @include dimensions(470px, 380px);
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 50%, 240px);
+        @include dimensions(320px, 380px);
+        transform: translate(0, -50%);
+    }
 }
 
 .createMapChapter {
@@ -43,13 +75,48 @@
     @include dimensions(470px, 200px);
 
     button {
-    @include positionTopLeft(relative, 15px, 40px);
+    @include positionTopLeft(relative, -50px, 330px);
+    }
+    
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 35px, 240px);
+        @include dimensions(320px, 220px);
 
+        button {
+            @include positionTopLeft(relative, -50px, 210px);
+            }
+    }
+}
+
+.createMapMoveItemsChapter {
+    @include positionTopLeft(absolute, 125px, 50%);
+    transform: translate(-50%);
+    @include dimensions(530px, 200px);
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 15px, 230px);
+        transform: translate(0);
+        @include dimensions(330px, 290px);
+    }
+}
+
+.diceChapter {
+    @include positionTopLeft(absolute, 200px, 50%);
+    transform: translate(-50%, 0);
+    @include dimensions(470px, 150px);
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 200px, 270px);
+        transform: translate(0, 0);
     }
 }
 
 .clickDiceMenuChapter {
-    @include positionTopLeft(absolute, 225px, 400px);
+    @include positionTopLeft(absolute, 205px, 400px);
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 205px, 200px);
+    }
 }
 .changeDiceChapter {
     @include positionTopLeft(absolute, 80px, 460px);
@@ -57,7 +124,6 @@
 }
 
 .icons {
-    // @include dimensions(250px, null);
     transform: translate(0, -50%);
     padding: 10px;
     background-color: #1c1824;
@@ -108,21 +174,70 @@
 
 .arrow_1 {
     @include positionTopLeft(absolute, 15px, 60px);
+    z-index: 2;
+
+    @media (max-width: 1100px) {
+        display: none;
+    }
+}
+.arrow_1_small {
+    @include positionTopLeft(absolute, 60px, 40px);
+    z-index: 2;
+
+    @media (min-width: 1100px) {
+        display: none;
+    }
 }
 
 .arrow_2 {
     @include positionTopLeft(absolute, 10px, 190px);
     z-index: 2;
+
+    @media (max-width: 1100px) {
+        display: none;
+    }
+}
+.arrow_2_small {
+    @include positionTopLeft(absolute, 10px, 190px);
+    z-index: 2;
+
+    @media (min-width: 1100px) {
+        display: none;
+    }
 }
 
 .arrow_3 {
     @include positionTopLeft(absolute, 175px, 190px);
     z-index: 2;
+    
+    @media (max-width: 1100px) {
+        display: none;
+    }
+}
+.arrow_3_small {
+    @include positionTopLeft(absolute, 75px, 190px);
+    z-index: 2;
+
+    @media (min-width: 1100px) {
+        display: none;
+    }
 }
 
 .arrow_4 {
     @include positionTopLeft(absolute, 170px, 140px);
     z-index: 2;
+    
+    @media (max-width: 1100px) {
+        display: none;
+    }
+}
+.arrow_4_small {
+    @include positionTopLeft(absolute, 75px, 140px);
+    z-index: 2;
+
+    @media (min-width: 1100px) {
+        display: none;
+    }
 }
 
 .arrow_5 {
@@ -138,21 +253,37 @@
 .arrow_7 {
     @include positionTopLeft(absolute, 40px, 190px);
     z-index: 2;
+    
+    @media (max-width: 1100px) {
+        display: none;
+    }
 }
 
 .arrow_8 {
     @include positionTopLeft(absolute, 70px, 200px);
     z-index: 2;
+
+    @media (max-width: 1100px) {
+        display: none;
+    }
 }
 
 .bracket_1 {
     @include positionTopLeft(absolute, 15px, 240px);
     z-index: 2;
+
+    @media (max-width: 1100px) {
+        @include positionTopLeft(absolute, 15px, 100px);
+    }
 }
 
 .bracket_2 {
     @include positionTopLeft(absolute, 15px, 900px);
     z-index: 2;
+
+    @media (max-width: 1100px) {
+        display: none;
+    }
 }
 
 .bracket_3 {

@@ -16,8 +16,8 @@ type OptionsType = {
     isSameColors: boolean
     bothColors: string
 
-    onBorders: () => void
-    onGrid: () => void
+    onBordersClick: () => void
+    onGridClick: () => void
 
     onChangeBordersColor: (e: React.ChangeEvent<HTMLInputElement>) => void
     onChangeGridColor: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -35,7 +35,7 @@ type OptionsType = {
 
 const Options: FC<OptionsType> = ({ borders, bothColors,
     newBordersColor, grid, newGridColor, fullscreen, isSameColors,
-    onBorders, onGrid, onChangeGridColor, onChangeBordersColor, onChangeBothColors,
+    onBordersClick, onGridClick, onChangeGridColor, onChangeBordersColor, onChangeBothColors,
     onChangeGridSize, updateGridSize, onFullscreen, offFullscreen, onSameColors }) => {
 
     return <div className={s.menu}>
@@ -45,7 +45,7 @@ const Options: FC<OptionsType> = ({ borders, bothColors,
             ? <input disabled onChange={onChangeBordersColor} className='color' type='color' value={newBordersColor} />
             : <input onChange={onChangeBordersColor} className='color' type='color' value={newBordersColor} />}
 
-        <button className={borders ? 'button_on' : 'button_off'} onClick={onBorders}>Borders</button>
+        <button className={borders ? 'button_on' : 'button_off'} onClick={onBordersClick}>Borders</button>
 
         <div>Grid</div>
         <input onChange={onChangeGridSize} placeholder='Enter size' />
@@ -55,7 +55,7 @@ const Options: FC<OptionsType> = ({ borders, bothColors,
             ? <input disabled onChange={onChangeGridColor} className='color' type='color' value={newGridColor} />
             : <input onChange={onChangeGridColor} className='color' type='color' value={newGridColor} />}
 
-        <button className={grid ? 'button_on' : 'button_off'} onClick={onGrid}>Grid</button>
+        <button className={grid ? 'button_on' : 'button_off'} onClick={onGridClick}>Grid</button>
 
         {isSameColors
             ? <input onChange={onChangeBothColors} className='color' type='color' value={bothColors} />

@@ -11,12 +11,6 @@ import {
     menuChapters, allDiceMenuChapter, onChangeDiceButtonsMove, endChapter,
     changeDiceMenuChapter
 } from '../../../redux/education-reducer'
-import {
-    updateMapDimensions, cleanMap
-} from '../../../redux/map-reducer'
-import {
-    cleanLines
-} from '../../../redux/paint-reducer'
 
 import {
     getDiceColor, getDiceNumberColor, getD100, getD20, getD12,
@@ -74,10 +68,6 @@ type MapDispatchToPropsType = {
 
     changeDiceMenuChapter: (isChangeDiceMenuChapter: boolean) => void
     endChapter: (isEndChapter: boolean) => void
-
-    updateMapDimensions: (width: number, height: number) => void
-    cleanMap: () => void
-    cleanLines: () => void
 }
 
 type OwnPropsType = {
@@ -85,19 +75,15 @@ type OwnPropsType = {
 
 type DiceMenuContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const DiceMenuContainer: FC<DiceMenuContainerProps> = (
-    { diceColor, diceColorFace, diceNumberColor, D4, D6, D8, D10, D12, D20, D100, isTypesOfDice,
-        allDice, onAllDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, onTypesOfDice,
-        changeDiceColor, changeDiceColorFace, changeDiceNumberColor,
-        isDiceMenuChapter, isChangeDiceMenuChapter, menuChapters, allDiceMenuChapter,
-        changeDiceButtons, isEndChapter, onChangeDiceButtonsMove, changeDiceMenuChapter, endChapter,
-        updateMapDimensions, cleanMap, cleanLines }) => {
+const DiceMenuContainer: FC<DiceMenuContainerProps> = ({
+    allDice, D4, D6, D8, D10, D12, D20, D100, isTypesOfDice, diceColor, diceColorFace,
+    diceNumberColor, isDiceMenuChapter, changeDiceButtons, isChangeDiceMenuChapter, isEndChapter,
 
-    if (isDiceMenuChapter) {
-        updateMapDimensions(250, 250)
-        cleanMap()
-        cleanLines()
-    }
+    onAllDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, onTypesOfDice,
+
+    changeDiceColor, changeDiceColorFace, changeDiceNumberColor,
+    menuChapters, allDiceMenuChapter, onChangeDiceButtonsMove,
+    changeDiceMenuChapter, endChapter }) => {
 
     const onChangeDiceColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         changeDiceColor(e.target.value)
@@ -180,8 +166,9 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
 export default connect(mapStateToProps, {
     onAllDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, onTypesOfDice,
+
     changeDiceColor, changeDiceColorFace, changeDiceNumberColor,
-    menuChapters, allDiceMenuChapter, onChangeDiceButtonsMove, endChapter,
-    changeDiceMenuChapter, updateMapDimensions, cleanMap, cleanLines
+    menuChapters, allDiceMenuChapter, onChangeDiceButtonsMove,
+    changeDiceMenuChapter, endChapter
 }
 )(DiceMenuContainer)

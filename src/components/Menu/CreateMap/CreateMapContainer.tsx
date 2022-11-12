@@ -44,8 +44,8 @@ type MapDispatchToProps = {
     cleanLines: () => void
     updateMapDimensions: (width: number, height: number) => void
 
-    onBorders: () => void
-    onGrid: () => void
+    onBorders: (borders: boolean) => void
+    onGrid: (grid: boolean) => void
 
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
     onFreeMovement: () => void
@@ -66,12 +66,6 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
     onBorders, onGrid, updateBackgroundItems, onFixBackgroundItems, onFreeMovement,
     isCreateMapMenuChapter, isCreateMapFixButtonChapter, menuChapters, createMapDimentionsChapter,
     createMapFixButtonChapter, endChapter }) => {
-
-    if (isCreateMapMenuChapter) {
-        updateMapDimensions(250, 250)
-        cleanMap()
-        cleanLines()
-    }
 
     React.useEffect(() => {}, [isFixBackgroundItems])
 
@@ -94,17 +88,20 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
         cleanMap()
         cleanLines()
 
-        updateMapDimensions(Math.round(width / gridSize) * gridSize, Math.round(height / gridSize) * gridSize)
         updateBackgroundItems([])
 
         if (isCreateMapMenuChapter) {
         menuChapters('')
         createMapDimentionsChapter(true)
-        // updateMapDimensions(250, 250)
+        updateMapDimensions(250, 250)
+        
+    }
+    else {
+        updateMapDimensions(Math.round(width / gridSize) * gridSize, Math.round(height / gridSize) * gridSize)
     }
 
-        !borders && onBorders()
-        !grid && onGrid()
+        !borders && onBorders(true)
+        !grid && onGrid(true)
     }
 
     const onFixClick = () => {

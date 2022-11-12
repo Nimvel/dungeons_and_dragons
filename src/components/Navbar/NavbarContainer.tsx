@@ -12,7 +12,7 @@ import {
 } from '../../redux/education-reducer'
 import { ItemType } from '../../redux/navbar-reducer'
 import { setClickedItemId } from '../../redux/backgrounds-reducer'
-import { updateMapDimensions, cleanMap } from '../../redux/map-reducer'
+import { updateMapDimensions, cleanMap, updateBackgroundItems, BackgroundItemOnMapType } from '../../redux/map-reducer'
 import { cleanLines, changePensilMode, changeLineMode } from '../../redux/paint-reducer'
 import {
     introduction, allDiceMenuChapter, changeDiceMenuChapter, changeColorLineChapter,
@@ -25,8 +25,10 @@ import Navbar from './Navbar'
 //@ts-ignore
 import s from './Navbar.module.scss'
 import {
-    getIsAddIconsMenuChapter, getIsCreateMapMenuChapter, getIsDiceMenuChapter,
+    getIsAddIconsMenuChapter, getIsAllDiceMenuChapter, getIsChangeColorLineChapter, getIsChangeDiceMenuChapter, getIsCreateMapDimentionsChapter, getIsCreateMapFillChapter, getIsCreateMapFixButtonChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapItemsChapter, getIsCreateMapMenuChapter, getIsCreateMapMoveItemsChapter, getIsDiceMenuChapter,
     getIsEndChapter, getIsIntroduction, getIsMapMenuChapter,
+    getIsNavbarChapter,
+    getIsNavbarIconsChapter,
     getIsPaintMenuChapter, getIsSettingsMenuChapter, getNavbarIconsChapters
 } from '../../redux/education-selectors'
 
@@ -37,14 +39,31 @@ type MapStateToPropsType = {
     navbarItems: Array<ItemType>
 
     navbarIconsChapters: Array<string>
-    isEndChapter: boolean
-    isCreateMapMenuChapter: boolean
+
     isIntroduction: boolean
+    isNavbarChapter: boolean
+    isNavbarIconsChapter: boolean
     isMapMenuChapter: boolean
-    isAddIconsMenuChapter: boolean
-    isDiceMenuChapter: boolean
+
+    isCreateMapMenuChapter: boolean
+    isCreateMapDimentionsChapter: boolean
+    isCreateMapFillChapter: boolean
+    isCreateMapItemsChapter: boolean
+    isCreateMapMoveItemsChapter: boolean
+    isCreateMapFreeButtonChapter: boolean
+    isCreateMapFixButtonChapter: boolean
+
+    isEndChapter: boolean
     isPaintMenuChapter: boolean
+    isChangeColorLineChapter: boolean
+
     isSettingsMenuChapter: boolean
+
+    isAddIconsMenuChapter: boolean
+
+    isDiceMenuChapter: boolean
+    isAllDiceMenuChapter: boolean
+    isChangeDiceMenuChapter: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -53,6 +72,7 @@ type MapDispatchToPropsType = {
     openMenu: () => void
     closeMenu: () => void
     updateMapDimensions: (width: number, height: number) => void
+    updateBackgroundItems: (items: Array<BackgroundItemOnMapType>) => void
     cleanMap: () => void
     cleanLines: () => void
 
@@ -80,14 +100,46 @@ type MapDispatchToPropsType = {
 
 type NavbarContainerProps = MapStateToPropsType & MapDispatchToPropsType
 
-const NavbarContainer: FC<NavbarContainerProps> = ({ isNavbarActive, navbarItems, navbarIconsChapters, isEndChapter,
-    isCreateMapMenuChapter, 
-    updateMapDimensions, cleanMap, cleanLines,
-    isMapMenuChapter, isAddIconsMenuChapter, isDiceMenuChapter, isPaintMenuChapter, isSettingsMenuChapter,
-    isIntroduction, introduction, allDiceMenuChapter, changeDiceMenuChapter,
-    changeColorLineChapter, closeNavbar, openNavbar, openMenu, closeMenu, navbarChapter, onNavbarIconsChapter, onMoveNavbarIconsChapters,
-    menuChapters, endChapter, createMapDimentionsChapter, createMapFillChapter, createMapItemsChapter, createMapMoveItemsChapter,
-    createMapFreeButtonChapter, createMapFixButtonChapter, changePensilMode, changeLineMode, setClickedItemId
+const NavbarContainer: FC<NavbarContainerProps> = ({
+    isNavbarActive, navbarItems, navbarIconsChapters,
+    
+    isIntroduction, isNavbarChapter, isNavbarIconsChapter,
+    isMapMenuChapter, isAddIconsMenuChapter, isDiceMenuChapter,
+    isAllDiceMenuChapter, isChangeDiceMenuChapter, isEndChapter,
+    isPaintMenuChapter, isChangeColorLineChapter, isSettingsMenuChapter, isCreateMapMenuChapter,
+
+    isCreateMapDimentionsChapter, isCreateMapFillChapter, isCreateMapItemsChapter,
+    isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter, isCreateMapFixButtonChapter,
+
+    closeNavbar,
+    openNavbar,
+    openMenu,
+    closeMenu,
+    cleanMap,
+    cleanLines,
+    updateMapDimensions,
+    updateBackgroundItems,
+
+    changePensilMode,
+    changeLineMode,
+    setClickedItemId,
+
+    navbarChapter,
+    onNavbarIconsChapter,
+    onMoveNavbarIconsChapters,
+    menuChapters,
+    endChapter,
+    introduction,
+    allDiceMenuChapter,
+    changeDiceMenuChapter,
+    changeColorLineChapter,
+
+    createMapDimentionsChapter,
+    createMapFillChapter,
+    createMapItemsChapter,
+    createMapMoveItemsChapter,
+    createMapFreeButtonChapter,
+    createMapFixButtonChapter,
 }) => {
 
     const onNavbarClick = () => {
@@ -113,8 +165,20 @@ const NavbarContainer: FC<NavbarContainerProps> = ({ isNavbarActive, navbarItems
 
     const onMenuClick = (icon: string) => {
         openMenu()
-        onNavbarIconsChapter(false)
-        menuChapters(icon)
+        changePensilMode(false)
+        changeLineMode(false)
+        setClickedItemId(null)
+
+        if (isNavbarChapter || isNavbarIconsChapter || isMapMenuChapter || 
+            isAddIconsMenuChapter || isDiceMenuChapter || isAllDiceMenuChapter || 
+            isChangeDiceMenuChapter || isEndChapter || isPaintMenuChapter || 
+            isChangeColorLineChapter || isSettingsMenuChapter || isCreateMapMenuChapter ||
+        
+            isCreateMapDimentionsChapter || isCreateMapFillChapter || isCreateMapItemsChapter ||
+            isCreateMapMoveItemsChapter || isCreateMapFreeButtonChapter || isCreateMapFixButtonChapter) {
+
+            onNavbarIconsChapter(false)
+            menuChapters(icon)
 
             createMapDimentionsChapter(false)
             createMapFillChapter(false)
@@ -128,9 +192,12 @@ const NavbarContainer: FC<NavbarContainerProps> = ({ isNavbarActive, navbarItems
 
             changeColorLineChapter(false)
 
-            changePensilMode(false)
-            changeLineMode(false)
-            setClickedItemId(null)
+            updateMapDimensions(250, 250)
+            cleanMap()
+            cleanLines()
+            updateBackgroundItems([])
+        }
+
 
         if (isEndChapter) {
             endChapter(false)
@@ -148,8 +215,8 @@ const NavbarContainer: FC<NavbarContainerProps> = ({ isNavbarActive, navbarItems
 
     return <>
         {isNavbarActive
-            ? <Navbar onCrossClick={onCrossClick} onMenuClick={onMenuClick} MouseMove={MouseMove} navbarItems={navbarItems}
-                navbarIconsChapters={navbarIconsChapters} MouseLeave={MouseLeave} />
+            ? <Navbar navbarItems={navbarItems} navbarIconsChapters={navbarIconsChapters}
+                onCrossClick={onCrossClick} onMenuClick={onMenuClick} MouseMove={MouseMove} MouseLeave={MouseLeave} />
             : <img src={navbar} onClick={onNavbarClick} className={s.open} />
         }
     </>
@@ -160,22 +227,43 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         isNavbarActive: getIsNavbarActive(state),
         navbarItems: getNavbarItems(state),
         navbarIconsChapters: getNavbarIconsChapters(state),
-        isEndChapter: getIsEndChapter(state),
-        isCreateMapMenuChapter: getIsCreateMapMenuChapter(state),
         isIntroduction: getIsIntroduction(state),
+        isNavbarChapter: getIsNavbarChapter(state),
+        isNavbarIconsChapter: getIsNavbarIconsChapter(state),
+
         isMapMenuChapter: getIsMapMenuChapter(state),
+
+        isCreateMapMenuChapter: getIsCreateMapMenuChapter(state),
+        isCreateMapDimentionsChapter: getIsCreateMapDimentionsChapter(state),
+        isCreateMapFillChapter: getIsCreateMapFillChapter(state),
+        isCreateMapItemsChapter: getIsCreateMapItemsChapter(state),
+        isCreateMapMoveItemsChapter: getIsCreateMapMoveItemsChapter(state),
+        isCreateMapFreeButtonChapter: getIsCreateMapFreeButtonChapter(state),
+        isCreateMapFixButtonChapter: getIsCreateMapFixButtonChapter(state),
+        isEndChapter: getIsEndChapter(state),
+
         isAddIconsMenuChapter: getIsAddIconsMenuChapter(state),
+
         isDiceMenuChapter: getIsDiceMenuChapter(state),
+        isAllDiceMenuChapter: getIsAllDiceMenuChapter(state),
+        isChangeDiceMenuChapter: getIsChangeDiceMenuChapter(state),
+
         isPaintMenuChapter: getIsPaintMenuChapter(state),
+        isChangeColorLineChapter: getIsChangeColorLineChapter(state),
         isSettingsMenuChapter: getIsSettingsMenuChapter(state)
     }
 }
 
 export default connect(mapStateToProps, {
-    closeNavbar, openNavbar, openMenu, closeMenu, navbarChapter, onNavbarIconsChapter,
-    onMoveNavbarIconsChapters, menuChapters, endChapter, introduction,
-    updateMapDimensions, cleanMap, cleanLines, allDiceMenuChapter, changeDiceMenuChapter,
-    changeColorLineChapter, createMapDimentionsChapter, createMapFillChapter, createMapItemsChapter, 
-    createMapMoveItemsChapter, createMapFreeButtonChapter, createMapFixButtonChapter, 
-    changePensilMode, changeLineMode, setClickedItemId
+    closeNavbar, openNavbar, openMenu, closeMenu, cleanMap,
+    cleanLines, updateMapDimensions, updateBackgroundItems,
+
+    changePensilMode, changeLineMode, setClickedItemId,
+
+    navbarChapter, onNavbarIconsChapter, onMoveNavbarIconsChapters,
+    menuChapters, endChapter, introduction, allDiceMenuChapter,
+    changeDiceMenuChapter, changeColorLineChapter,
+
+    createMapDimentionsChapter, createMapFillChapter, createMapItemsChapter,
+    createMapMoveItemsChapter, createMapFreeButtonChapter, createMapFixButtonChapter
 })(NavbarContainer)
