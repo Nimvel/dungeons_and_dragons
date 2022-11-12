@@ -9,6 +9,11 @@
     height: $height;
 }
 
+@mixin border($color, $radius) {
+    border: $color solid 3px;
+    border-radius: $radius;
+  }
+
 .education {
     font-size: 25px;
     color: white;
@@ -16,111 +21,238 @@
     text-align:justify;
 
     p { text-indent: 30px; }
-    // text-align: center
+
+    @media (max-width: 600px) {
+        font-size: 17px;
+        p { text-indent: 15px; }
+    }
+}
+
+.border {
+    @include border(white, 15px);
+    padding: 0px 15px;
 }
 
 .introduction {
     @include positionTopLeft(absolute, 50%, 50%);
     transform: translate(-50%, -50%);
-    @include dimensions(590px, 350px);
-    margin: 5px;
+    @include dimensions(590px, auto);
+    // margin: 5px;
+    padding: 10px 20px;
 
     button {
         @include positionTopLeft(relative, -55px, 350px);
     }
 
-    @media (max-width: 1100px) {
-        @include dimensions(450px, 490px);
+    @media (max-width: 650px) {
+        @include dimensions(80%, auto);
+        padding: 20px;
 
         button {
-            @include positionTopLeft(relative, 0px, 200px);
+            @include positionTopLeft(relative, 0px, 40%);
         }
     }
 }
 
 .navbarChapter {
-    @include positionTopLeft(absolute, 50%, 50%);
-    transform: translate(-50%, -50%);
+    @include positionTopLeft(absolute, 385px, 375px);
+    @include border(white, 15px);
+    padding: 10px;
 
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 50%, 150px);
-        transform: translate(0, -50%);
+    @media (max-width: 800px) {
+        @include positionTopLeft(absolute, 423px, 50px);
     }
 }
 
 .navbarIconsChapter {
-    @include positionTopLeft(absolute, 105px, 420px);
-    @include dimensions(470px, 80px);
+    @include positionTopLeft(absolute, 125px, 270px);
+    @include dimensions(50%, auto);
+    padding: 0px 15px;
+    @include border(white, 15px);
 
-    @media (max-width: 1100px) {
+
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 70px);
+        @include dimensions(70%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 900px) {
         @include positionTopLeft(absolute, 105px, 270px);
-    @include dimensions(270px, 80px);
     }
 }
 
 .menuChapter {
-    @include positionTopLeft(absolute, 50%, 50%);
-    transform: translate(-50%, -50%);
-    @include dimensions(470px, 380px);
+    @include positionTopLeft(absolute, 100px, 50%);
+    transform: translate(-50%);
+    @include dimensions(470px, auto);
+    @include border(white, 15px);
+    padding: 5px 15px;
 
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 50%, 240px);
-        @include dimensions(320px, 380px);
-        transform: translate(0, -50%);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 10px, 150px);
+        transform: translate(0);
+        @include dimensions(50%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 1000px) {
+        @include positionTopLeft(absolute, 100px, 230px);
+        transform: translate(0);
+        @include dimensions(50%, auto);
     }
 }
 
-.createMapChapter {
-    @include positionTopLeft(absolute, 145px, 400px);
-    @include dimensions(470px, 200px);
+.createMapMenuChapter {
+    @include positionTopLeft(absolute, 115px, 360px);
+    @include dimensions(470px, auto);
+    
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 170px);
+        @include dimensions(40%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 900px) {
+        @include positionTopLeft(absolute, 65px, 360px);
+        @include dimensions(35%, auto);
+    }
+}
+
+.createMapDimentionsChapter {
+    @include positionTopLeft(absolute, 100px, 50%);
+    transform: translate(-50%);
+    @include dimensions(470px, auto);
 
     button {
     @include positionTopLeft(relative, -50px, 330px);
     }
     
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 35px, 240px);
-        @include dimensions(320px, 220px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 150px);
+        transform: translate(0);
+        @include dimensions(45%, auto);
 
         button {
-            @include positionTopLeft(relative, -50px, 210px);
+            @include positionTopLeft(relative, -15px, 60%);
+            }
+    }
+
+    @media (min-width: 601px) and (max-width: 1000px) {
+        @include positionTopLeft(absolute, 75px, 235px);
+        transform: translate(0);
+        @include dimensions(55%, auto);
+
+        button {
+            @include positionTopLeft(relative, -15px, 60%);
             }
     }
 }
 
-.createMapMoveItemsChapter {
-    @include positionTopLeft(absolute, 125px, 50%);
-    transform: translate(-50%);
-    @include dimensions(530px, 200px);
+.сreateMapItemsChapter {
+    @include positionTopLeft(absolute, 115px, 375px);
+    @include dimensions(470px, auto);
+    
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 170px);
+        @include dimensions(45%, auto);
+    }
 
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 15px, 230px);
+    @media (min-width: 601px) and (max-width: 900px) {
+        @include positionTopLeft(absolute, 85px, 375px);
+        @include dimensions(35%, auto);
+    }
+}
+
+.createMapMoveItemsChapter {
+    @include positionTopLeft(absolute, 65px, 50%);
+    transform: translate(-50%);
+    @include dimensions(530px, auto);
+
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 15px, 150px);
         transform: translate(0);
-        @include dimensions(330px, 290px);
+        @include dimensions(50%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 1000px) {
+        @include positionTopLeft(absolute, 15px, 225px);
+        transform: translate(0);
+        @include dimensions(55%, auto);
+    }
+}
+
+.createMapFreeButtonChapter {
+    @include positionTopLeft(absolute, 115px, 375px);
+    @include dimensions(470px, auto);
+    
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 170px);
+        @include dimensions(45%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 850px) {
+        @include positionTopLeft(absolute, 35px, 375px);
+        @include dimensions(33%, auto);
     }
 }
 
 .diceChapter {
-    @include positionTopLeft(absolute, 200px, 50%);
-    transform: translate(-50%, 0);
-    @include dimensions(470px, 150px);
+    @include positionTopLeft(absolute, 130px, 375px);
+    @include dimensions(470px, auto);
 
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 200px, 270px);
-        transform: translate(0, 0);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 170px);
+        transform: translate(0);
+        @include dimensions(45%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 850px) {
+        @include positionTopLeft(absolute, 35px, 375px);
+        transform: translate(0);
+        @include dimensions(33%, auto);
     }
 }
 
 .clickDiceMenuChapter {
     @include positionTopLeft(absolute, 205px, 400px);
 
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 205px, 200px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 205px, 145px);
+        @include dimensions(30%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 1100px) {
+        @include positionTopLeft(absolute, 205px, 35%);
+        @include dimensions(40%, auto);
     }
 }
 .changeDiceChapter {
-    @include positionTopLeft(absolute, 80px, 460px);
+    @include positionTopLeft(absolute, 60px, 275px);
     @include dimensions(450px, 120px);
+
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 145px);
+        @include dimensions(35%, auto);
+        padding: 15px 10px;
+    }
+
+    @media (min-width: 601px) and (max-width: 850px) {
+        @include positionTopLeft(absolute, 50px, 275px);
+        @include dimensions(40%, auto);
+    }
+}
+
+.changeColorLineChapter {
+    @include positionTopLeft(absolute, 155px, 385px);
+    @include dimensions(470px, auto);
+    
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 45px, 170px);
+        @include dimensions(40%, auto);
+    }
+
+    @media (min-width: 601px) and (max-width: 900px) {
+        @include positionTopLeft(absolute, 115px, 385px);
+        @include dimensions(30%, auto);
+    }
 }
 
 .icons {
@@ -142,41 +274,71 @@
 
 .map {
     @include positionTopLeft(absolute, 45px, 80px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 35px, 50px);
+    }
 }
 .createMap {
     @include positionTopLeft(absolute, 95px, 80px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 75px, 50px);
+    }
 }
 .items {
     @include positionTopLeft(absolute, 165px, 80px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 120px, 50px);
+    }
 }
 .dice {
     @include positionTopLeft(absolute, 235px, 80px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 160px, 50px);
+    }
 }
 .paint {
     @include positionTopLeft(absolute, 295px, 80px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 205px, 50px);
+    }
 }
 .settings {
     @include positionTopLeft(absolute, 365px, 80px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 250px, 50px);
+    }
 }
 
 .diceNames {
     @include positionTopLeft(absolute, 75px, 210px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 85px, 140px);
+    }
 }
 .diceColor {
     @include positionTopLeft(absolute, 105px, 210px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 120px, 140px);
+    }
 }
 .diceBorderColor {
     @include positionTopLeft(absolute, 135px, 210px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 150px, 140px);
+    }
 }
 .diceNumberColor {
     @include positionTopLeft(absolute, 165px, 210px);
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 185px, 140px);
+    }
 }
 
 .arrow_1 {
     @include positionTopLeft(absolute, 15px, 60px);
     z-index: 2;
 
-    @media (max-width: 1100px) {
+    @media (max-width: 800px) {
         display: none;
     }
 }
@@ -184,7 +346,7 @@
     @include positionTopLeft(absolute, 60px, 40px);
     z-index: 2;
 
-    @media (min-width: 1100px) {
+    @media (min-width: 800px) {
         display: none;
     }
 }
@@ -193,15 +355,15 @@
     @include positionTopLeft(absolute, 10px, 190px);
     z-index: 2;
 
-    @media (max-width: 1100px) {
+    @media (max-width: 600px) {
         display: none;
     }
 }
 .arrow_2_small {
-    @include positionTopLeft(absolute, 10px, 190px);
+    @include positionTopLeft(absolute, 15px, 125px);
     z-index: 2;
 
-    @media (min-width: 1100px) {
+    @media (min-width: 600px) {
         display: none;
     }
 }
@@ -210,15 +372,15 @@
     @include positionTopLeft(absolute, 175px, 190px);
     z-index: 2;
     
-    @media (max-width: 1100px) {
+    @media (max-width: 600px) {
         display: none;
     }
 }
 .arrow_3_small {
-    @include positionTopLeft(absolute, 75px, 190px);
+    @include positionTopLeft(absolute, 95px, 120px);
     z-index: 2;
 
-    @media (min-width: 1100px) {
+    @media (min-width: 600px) {
         display: none;
     }
 }
@@ -227,15 +389,15 @@
     @include positionTopLeft(absolute, 170px, 140px);
     z-index: 2;
     
-    @media (max-width: 1100px) {
+    @media (max-width: 600px) {
         display: none;
     }
 }
 .arrow_4_small {
-    @include positionTopLeft(absolute, 75px, 140px);
+    @include positionTopLeft(absolute, 100px, 90px);
     z-index: 2;
 
-    @media (min-width: 1100px) {
+    @media (min-width: 600px) {
         display: none;
     }
 }
@@ -243,18 +405,50 @@
 .arrow_5 {
     @include positionTopLeft(absolute, 180px, 190px);
     z-index: 2;
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+.arrow_5_small {
+    @include positionTopLeft(absolute, 120px, 120px);
+    z-index: 2;
+
+    @media (min-width: 600px) {
+        display: none;
+    }
 }
 
 .arrow_6 {
     @include positionTopLeft(absolute, 185px, 190px);
     z-index: 2;
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+.arrow_6_small {
+    @include positionTopLeft(absolute, 110px, 120px);
+    z-index: 2;
+
+    @media (min-width: 600px) {
+        display: none;
+    }
 }
 
 .arrow_7 {
-    @include positionTopLeft(absolute, 40px, 190px);
+    @include positionTopLeft(absolute, 35px, 190px);
     z-index: 2;
     
-    @media (max-width: 1100px) {
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+.arrow_7_small {
+    @include positionTopLeft(absolute, 35px, 125px);
+    z-index: 2;
+
+    @media (min-width: 600px) {
         display: none;
     }
 }
@@ -263,32 +457,52 @@
     @include positionTopLeft(absolute, 70px, 200px);
     z-index: 2;
 
-    @media (max-width: 1100px) {
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+.arrow_8_small {
+    @include positionTopLeft(absolute, 90px, 125px);
+    z-index: 2;
+
+    @media (min-width: 600px) {
         display: none;
     }
 }
 
 .bracket_1 {
-    @include positionTopLeft(absolute, 15px, 240px);
+    @include positionTopLeft(absolute, 15px, 100px);
     z-index: 2;
-
-    @media (max-width: 1100px) {
-        @include positionTopLeft(absolute, 15px, 100px);
-    }
-}
-
-.bracket_2 {
-    @include positionTopLeft(absolute, 15px, 900px);
-    z-index: 2;
-
-    @media (max-width: 1100px) {
+    
+    @media (max-width: 600px) {
         display: none;
     }
 }
 
-.bracket_3 {
-    @include positionTopLeft(absolute, 55px, 400px);
+.bracket_2 {
+    @include positionTopLeft(absolute, 15px, 920px);
     z-index: 2;
+
+    @media (max-width: 800px) {
+        display: none;
+    }
+
+    @media (min-width: 801px) and (max-width: 1100px) {
+        @include positionTopLeft(absolute, 15px, 80%);
+    }
+}
+
+.bracket_3 {
+    @include positionTopLeft(absolute, 55px, 220px);
+    z-index: 2;
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+
+    // @media (min-width: 601px) and (max-width: 1100px) {
+    //     @include positionTopLeft(absolute, 55px, 200px);
+    // }
 }
 
 .EndChapter {
@@ -296,10 +510,10 @@
     transform: translate(-50%, -50%);
     padding: 50px;
     border-radius: 25px;
-    width: 470px;
-    // @include dimensions(470px, 170px);
+    @include dimensions(470px, auto);
     background-color: white;
     color: black;
+    z-index: 3;
 
     button {
         @include positionTopLeft(relative, 0px, 250px);
@@ -309,13 +523,31 @@
     img {
         @include dimensions(50px, 50px);
     }
-    .cat {
-        @include positionTopLeft(absolute, 40px, 250px);
-    }
     .firework_1 {
-        @include positionTopLeft(absolute, 40px, 380px);
+        @include positionTopLeft(absolute, 60px, 380px);
     }
     .firework_2 {
-        @include positionTopLeft(absolute, 200px, 100px);
+        @include positionTopLeft(absolute, 230px, 100px);
+    }
+
+    @media (max-width: 600px) {
+        @include positionTopLeft(absolute, 50%, 100px);
+        transform: translate(0, -50%);
+        @include dimensions(55%, auto);
+        padding: 30px;
+        padding-top: 15px;
+
+        button {
+            @include positionTopLeft(relative, 0px, 50%);
+            transform: translate(-50%);
+
+            margin: 0;
+        }
+        .firework_1 {
+            @include positionTopLeft(absolute, auto, 75%);
+        }
+        .firework_2 {
+            @include positionTopLeft(absolute, auto, 10%);
+        }
     }
 }

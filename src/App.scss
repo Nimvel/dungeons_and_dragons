@@ -30,6 +30,7 @@
 
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 20px;
+  word-wrap:break-word;
 
   background-color: #85728a; 
   // #1c1824
@@ -39,7 +40,7 @@
   }
   .color {
     @include dimensions(105px, 27px);
-}
+  }
 
   button {
     @include dimensions(105px, 25px);
@@ -60,6 +61,20 @@
   }
   .button_off:hover { 
     background: #797979; 
+  }
+
+  @media (max-width: 600px) {
+    font-size: 15px;
+    input {
+      @include dimensions(67px, 20px);
+    }
+    .color {
+      @include dimensions(75px, 27px);
+    }
+  
+    button {
+      @include dimensions(75px, 35px);
+    }
   }
 }
 
@@ -86,7 +101,17 @@
     @include possitionLeft(relative, 50%);
     top: 10px;
     transform: translate(-50%)
+  }
 
+  @media (max-width: 600px) {
+    @include dimensions(35px, 100%);
+
+    img {
+      @include dimensions(40px, 40px);
+      @include possitionLeft(relative, 50%);
+      top: 10px;
+      transform: translate(-50%)
+    }
   }
 }
 
@@ -97,6 +122,11 @@
   z-index: 2;
   background-color: #d5d5d5;
   overflow-y: auto;
+
+  @media (max-width: 600px) {
+    @include dimensions(95px, 100%);
+    @include possitionLeft(fixed, 45px);
+  }
 }
 
 .map {

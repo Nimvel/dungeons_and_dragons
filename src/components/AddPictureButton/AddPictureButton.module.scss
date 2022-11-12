@@ -15,7 +15,7 @@
 
   label {
       font-size: 13px;
-      padding: 5px 16.9px;
+      padding: 5px 39px;
 
       background-color: #5adc50;
       color: black;
@@ -25,5 +25,12 @@
 
   label:hover {
       background-color: #38cb2d;
+  }
+
+  @media (max-width: 600px) {
+    label {
+      font-size: 13px;
+      padding: 5px 24px;
+  }
   }
 }

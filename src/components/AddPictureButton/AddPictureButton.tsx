@@ -12,7 +12,7 @@ const AddPictureButton: FC<AddPictureButtonType> = ({ addPicture }) => {
         <label>
             <input onChange={addPicture}
                 type={'file'} accept='.jpg, .jpeg, .tiff, .png, .gif, .bmp, jp2' />  {/* multiple */}
-            <span>Add Picture</span>
+            <span>Add</span>
         </label>
     </div>
 }

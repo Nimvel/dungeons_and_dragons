@@ -11,6 +11,9 @@ const arrow_1_small = require('../assets/education/arrow_1_small.png')
 const arrow_2_small = require('../assets/education/arrow_2_small.png')
 const arrow_3_small = require('../assets/education/arrow_3_small.png')
 const arrow_4_small = require('../assets/education/arrow_4_small.png')
+const arrow_5_small = require('../assets/education/arrow_5_small.png')
+const arrow_6_small = require('../assets/education/arrow_6_small.png')
+const arrow_7_small = require('../assets/education/arrow_7_small.png')
 
 const bracket_1 = require('../assets/education/bracket_1.png')
 const bracket_2 = require('../assets/education/bracket_2.png')
@@ -97,7 +100,7 @@ type initialStateType = {
 
 const initialState = {
     arrows: [arrow_1, bracket_1, arrow_2, arrow_3, arrow_4, arrow_5, arrow_6, arrow_7, bracket_2, bracket_3, arrow_8],
-    smallArrows: [arrow_1_small, arrow_2_small, arrow_3_small, arrow_4_small],
+    smallArrows: [arrow_1_small, arrow_2_small, arrow_3_small, arrow_4_small, arrow_5_small, arrow_6_small, arrow_7_small],
     icons: [firework_1, firework_2],
     
     isIntroduction: true,

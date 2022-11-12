@@ -17,10 +17,10 @@
   }
 
 .menu {
-        @include dimensions(100px, 80px);
-        padding: 10px;
-        display: grid;
-        gap: 4px;
+    @include dimensions(100px, 80px);
+    padding: 10px;
+    display: grid;
+    gap: 4px;
 }
 
 .items {
@@ -43,7 +43,18 @@
     }
     .item_active:hover {
       border-color: red;
-  
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 35px 35px;
+      
+      .item {
+        @include dimensions(35px, 35px);
+        @include border(black, 5px);
+      }
+      .item_active {
+        @include border(red, 5px);
+      }
     }
   }
   
@@ -55,6 +66,12 @@
         @include position(relative, 0, 0, 0, 50%);
         transform: translate(-50%);
         object-fit: cover;
+    }
+
+    @media (max-width: 600px) {
+      img {
+        @include dimensions(40px, 40px);
+      }
     }
   }
   
