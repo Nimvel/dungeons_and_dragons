@@ -4,8 +4,6 @@ import { FC } from 'react'
 import s from '../Menu.module.scss'
 
 type DiceType = {
-    allDice: boolean
-
     D4: boolean
     D6: boolean
     D8: boolean
@@ -41,22 +39,22 @@ type DiceType = {
     onDiceButtonMouseLeave: () => void
 }
 
-const DiceMenu: FC<DiceType> = ({allDice, D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, onAllDiceClick,
+const DiceMenu: FC<DiceType> = ({D4, D6, D8, D10, D12, D20, D100, diceColor, diceColorFace, onAllDiceClick,
     diceNumberColor, isTypesOfDice, onTypesOfDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, 
     onChangeDiceColor, onChangeDiceColorFace, onChangeDiceNumberColor, onDiceButtonMouseMove, onDiceButtonMouseLeave,
     changeDiceButtons }) => {
 
     return <div className={s.menu}>
             <div>Dice</div>
-            <button className={allDice ? 'button_on' : 'button_off'} onClick={onAllDiceClick}>All Dice</button>
-            <button onMouseMove={e => onDiceButtonMouseMove(changeDiceButtons[0])} onMouseLeave={onDiceButtonMouseLeave} 
+            <button className={D4 && D6 && D8 && D10 && D12 && D20 && D100 ? 'button_on' : 'button_off'} onClick={onAllDiceClick}>All Dice</button>
+            <button onMouseMove={() => onDiceButtonMouseMove(changeDiceButtons[0])} onMouseLeave={onDiceButtonMouseLeave} 
             className={isTypesOfDice ? 'button_on' : 'button_off'} onClick={onTypesOfDice}>Types of dice</button>
 
-            <input onMouseMove={e => onDiceButtonMouseMove(changeDiceButtons[1])} onMouseLeave={onDiceButtonMouseLeave} 
+            <input onMouseMove={() => onDiceButtonMouseMove(changeDiceButtons[1])} onMouseLeave={onDiceButtonMouseLeave} 
             onChange={onChangeDiceColor} className='color' type='color' value={diceColor} />
-            <input onMouseMove={e => onDiceButtonMouseMove(changeDiceButtons[2])} onMouseLeave={onDiceButtonMouseLeave} 
+            <input onMouseMove={() => onDiceButtonMouseMove(changeDiceButtons[2])} onMouseLeave={onDiceButtonMouseLeave} 
             onChange={onChangeDiceColorFace} className='color' type='color' value={diceColorFace} />
-            <input onMouseMove={e => onDiceButtonMouseMove(changeDiceButtons[3])} onMouseLeave={onDiceButtonMouseLeave} 
+            <input onMouseMove={() => onDiceButtonMouseMove(changeDiceButtons[3])} onMouseLeave={onDiceButtonMouseLeave} 
             onChange={onChangeDiceNumberColor} className='color' type='color' value={diceNumberColor} />
 
             <button className={D4 ? 'button_on' : 'button_off'} onClick={onD4}>D4</button>

@@ -14,7 +14,7 @@ import {
 
 import {
     getDiceColor, getDiceNumberColor, getD100, getD20, getD12,
-    getD10, getD8, getD6, getD4, getDiceColorFace, getIsTypesOfDice, getAllDice
+    getD10, getD8, getD6, getD4, getDiceColorFace, getIsTypesOfDice
 } from '../../../redux/dice-selectors'
 import { getChangeDiceButtons, getIsChangeDiceMenuChapter, getIsDiceMenuChapter, getIsEndChapter } from '../../../redux/education-selectors'
 
@@ -22,8 +22,6 @@ import { getChangeDiceButtons, getIsChangeDiceMenuChapter, getIsDiceMenuChapter,
 import DiceMenu from './DiceMenu'
 
 type MapStateToPropsType = {
-    allDice: boolean
-
     D4: boolean
     D6: boolean
     D8: boolean
@@ -46,7 +44,7 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToPropsType = {
-    onAllDice: () => void
+    onAllDice: (isAllDice: boolean) => void
 
     onD4: () => void
     onD6: () => void
@@ -75,8 +73,7 @@ type OwnPropsType = {
 
 type DiceMenuContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const DiceMenuContainer: FC<DiceMenuContainerProps> = ({
-    allDice, D4, D6, D8, D10, D12, D20, D100, isTypesOfDice, diceColor, diceColorFace,
+const DiceMenuContainer: FC<DiceMenuContainerProps> = ({D4, D6, D8, D10, D12, D20, D100, isTypesOfDice, diceColor, diceColorFace,
     diceNumberColor, isDiceMenuChapter, changeDiceButtons, isChangeDiceMenuChapter, isEndChapter,
 
     onAllDice, onD4, onD6, onD8, onD10, onD12, onD20, onD100, onTypesOfDice,
@@ -113,7 +110,7 @@ const DiceMenuContainer: FC<DiceMenuContainerProps> = ({
     }
 
     const onAllDiceClick = () => {
-        onAllDice()
+        D4 && D6 && D8 && D10 && D12 && D20 && D100 ? onAllDice(false) : onAllDice(true)
 
         if (isDiceMenuChapter) {
             menuChapters('')
@@ -135,15 +132,13 @@ const DiceMenuContainer: FC<DiceMenuContainerProps> = ({
         D4={D4} D6={D6} D8={D8} D10={D10} D12={D12} D20={D20} D100={D100} onTypesOfDice={onTypesOfDice}
         onD4={onD4} onD6={onD6} onD8={onD8} onD10={onD10} onD12={onD12} onD20={onD20} onD100={onD100}
         onAllDiceClick={onAllDiceClick} onChangeDiceColor={onChangeDiceColor} onChangeDiceColorFace={onChangeDiceColorFace}
-        allDice={allDice} onChangeDiceNumberColor={onChangeDiceNumberColor} isTypesOfDice={isTypesOfDice}
+        onChangeDiceNumberColor={onChangeDiceNumberColor} isTypesOfDice={isTypesOfDice}
         onDiceButtonMouseMove={onDiceButtonMouseMove} onDiceButtonMouseLeave={onDiceButtonMouseLeave}
         changeDiceButtons={changeDiceButtons} />
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        allDice: getAllDice(state),
-
         D4: getD4(state),
         D6: getD6(state),
         D8: getD8(state),

@@ -15,7 +15,6 @@ const CHANGE_DICE_COLOR_FACE = 'dice/CHANGE_DICE_COLOR_FACE'
 const CHANGE_DICE_NUMBER_COLOR = 'dice/CHANGE_DICE_NUMBER_COLOR'
 
 type initialStateType = {
-    allDice: boolean
     D4: boolean
     D6: boolean
     D8: boolean
@@ -32,7 +31,6 @@ type initialStateType = {
 }
 
 const initialState: initialStateType = {
-    allDice: false,
     D4: false,
     D6: false,
     D8: false,
@@ -54,14 +52,13 @@ const diceReducer = (state = initialState, action: ActionsTypes): initialStateTy
         case ALL_DICE:
             return {
                 ...state,
-                allDice: !state.allDice,
-                D4: !state.D4,
-                D6: !state.D6,
-                D8: !state.D8,
-                D10: !state.D10,
-                D12: !state.D12,
-                D20: !state.D20,
-                D100: !state.D100,
+                D4: action.isAllDice,
+                D6: action.isAllDice,
+                D8: action.isAllDice,
+                D10: action.isAllDice,
+                D12: action.isAllDice,
+                D20: action.isAllDice,
+                D100: action.isAllDice
             }
 
         case DICE_4:
@@ -140,8 +137,9 @@ type ActionsTypes = AllDiceType | D4Type | D6Type | D8Type | D10Type | D12Type |
 
 type AllDiceType = {
     type: typeof ALL_DICE
+    isAllDice: boolean
 }
-export const onAllDice = (): AllDiceType => ({ type: ALL_DICE })
+export const onAllDice = (isAllDice: boolean): AllDiceType => ({ type: ALL_DICE, isAllDice })
 
 type D4Type = {
     type: typeof DICE_4
