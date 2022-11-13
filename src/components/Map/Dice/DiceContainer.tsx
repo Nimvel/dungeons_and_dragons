@@ -44,7 +44,7 @@ type OwnPropsType = {
 
 type DiceContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const DiceContainer: FC<DiceContainerProps> = ({
+const DiceContainer: FC<DiceContainerProps> = ({ 
     width, D4, D6, D8, D10, D12, D20, D100, isTypesOfDice,
     diceColor, diceColorFace, diceNumberColor,
     isAllDiceMenuChapter, allDiceMenuChapter, changeDiceMenuChapter }) => {
@@ -160,7 +160,7 @@ const DiceContainer: FC<DiceContainerProps> = ({
     D12 && D20 ? 160 
     : D4 || D6 || D8 || D10 || D12 || D20 ? 90 : 20
 
-    return <>
+        return <>
         {D4 && <Dice number={4} x={x} y={D4Y} width={50} text={'D4'} isTypesOfDice={isTypesOfDice}
             diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
             isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}

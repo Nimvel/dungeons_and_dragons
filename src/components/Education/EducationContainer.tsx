@@ -79,7 +79,7 @@ type MapDispatchToPropsType = {
     openNavbar: () => void
     onBorders: (borders: boolean) => void
     onGrid: (grid: boolean) => void
-    onAllDice: () => void
+    onAllDice: (isAllDice: boolean) => void
     closeEducation: () => void
 
     introduction: (isIntroduction: boolean) => void
@@ -120,15 +120,16 @@ const EducationContainer: FC<EducationContainerProps> = ({
 
     const onNoClick = () => {
         openNavbar()
-        onBorders(false)
-        onGrid(false)
-        onAllDice()
+        onBorders(true)
+        onGrid(true)
+        onAllDice(true)
         closeEducation()
     }
 
     const onYesClick = () => {
         introduction(false)
         navbarChapter(true)
+        onAllDice(false)
         updateMapDimensions(250, 250)
     }
 

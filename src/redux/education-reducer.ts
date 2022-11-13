@@ -43,13 +43,6 @@ const CHANGE_COLOR_LINE_CHAPTER = 'education/CHANGE_COLOR_LINE_CHAPTER'
 
 const END_CHAPTER = 'education/END_CHAPTER'
 
-// const MAP_MENU_CHAPTER = 'education/MAP_MENU_CHAPTER'
-// const CREATE_MAP_MENU_CHAPTER = 'education/CREATE_MAP_MENU_CHAPTER'
-// const ADD_ICONS_MENU_CHAPTER = 'education/CREATE_MAP_MENU_CHAPTER'
-// const DICE_MENU_CHAPTER = 'education/DICE_MENU_CHAPTER'
-// const PAINT_MENU_CHAPTER = 'education/PAINT_MENU_CHAPTER'
-// const SETTINGS_MENU_CHAPTER = 'education/SETTINGS_MENU_CHAPTER'
-
 type initialStateType = {
     arrows: Array<string>
     smallArrows: Array<string>

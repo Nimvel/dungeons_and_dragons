@@ -35,8 +35,9 @@
 
 .open {
     cursor: pointer;
-    @include dimensions(50px, 50px);
-    z-index: 3;
+    // @include dimensions(50px, 50px);
+    padding: 5px;
+    z-index: 2;
 }
 
 .closeModal {
