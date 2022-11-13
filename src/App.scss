@@ -93,7 +93,8 @@
   position: fixed;
   padding: 5px;
   z-index: 1;
-  background-color: #f4f4f4;
+  background-color: #1c1824;
+  // background-color: #f4f4f4;
   @include dimensions(75px, 100%);
 
   img {
@@ -102,7 +103,6 @@
     top: 10px;
     transform: translate(-50%)
   }
-
   @media (max-width: 600px) {
     @include dimensions(35px, 100%);
 
@@ -137,58 +137,58 @@
 
 //======================================================
 
-#ghost {
-  --ghostXPos: 0px;
-  --ghostYPos: 0px;
+// #ghost {
+//   --ghostXPos: 0px;
+//   --ghostYPos: 0px;
 
-  transform: translate3d(var(--ghostXPos), var(--ghostYPos), 0);
+//   transform: translate3d(var(--ghostXPos), var(--ghostYPos), 0);
  
-position: fixed;
-left: 20px;
-top: 10px;
-z-index: 1000;
- pointer-events: none;
+// position: fixed;
+// left: 20px;
+// top: 10px;
+// z-index: 1000;
+//  pointer-events: none;
  
- transition: .2s ease-out opacity;
-}
+//  transition: .2s ease-out opacity;
+// }
 
-#ghostImage {
-  animation: ghostBounce 5s ease-in-out infinite;
-  filter: drop-shadow(0px 2px 10px var(--darkStructureBorder));
-}
+// #ghostImage {
+//   animation: ghostBounce 5s ease-in-out infinite;
+//   filter: drop-shadow(0px 2px 10px var(--darkStructureBorder));
+// }
 
-#ghostOuter {
-  animation: ghostSlide 10s ease-in-out infinite;
-}
+// #ghostOuter {
+//   animation: ghostSlide 10s ease-in-out infinite;
+// }
 
-@keyframes ghostSlide {
-  0% {
-    transform: translateX(-20px);
-  }
-  50% {
-    transform: translateX(20px);
-  }
-  100% {
-    transform: translateX(-20px);
-  }
-}
+// @keyframes ghostSlide {
+//   0% {
+//     transform: translateX(-20px);
+//   }
+//   50% {
+//     transform: translateX(20px);
+//   }
+//   100% {
+//     transform: translateX(-20px);
+//   }
+// }
 
-@keyframes ghostBounce {
-  0% {
-    transform: translateY(-20px);
-  }
-  50% {
-    transform: translateY(20px);
-  }
-  100% {
-    transform: translateY(-20px);
-  }
-}
+// @keyframes ghostBounce {
+//   0% {
+//     transform: translateY(-20px);
+//   }
+//   50% {
+//     transform: translateY(20px);
+//   }
+//   100% {
+//     transform: translateY(-20px);
+//   }
+// }
 
-.floatie svg.enabled {
-border-bottom: 4px solid var(--primary);
-padding-bottom: 2px;
-margin-top: 4px;
-transition: all .2s ease-out;
-}
+// .floatie svg.enabled {
+// border-bottom: 4px solid var(--primary);
+// padding-bottom: 2px;
+// margin-top: 4px;
+// transition: all .2s ease-out;
+// }
 

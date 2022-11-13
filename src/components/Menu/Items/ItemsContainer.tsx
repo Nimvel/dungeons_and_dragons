@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { useState } from 'react'
 import { connect } from 'react-redux'
+import { getIsAddIconsMenuChapter } from '../../../redux/education-selectors'
 import { saveNewItemImage, deleteItemImage, itemImagesType } from '../../../redux/itemImages-reducer'
 import { getItemImages } from '../../../redux/itemImages-selectors'
 
@@ -11,6 +12,7 @@ import {
 import {
     getItemColor, getItems, getMapHeight, getMapWidth
 } from '../../../redux/map-selectors'
+import { onBorders, onGrid } from '../../../redux/options-reducer'
 import { AppStateType } from '../../../redux/store'
 
 import Items from './Items'
@@ -22,6 +24,8 @@ type MapStateToPropsType = {
     items: Array<ItemType>
     itemImages: Array<itemImagesType>
     itemColor: string
+
+    isAddIconsMenuChapter: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -31,6 +35,9 @@ type MapDispatchToPropsType = {
     saveNewItemImage: (itemImage: Blob | MediaSource) => void
     deleteItemImage: (id: number) => void
     addNewItemWithImage: (itemImage: string) => void
+
+    onBorders: (borders: boolean) => void
+    onGrid: (grid: boolean) => void
 }
 
 type OwnPropsType = {
@@ -39,8 +46,13 @@ type OwnPropsType = {
 type ItemsContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const ItemsContainer: FC<ItemsContainerProps> = ({ mapWidth, mapHeight,
-    items, itemColor, itemImages, addNewCircle, updateItems,
-    saveNewItemImage, deleteItemImage, addNewItemWithImage }) => {
+    items, itemColor, itemImages, isAddIconsMenuChapter, addNewCircle, updateItems,
+    saveNewItemImage, deleteItemImage, addNewItemWithImage, onBorders, onGrid }) => {
+
+    if (isAddIconsMenuChapter) {
+        onBorders(true)
+        onGrid(true)
+    }
 
     const [newQuantity, setQuantity] = useState(1)
     const [newColor, setColor] = useState(itemColor)
@@ -91,10 +103,12 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 
         itemColor: getItemColor(state),
         items: getItems(state),
-        itemImages: getItemImages(state)
+        itemImages: getItemImages(state),
+
+        isAddIconsMenuChapter: getIsAddIconsMenuChapter(state)
     }
 }
 
 export default connect(mapStateToProps, {
-    addNewCircle, updateItems, saveNewItemImage, deleteItemImage, addNewItemWithImage
+    addNewCircle, updateItems, saveNewItemImage, deleteItemImage, addNewItemWithImage, onBorders, onGrid
 })(ItemsContainer)

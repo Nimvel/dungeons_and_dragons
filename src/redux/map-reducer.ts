@@ -36,8 +36,8 @@ export type initialStateType = {
 
 const initialState: initialStateType = {
     map: null,
-    mapWidth: 350,
-    mapHeight: 700,
+    mapWidth: 300,
+    mapHeight: 400,
     backgroundItemsOnMap: [],
     items: [],
     itemColor: '#cb9d9d',
@@ -71,8 +71,6 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 backgroundItemOnMap: action.backgroundItemOnMap,
                 x: action.x,
                 y: action.y,
-                // x: window.innerWidth / 2,
-                // y: window.innerHeight / 2,
                 id: `background-${state.backgroundItemsOnMap.length}`
             }
             return {

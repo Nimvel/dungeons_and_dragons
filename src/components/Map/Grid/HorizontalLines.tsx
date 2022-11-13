@@ -10,7 +10,7 @@ type HorizontalLinesProps = {
 
 const HorizontalLines: FC<HorizontalLinesProps> = ({ gridColor, gridSize, width, height }) => {
     const lines = []
-    for (let i = 1; i <= height / gridSize; i++) {
+    for (let i = 1; i <= (height / gridSize) - 1; i++) {
         lines.push(i)
     }
 

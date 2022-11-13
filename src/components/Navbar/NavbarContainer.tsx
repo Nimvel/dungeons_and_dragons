@@ -25,11 +25,12 @@ import Navbar from './Navbar'
 //@ts-ignore
 import s from './Navbar.module.scss'
 import {
-    getIsAddIconsMenuChapter, getIsAllDiceMenuChapter, getIsChangeColorLineChapter, getIsChangeDiceMenuChapter, getIsCreateMapDimentionsChapter, getIsCreateMapFillChapter, getIsCreateMapFixButtonChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapItemsChapter, getIsCreateMapMenuChapter, getIsCreateMapMoveItemsChapter, getIsDiceMenuChapter,
-    getIsEndChapter, getIsIntroduction, getIsMapMenuChapter,
-    getIsNavbarChapter,
-    getIsNavbarIconsChapter,
-    getIsPaintMenuChapter, getIsSettingsMenuChapter, getNavbarIconsChapters
+    getIsAddIconsMenuChapter, getIsAllDiceMenuChapter, getIsChangeColorLineChapter, 
+    getIsChangeDiceMenuChapter, getIsCreateMapDimentionsChapter, getIsCreateMapFillChapter, 
+    getIsCreateMapFixButtonChapter, getIsCreateMapFreeButtonChapter, getIsCreateMapItemsChapter, 
+    getIsCreateMapMenuChapter, getIsCreateMapMoveItemsChapter, getIsDiceMenuChapter,
+    getIsEndChapter, getIsIntroduction, getIsMapMenuChapter, getIsNavbarChapter,
+    getIsNavbarIconsChapter, getIsPaintMenuChapter, getIsSettingsMenuChapter, getNavbarIconsChapters
 } from '../../redux/education-selectors'
 
 const navbar = require('../../assets/pictures/navbar.png')
@@ -213,19 +214,22 @@ const NavbarContainer: FC<NavbarContainerProps> = ({
         onMoveNavbarIconsChapters('leave')
     }
 
-    return <>
+    if (!isIntroduction) {
+        return <>
         {isNavbarActive
             ? <Navbar navbarItems={navbarItems} navbarIconsChapters={navbarIconsChapters}
                 onCrossClick={onCrossClick} onMenuClick={onMenuClick} MouseMove={MouseMove} MouseLeave={MouseLeave} />
             : <img src={navbar} onClick={onNavbarClick} className={s.open} />
         }
     </>
+    }
 }
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         isNavbarActive: getIsNavbarActive(state),
         navbarItems: getNavbarItems(state),
+
         navbarIconsChapters: getNavbarIconsChapters(state),
         isIntroduction: getIsIntroduction(state),
         isNavbarChapter: getIsNavbarChapter(state),

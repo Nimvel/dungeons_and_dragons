@@ -48,8 +48,8 @@ const Options: FC<OptionsType> = ({ borders, bothColors,
         <button className={borders ? 'button_on' : 'button_off'} onClick={onBordersClick}>Borders</button>
 
         <div>Grid</div>
-        <input onChange={onChangeGridSize} placeholder='Enter size' />
-        <button onClick={updateGridSize}>Update</button>
+        {/* <input onChange={onChangeGridSize} placeholder='Enter size' />
+        <button onClick={updateGridSize}>Update</button> */}
 
         {isSameColors
             ? <input disabled onChange={onChangeGridColor} className='color' type='color' value={newGridColor} />

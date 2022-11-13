@@ -60,7 +60,7 @@ const initialState = {
         { id: 'background-16', backgroundItem: left_top_turn },
         { id: 'background-17', backgroundItem: crossroads },
     ],
-    isFreeMovement: true,
+    isFreeMovement: false,
     isFixBackgroundItems: false,
     clickedItemId: null
 }
@@ -82,7 +82,7 @@ const backgroundItemsReducer = (state = initialState, action: ActionsTypes): ini
         case FREE_MOVEMENT:
             return {
                 ...state,
-                isFreeMovement: !state.isFreeMovement
+                isFreeMovement: action.isFreeMovement
             }
 
         case FIX_BACKGROUND_ITEMS:
@@ -120,8 +120,9 @@ export const deleteBackgroundItem = (id: string): deleteBackgroundItemType => ({
 
 type OnFreeMovementType = {
     type: typeof FREE_MOVEMENT
+    isFreeMovement: boolean
 }
-export const onFreeMovement = (): OnFreeMovementType => ({ type: FREE_MOVEMENT })
+export const onFreeMovement = (isFreeMovement: boolean): OnFreeMovementType => ({ type: FREE_MOVEMENT, isFreeMovement })
 
 type OnFixBackgroundItemsType = {
     type: typeof FIX_BACKGROUND_ITEMS

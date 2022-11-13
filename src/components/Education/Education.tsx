@@ -86,10 +86,10 @@ const Education: FC<EducationProps> = ({
             <img className={s.arrow_1_small} src={smallArrows[0]} />
             <img className={s.arrow_1} src={arrows[0]} />
             
-            <div className={s.navbarChapter} >Click here to open the menu.</div>
+            <div className={`${s.border} ${s.navbarChapter}`} >Click here to open the menu.</div>
         </>}
         {isNavbarIconsChapter && <><img className={s.bracket_1} src={arrows[1]} />
-            <div className={s.navbarIconsChapter} >
+            <div className={`${s.border} ${s.navbarIconsChapter}`} >
                 <p>Move the mouse cursor over any icon and you will see what it is responsible for.</p>
                 <p>Click on any icon to start the associated tutorial.</p>
             </div></>}
@@ -156,7 +156,7 @@ const Education: FC<EducationProps> = ({
 
 {/* ===================================ItemsChapter===================================== */}
 
-        {isAddIconsMenuChapter && <div className={s.menuChapter}>
+        {isAddIconsMenuChapter && <div className={`${s.border} ${s.menuChapter}`}>
             <p>Here you can add player, npc or mob icons to the map. You can also move these icons around the map.</p>
         </div>}
 
@@ -201,7 +201,7 @@ const Education: FC<EducationProps> = ({
 
 {/* ===================================SettingsChapter===================================== */}
 
-        {isSettingsMenuChapter && <div className={s.menuChapter}>
+        {isSettingsMenuChapter && <div className={`${s.border} ${s.menuChapter}`}>
             <p>Here you can enable / disable borders and grid, you can also adjust grid size and border and grid colors.</p>
             <p>If you want to change the color at the borders and the grid at once, then click the "same colors" button.</p>
         </div>}

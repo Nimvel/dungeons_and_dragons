@@ -18,7 +18,7 @@ type CreateMapProps = {
     onChangeHeight: (e: any) => void
     onCreateMap: () => void
 
-    onFreeMovement: () => void
+    onFreeMovement: (isFreeMovement: boolean) => void
     onFixClick: () => void
     onChangeMapDimensions: () => void
 }
@@ -36,7 +36,8 @@ const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, isFixBackgroun
 
         <BackgroundItemContainer width={width} height={height} gridSize={gridSize} />
 
-        <button className={isFreeMovement ? 'button_on' : 'button_off'} onClick={onFreeMovement}>Free</button>
+        <button className={isFreeMovement ? 'button_on' : 'button_off'} 
+        onClick={() => isFreeMovement ? onFreeMovement(false) : onFreeMovement(true)}>Free</button>
         <button className={isFixBackgroundItems ? 'button_on' : 'button_off'} onClick={onFixClick}>Fix</button>
 
     </div>

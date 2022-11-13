@@ -77,8 +77,8 @@
   
   .closeModal {
     @include position(absolute, 0, 0, null, null);
-    @include dimensions(15px, 15px);
-    opacity: 0.2;
+    @include dimensions(20px, 20px);
+    opacity: 0.5;
     cursor: pointer;
     transition: opacity ease 0.5s;
     
@@ -94,6 +94,11 @@
     @include dimensions(17px, 2px);
     display: block;
     background: white;
+
+    @media (max-width: 600px) {
+      @include position(absolute, 10px, 2px, null, null);
+      @include dimensions(13px, 2px);
+    }
   }
     
   .closeModal::before {

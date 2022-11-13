@@ -11,31 +11,8 @@
     height: $height;
 }
 
-// .navbar_links {
-//     padding: 20px;
-
-//     .item {
-//         text-decoration: none;
-//         color: #c1b0c8;
-//     }
-
-//     .item:hover {
-//         font-size: 25px;
-//     }
-
-//     .active {
-//         text-decoration: none;
-//         color: #715678;
-//     }
-
-//     .active:hover {
-//         font-size: 25px;
-//     }
-// }
-
 .open {
     cursor: pointer;
-    // @include dimensions(50px, 50px);
     padding: 5px;
     z-index: 2;
 }

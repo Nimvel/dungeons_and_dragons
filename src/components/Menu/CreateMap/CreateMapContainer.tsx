@@ -48,7 +48,7 @@ type MapDispatchToProps = {
     onGrid: (grid: boolean) => void
 
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
-    onFreeMovement: () => void
+    onFreeMovement: (isFreeMovement: boolean) => void
     onFixBackgroundItems: () => void
 
     menuChapters: (icon: string) => void

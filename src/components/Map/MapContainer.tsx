@@ -73,11 +73,22 @@ type OwnPropsType = {
 
 type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const MapContainer: FC<MapContainerProps> = ({ map, mapWidth, mapHeight, gridSize, items,
-    backgroundItemsOnMap, isFreeMovement, paintbrushColor, strokeWidth, pensilMode, lineMode,
-    isFixBackgroundItems, updateItems, updateMapDimensions, updateBackgroundItems, clickedItemId,
-    lines, drawLine, addNewBackgroundItemOnMap, backgroundItems,
-    isCreateMapItemsChapter, isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter,
+const MapContainer: FC<MapContainerProps> = ({ 
+    map, mapWidth, mapHeight, gridSize, items, 
+
+    backgroundItems, backgroundItemsOnMap, clickedItemId, 
+    isFreeMovement, isFixBackgroundItems,
+
+    paintbrushColor, strokeWidth,
+    pensilMode, lineMode, lines,
+
+    isCreateMapItemsChapter,
+    isCreateMapMoveItemsChapter,
+    isCreateMapFreeButtonChapter,
+
+    updateItems, updateBackgroundItems, updateMapDimensions,
+    drawLine, addNewBackgroundItemOnMap,
+
     createMapItemsChapter, createMapMoveItemsChapter,
     createMapFreeButtonChapter, createMapFixButtonChapter }) => {
 

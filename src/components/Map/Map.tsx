@@ -62,9 +62,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     createMapItemsChapter, createMapMoveItemsChapter,
     createMapFreeButtonChapter, createMapFixButtonChapter }) => {
 
-    let stage = null
-    // let scale = 1
-
     const itemRegExp = /item-/i
     const itemWithImageRegExp = /itemWithImage-/i
     const backgroundItemRegExp = /background-/i
@@ -73,15 +70,12 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const startY = (window.innerHeight - mapHeight) / 2
 
     const [activeItemId, setActiveItemId] = useState(null)
-
     const [currentLine, setCurrentLine] = useState(null)
 
     const [x, setX] = useState((window.innerWidth - mapWidth) / 2)
     const [y, setY] = useState((window.innerHeight - mapHeight) / 2)
 
-    // const [ghostX, setGhostX] = useState(0)
-    // const [ghostY, setGhostY] = useState(0)
-    // const [ghost, setGhost] = useState(null)
+    let [stage, setStage] = useState(null)
 
     React.useEffect(() => { }, [x, y, backgroundItemsOnMap])
 
@@ -165,156 +159,170 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     // }
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
-        const id = e.target.name()
-        setActiveItemId(id)
+            const id = e.target.name()
+            setActiveItemId(id)
 
-        const isItemId = itemRegExp.test(id)
-        const isItemWithImageId = itemWithImageRegExp.test(id)
-        const isBackgroundItemId = backgroundItemRegExp.test(id)
+            const isItemId = itemRegExp.test(id)
+            const isItemWithImageId = itemWithImageRegExp.test(id)
+            const isBackgroundItemId = backgroundItemRegExp.test(id)
 
-        if (isItemId || isItemWithImageId) {
-            const item = items.find((i) => i.id === id)
-            const index = items.indexOf(item)
+            if (isItemId || isItemWithImageId) {
+                const item = items.find((i) => i.id === id)
+                const index = items.indexOf(item)
 
-            items.splice(index, 1)
-            items.push(item)
-            updateItems(items)
+                items.splice(index, 1)
+                items.push(item)
+                updateItems(items)
 
-            e.target.setAttrs({
-                shadowOffset: {
-                    x: 15,
-                    y: 15
-                },
-                scaleX: 1.1,
-                scaleY: 1.1
-            })
-        }
-        else if (isBackgroundItemId) {
-            const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-            const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+                e.target.setAttrs({
+                    shadowOffset: {
+                        x: 15,
+                        y: 15
+                    },
+                    scaleX: 1.1,
+                    scaleY: 1.1
+                })
+            }
+            else if (isBackgroundItemId) {
+                const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-            backgroundItemsOnMap.splice(backgroundItemIndex, 1)
-            backgroundItemsOnMap.push(backgroundItem)
+                backgroundItemsOnMap.splice(backgroundItemIndex, 1)
+                backgroundItemsOnMap.push(backgroundItem)
 
-            updateBackgroundItems(backgroundItemsOnMap)
-        }
+                updateBackgroundItems(backgroundItemsOnMap)
+            }
     }
 
     const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
-        const id = e.target.name()
-        setActiveItemId(id)
+            const id = e.target.name()
+            setActiveItemId(id)
     }
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
-        const id = e.target.name()
-        setActiveItemId(id)
+        
+            const id = e.target.name()
+            setActiveItemId(id)
 
-        const isItemId = itemRegExp.test(id)
-        const isItemWithImageId = itemWithImageRegExp.test(id)
-        const isBackgroundItemId = backgroundItemRegExp.test(id)
+            const isItemId = itemRegExp.test(id)
+            const isItemWithImageId = itemWithImageRegExp.test(id)
+            const isBackgroundItemId = backgroundItemRegExp.test(id)
 
-        if (isItemId || isItemWithImageId) {
-            const item = items.find((i) => i.id === id)
-            const index = items.indexOf(item)
+            if (isItemId || isItemWithImageId) {
+                const item = items.find((i) => i.id === id)
+                const index = items.indexOf(item)
 
-            items[index] = {
-                ...item,
-                x: e.target.x(),
-                y: e.target.y(),
-            }
-            updateItems(items)
-
-            e.target.to({
-                duration: 0.5,
-                easing: Konva.Easings.ElasticEaseOut,
-                scaleX: 1,
-                scaleY: 1,
-                shadowOffsetX: 5,
-                shadowOffsetY: 5
-            })
-        }
-        else if (isBackgroundItemId) {
-
-            const boxesX = []
-            for (let i = 0; i <= mapWidth / gridSize; i++) {
-                boxesX.push(i)
-            }
-            const boxesY = []
-            for (let i = 0; i <= mapHeight / gridSize; i++) {
-                boxesY.push(i)
-            }
-
-            if (isFreeMovement) {
-                const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-                const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
-
-                backgroundItemsOnMap[backgroundItemIndex] = {
-                    ...backgroundItem,
+                items[index] = {
+                    ...item,
                     x: e.target.x(),
                     y: e.target.y(),
                 }
-                updateBackgroundItems(backgroundItemsOnMap)
+                updateItems(items)
+
+                e.target.to({
+                    duration: 0.5,
+                    easing: Konva.Easings.ElasticEaseOut,
+                    scaleX: 1,
+                    scaleY: 1,
+                    shadowOffsetX: 5,
+                    shadowOffsetY: 5
+                })
             }
-
-            else {
-                const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
-                const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
-
-                setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
-                setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
-
-                backgroundItemsOnMap[backgroundItemIndex] = {
-                    ...backgroundItem,
-                    x: Math.round((e.target.x() - startX) / gridSize) * gridSize + startX,
-                    y: Math.round((e.target.y() - startY) / gridSize) * gridSize + startY
+            else if (isBackgroundItemId) {
+                if (!clickedItemId) {
+                    const boxesX = []
+                for (let i = 0; i <= mapWidth / gridSize; i++) {
+                    boxesX.push(i)
                 }
-                updateBackgroundItems(backgroundItemsOnMap)
-            }
-        }
+                const boxesY = []
+                for (let i = 0; i <= mapHeight / gridSize; i++) {
+                    boxesY.push(i)
+                }
 
-        if (isCreateMapMoveItemsChapter) {
-            createMapMoveItemsChapter(false)
-            createMapFreeButtonChapter(true)
-        }
+                if (isFreeMovement) {
+                    const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                    const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-        if (!isFreeMovement) {
-            if (isCreateMapFreeButtonChapter) {
-                createMapFreeButtonChapter(false)
-                createMapFixButtonChapter(true)
+                    backgroundItemsOnMap[backgroundItemIndex] = {
+                        ...backgroundItem,
+                        x: e.target.x(),
+                        y: e.target.y(),
+                    }
+                    updateBackgroundItems(backgroundItemsOnMap)
+                }
+
+                else {
+                    const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
+                    const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
+
+                    setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
+                    setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
+
+                    backgroundItemsOnMap[backgroundItemIndex] = {
+                        ...backgroundItem,
+                        x: Math.round((e.target.x() - startX) / gridSize) * gridSize + startX,
+                        y: Math.round((e.target.y() - startY) / gridSize) * gridSize + startY
+                    }
+                    updateBackgroundItems(backgroundItemsOnMap)
+                }
+                }
+                else {
+                    const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+
+            const itemX = Math.floor((e.target.x() - startX) / gridSize) * gridSize + startX
+            const itemY = Math.floor((e.target.y() - startY) / gridSize) * gridSize + startY
+
+            addNewBackgroundItemOnMap(item, itemX, itemY)
+                }
+                
             }
-        }
+
+            if (isCreateMapMoveItemsChapter) {
+                createMapMoveItemsChapter(false)
+                createMapFreeButtonChapter(true)
+            }
+
+            if (!isFreeMovement) {
+                if (isCreateMapFreeButtonChapter) {
+                    createMapFreeButtonChapter(false)
+                    createMapFixButtonChapter(true)
+                }
+            }
     }
 
-    const getScaledPoint = (stage, scale) => {
+    const getPointerPosition = (e) => {
+        setStage(e.target.getStage())
+
         const { x, y } = stage.getPointerPosition()
         return { x, y }
-        // return { x: x / scale, y: y / scale }
     }
 
-    const onMouseDown = () => {
+    const onMouseDown = (e) => {
         if (pensilMode || lineMode) {
-            const { x, y } = getScaledPoint(stage, 1)
+            const { x, y } = getPointerPosition(e)
+            // let { x, y } = getScaledPoint(stage, 1)
+
             setCurrentLine({ points: [x, y], paintbrushColor })
+        }
+        if (clickedItemId) {
+            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+            const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
+            const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
+
+            addNewBackgroundItemOnMap(item, itemX, itemY)
+
+            if (isCreateMapItemsChapter) {
+                createMapItemsChapter(false)
+                createMapMoveItemsChapter(true)
+            }
         }
     }
 
-    const onMouseMove = () => {
-        // const { x, y } = getScaledPoint(stage, 1)
-
-        // ghost.to({
-        //     x: x,
-        //     y: y,
-
-        //   onFinish: () => {
-        //     ghost.to({
-        //         opacity: 0.5,
-        //     })
-        //   }
-        // })
-
+    const onMouseMove = (e) => {
         if (pensilMode || lineMode) {
             if (currentLine) {
-                const { x, y } = getScaledPoint(stage, 1)
+                const { x, y } = getPointerPosition(e)
+                // let { x, y } = getScaledPoint(stage, 1)
                 const [x0, y0] = currentLine.points
 
                 pensilMode && setCurrentLine({
@@ -330,10 +338,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         }
     }
 
-    const onMouseUp = () => {
+    const onMouseUp = (e) => {
         if (pensilMode || lineMode) {
-            const { x, y } = getScaledPoint(stage, 1)
+            const { x, y } = getPointerPosition(e)
             setCurrentLine(null)
+
             drawLine({
                 ...currentLine,
                 points: [...currentLine.points, x, y],
@@ -349,122 +358,62 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         }
     }
 
-    const onCanvasClick = (e: any) => {
-        if (clickedItemId) {
-            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+    // const onCanvasClick = (e: any) => {
+    //     if (clickedItemId) {
+    //         const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
 
-            const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
-            const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
+    //         const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
+    //         const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
 
-            addNewBackgroundItemOnMap(item, itemX, itemY)
-        }
-        if (isCreateMapItemsChapter) {
-            createMapItemsChapter(false)
-            createMapMoveItemsChapter(true)
-        }
-    }
-
-    // const getPosition = (el) => {
-    //     var xPosition = 0;
-    //     var yPosition = 0;
-
-    //     while (el) {
-    //         if (el.tagName == "ghost") {
-    //             // deal with browser quirks with body/window/document and page scroll
-    //             var xScrollPos = el.scrollLeft || document.documentElement.scrollLeft;
-    //             var yScrollPos = el.scrollTop || document.documentElement.scrollTop;
-
-    //             xPosition += (el.offsetLeft - xScrollPos + el.clientLeft);
-    //             yPosition += (el.offsetTop - yScrollPos + el.clientTop);
-    //         } else {
-    //             xPosition += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-    //             yPosition += (el.offsetTop - el.scrollTop + el.clientTop);
-    //         }
-
-    //         el = el.offsetParent;
+    //         addNewBackgroundItemOnMap(item, itemX, itemY)
     //     }
-
-    //     setGhostX(xPosition)
-    //     setGhostY(yPosition)
-    //     // return {
-    //     //   x: xPosition,
-    //     //   y: yPosition
-    //     // };
+    //     // if (isCreateMapItemsChapter) {
+    //     //     createMapItemsChapter(false)
+    //     //     createMapMoveItemsChapter(true)
+    //     // }
     // }
 
-    //     const [touchStart, setTouchStart] = useState(null) //Точка начала касания
-    //     const [touchPosition, setTouchPosition] = useState(null) //Текущая позиция
+    // const onCanvasTouch = (e: any) => {
+    //     // const touches = e.changedTouches;
+    //     if (clickedItemId) {
+    //         const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
 
-    //     const sensitivity = 15 //Чувствительность — количество пикселей, после которого жест будет считаться свайпом
+    //         const itemX = Math.floor((e.touches[0].clientX - startX) / gridSize) * gridSize + startX
+    //         const itemY = Math.floor((e.touches[0].clientY - startY) / gridSize) * gridSize + startY
+    //         // const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
+    //         // const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
 
-    //     const TouchStart = (e) => {
-    //     //Получаем текущую позицию касания
-    //     setTouchStart({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY })
-    //     setTouchPosition({ x: touchStart.x, y: touchStart.y })
-
-    //     // touchStart = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-    //     // touchPosition = { x: touchStart.x, y: touchStart.y };
-
-    //     // Draw(touchPosition.x, touchPosition.y, 6, "blue"); //Рисуем точку начала касания
-    // }
-
-    //     const CheckAction = () => {
-    //     const d = //Получаем расстояния от начальной до конечной точек по обеим осям
-    //     {
-    //    	 x: touchStart.x - touchPosition.x,
-    //    	 y: touchStart.y - touchPosition.y
-    //     };
-
-    //     // if(Math.abs(d.x) > Math.abs(d.y)) //Проверяем, движение по какой оси было длиннее
-    //     // {
-    //    	 if(Math.abs(d.x) > sensitivity && Math.abs(d.y) > sensitivity) //Проверяем, было ли движение достаточно длинным
-    //    	 {
-    //         d.x > 0 && d.y < 0 ? alert('zoom in') : alert('zoom out')
-    //         }
-    //    		//  if(d.x > 0 && d.y < 0) //Если значение больше нуля, значит пользователь двигал пальцем справа налево
-    //    		//  {
-    //         //     alert('zoom in')
-    //    		//  }
-    //    		//  else //Иначе он двигал им слева направо
-    //    		//  {
-    //    		// 	alert('zoom out')
-    //    		//  }
-    //    	//  }
-    //     // }
-    //     // else //Аналогичные проверки для вертикальной оси
-    //     // {
-    //    	//  if(Math.abs(d.y) > sensitivity)
-    //    	//  {
-    //    	// 	 if(d.y > 0) //Свайп вверх
-    //    	// 	 {
-    //    	// 		 msg = "Swipe up";
-    //    	// 	 }
-    //    	// 	 else //Свайп вниз
-    //    	// 	 {
-    //    	// 		 msg = "Swipe down";
-    //    	// 	 }
-    //    	//  }
-    //     // }
-
+    //         addNewBackgroundItemOnMap(item, itemX, itemY)
+    //     }
+    //     if (isCreateMapItemsChapter) {
+    //         createMapItemsChapter(false)
+    //         createMapMoveItemsChapter(true)
+    //     }
     // }
 
     return <div id='canvas' className={s.map} >
 
-        <Stage  // onWheel={onScaling}
-            draggable={(mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
-
+        <Stage  
+            draggable={(!pensilMode && !lineMode && !clickedItemId) && (mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
+            // onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
-            // width={window.innerWidth} height={window.innerHeight}
 
             width={window.innerWidth}
             height={window.innerHeight}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
+
+            onClick={onMouseDown}
+            // onTouch={onCanvasTouch}
+
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
-            onClick={onCanvasClick}
+
+            onTouchStart={onMouseDown}
+            onTouchMove={onMouseMove}
+            onTouchEnd={onMouseUp}
         >
 
             <Layer>
@@ -549,10 +498,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                         onTouchEnd={touchContextMenu}
                     />
                 })}
-
-
-                {/* <Item items={items} itemsWithImages={itemsWithImages} gridSize={gridSize} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd}
-                        handleContextMenu={handleContextMenu}  touchContextMenu={touchContextMenu} /> */}
 
                 <DiceContainer width={mapWidth} />
 

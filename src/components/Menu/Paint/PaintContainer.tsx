@@ -10,6 +10,7 @@ import {
 import {
     changeColorLineChapter, menuChapters, endChapter
 } from '../../../redux/education-reducer'
+import { onBorders, onGrid } from '../../../redux/options-reducer'
 
 import { getLineMode, getLines, getPaintbrushColor, getPensilMode, getStrokeWidth } from '../../../redux/paint-selectors'
 import { getIsChangeColorLineChapter, getIsPaintMenuChapter } from '../../../redux/education-selectors'
@@ -38,13 +39,21 @@ type MapDispatchToProps = {
     changeColorLineChapter: (isChangeColorLineChapter: boolean) => void
     menuChapters: (icon: string) => void
     endChapter: (isEndChapter: boolean) => void
+
+    onBorders: (borders: boolean) => void
+    onGrid: (grid: boolean) => void
 }
 
 type PaintContainerProps = MapStateToProps & MapDispatchToProps
 
 const PaintContainer: FC<PaintContainerProps> = ({ paintbrushColor, strokeWidth, pensilMode, lineMode, lines,
     changePaintbrushColor, updateStrokeWidth, changePensilMode, changeLineMode, deleteLine, cleanLines,
-    isPaintMenuChapter, isChangeColorLineChapter, changeColorLineChapter, menuChapters, endChapter }) => {
+    isPaintMenuChapter, isChangeColorLineChapter, changeColorLineChapter, menuChapters, endChapter, onBorders, onGrid }) => {
+
+    if (isPaintMenuChapter) {
+        onBorders(true)
+        onGrid(true)
+    }
 
     const [newStrokeWidth, setNewStrokeWidth] = React.useState(strokeWidth)
 
@@ -110,6 +119,6 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
 }
 
 export default connect(mapStateToProps, {
-    changePaintbrushColor, updateStrokeWidth, changePensilMode, changeLineMode, 
-    deleteLine, cleanLines, changeColorLineChapter, menuChapters, endChapter
+    changePaintbrushColor, updateStrokeWidth, changePensilMode, changeLineMode,
+    deleteLine, cleanLines, changeColorLineChapter, menuChapters, endChapter, onBorders, onGrid
 })(PaintContainer)

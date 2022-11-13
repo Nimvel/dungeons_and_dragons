@@ -8,11 +8,11 @@ import { openNavbar, closeEducation } from '../../redux/app-reducer'
 import { updateMapDimensions } from '../../redux/map-reducer'
 import { onBorders, onGrid } from '../../redux/options-reducer'
 import { onAllDice } from '../../redux/dice-reducer'
+import { onFreeMovement } from '../../redux/backgrounds-reducer'
 import {
     introduction, navbarChapter, createMapDimentionsChapter,
     createMapFillChapter, endChapter
 } from '../../redux/education-reducer'
-// import {} from '../../redux/dice-selectors'
 
 import Education from './Education'
 import {
@@ -80,6 +80,7 @@ type MapDispatchToPropsType = {
     onBorders: (borders: boolean) => void
     onGrid: (grid: boolean) => void
     onAllDice: (isAllDice: boolean) => void
+    onFreeMovement: (isFreeMovement: boolean) => void
     closeEducation: () => void
 
     introduction: (isIntroduction: boolean) => void
@@ -111,7 +112,7 @@ const EducationContainer: FC<EducationContainerProps> = ({
 
     diceNames, diceColor, diceBorderColor, diceNumberColor,
 
-    openNavbar, onBorders, onGrid, onAllDice, closeEducation,
+    openNavbar, onBorders, onGrid, onAllDice, onFreeMovement, closeEducation,
     introduction, navbarChapter, updateMapDimensions,
     createMapDimentionsChapter, createMapFillChapter, endChapter,
 }) => {
@@ -124,12 +125,14 @@ const EducationContainer: FC<EducationContainerProps> = ({
         onGrid(true)
         onAllDice(true)
         closeEducation()
+        introduction(false)
     }
 
     const onYesClick = () => {
         introduction(false)
         navbarChapter(true)
         onAllDice(false)
+        onFreeMovement(true)
         updateMapDimensions(250, 250)
     }
 
@@ -201,7 +204,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default connect(mapStateToProps, {
-    openNavbar, onBorders, onGrid, onAllDice, closeEducation,
+    openNavbar, onBorders, onGrid, onAllDice, onFreeMovement, closeEducation,
     introduction, navbarChapter, updateMapDimensions,
     createMapDimentionsChapter, createMapFillChapter, endChapter,
 })(EducationContainer)
