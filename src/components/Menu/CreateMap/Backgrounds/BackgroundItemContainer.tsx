@@ -87,8 +87,8 @@ const BackgroundItemContainer: FC<BackgroundItemContainerProps> = ({ width, heig
             for (let x = 0; x <= boxesX.length; x++) {
                 items.push({
                     backgroundItemOnMap: backgroundItem,
-                    x: (x * 50) + (window.innerWidth - width) / 2,
-                    y: (y * 50) + (window.innerHeight - height) / 2,
+                    x: x * 50,
+                    y: y * 50,
                     id: `background-${items.length}`
                 })
             }
@@ -101,16 +101,9 @@ const BackgroundItemContainer: FC<BackgroundItemContainerProps> = ({ width, heig
         }
     }
 
-    const backgroundElements = backgroundItems.map(b => <BackgroundItem key={b.id} 
-        // width={width} height={height} gridSize={gridSize} 
-        id={b.id} backgroundItem={b.backgroundItem} clickedItemId={clickedItemId}
-        onBackgroundItemClick={onBackgroundItemClick} onFillClick={onFillClick} onCrossClick={onCrossClick}
-        // setClickedItemId={setClickedItemId}
-        //  updateBackgroundItems={updateBackgroundItems}
-        // deleteBackgroundItem={deleteBackgroundItem} 
-        // isCreateMapFillChapter={isCreateMapFillChapter}
-        // createMapFillChapter={createMapFillChapter} createMapItemsChapter={createMapItemsChapter} 
-        />)
+    const backgroundElements = backgroundItems.map(b => <BackgroundItem key={b.id} id={b.id} 
+        backgroundItem={b.backgroundItem} clickedItemId={clickedItemId} onBackgroundItemClick={onBackgroundItemClick} 
+        onFillClick={onFillClick} onCrossClick={onCrossClick} />)
 
     return <>
         <AddPictureButton addPicture={addNewBackground} />

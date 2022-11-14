@@ -18,17 +18,14 @@ type MapStateToProps = {
 type OwnProps = {
     mapWidth: number
     mapHeight: number
-
-    startX: number
-    startY: number
 }
 
 type GridContainerProps = MapStateToProps & OwnProps
 
-const GridContainer: FC<GridContainerProps> = ({ mapWidth, mapHeight, grid, gridColor, gridSize, startX, startY }) => {
+const GridContainer: FC<GridContainerProps> = ({ mapWidth, mapHeight, grid, gridColor, gridSize}) => {
     return grid && <>
-            <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} startX={startX} startY={startY} />
-            <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} startX={startX} startY={startY} />
+            <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
+            <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
         </>
 }
 

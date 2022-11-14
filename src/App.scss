@@ -130,9 +130,13 @@
 }
 
 .map {
-  @include possitionLeft(fixed, 55%);
+  @include possitionLeft(fixed, 50%);
   top: 50%;
-  transform: translate(-55%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.dice {
+  @include position(fixed, 10px, 10px, null, null);
 }
 
 //======================================================

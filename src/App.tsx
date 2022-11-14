@@ -4,10 +4,11 @@ import './App.scss'
 
 import { ContextMenuProvider } from './components/ContextMenu/ContextMenuProvider'
 // import Header from './components/Header/Header'
-import MapContainer from './components/Map/MapContainer'
+import CanvasContainer from './components/Canvas/CanvasContainer'
 import NavbarContainer from './components/Navbar/NavbarContainer'
 import MenuContainer from './components/Menu/MenuContainer'
 import EducationContainer from './components/Education/EducationContainer'
+import DiceContainer from './components/Canvas/Dice/DiceContainer'
 // import Ghost from './Ghost'
 
 type AppProps = {
@@ -25,7 +26,10 @@ const App: FC<AppProps> = ({isEducationActive, isMenuActive}) => {
         <NavbarContainer />
         {isMenuActive && <MenuContainer />}
         <div className='map'>
-          <MapContainer />
+          <CanvasContainer />
+        </div>
+        <div className='dice'>
+        <DiceContainer />
         </div>
       {isEducationActive && <EducationContainer />}
       </div>

@@ -4,6 +4,10 @@ export const getMap = (state: AppStateType) => {
     return state.map.map
 }
 
+export const getURI = (state: AppStateType) => {
+    return state.map.uri
+}
+
 export const getMapWidth = (state: AppStateType) => {
     return state.map.mapWidth
 }

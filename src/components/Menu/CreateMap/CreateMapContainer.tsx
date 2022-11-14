@@ -13,12 +13,12 @@ import {
 } from '../../../redux/backgrounds-reducer'
 import { onBorders, onGrid } from '../../../redux/options-reducer'
 import { cleanLines } from '../../../redux/paint-reducer'
-import { 
+import {
     menuChapters, createMapDimentionsChapter, createMapFixButtonChapter,
     endChapter
 } from '../../../redux/education-reducer'
 
-import { getMapHeight, getMapWidth } from '../../../redux/map-selectors'
+import { getMapHeight, getMapWidth, getURI } from '../../../redux/map-selectors'
 import { getIsFixBackgroundItems, getIsFreeMovement } from '../../../redux/backgrounds-selectors'
 import { getBorders, getGrid, getGridSize } from '../../../redux/options-selectors'
 import { getIsCreateMapFixButtonChapter, getIsCreateMapMenuChapter } from '../../../redux/education-selectors'
@@ -29,6 +29,8 @@ type MapStateToProps = {
     mapWidth: number
     mapHeight: number
     gridSize: number
+
+    uri: string
 
     borders: boolean
     grid: boolean
@@ -62,15 +64,16 @@ type OwnProps = {}
 type CreateMapContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
 const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, gridSize, isFreeMovement,
-    borders, grid, isFixBackgroundItems, cleanMap, updateMapDimensions, cleanLines,
+    borders, grid, uri, isFixBackgroundItems, cleanMap, updateMapDimensions, cleanLines,
     onBorders, onGrid, updateBackgroundItems, onFixBackgroundItems, onFreeMovement,
     isCreateMapMenuChapter, isCreateMapFixButtonChapter, menuChapters, createMapDimentionsChapter,
     createMapFixButtonChapter, endChapter }) => {
 
-    React.useEffect(() => {}, [isFixBackgroundItems])
+    React.useEffect(() => { }, [isFixBackgroundItems])
 
     const [width, setWidth] = useState(mapWidth)
     const [height, setHeight] = useState(mapHeight)
+    const [name, setName] = useState('')
 
     const onChangeWidth = (e: any) => {
         setWidth(Number(e.target.value) * gridSize)
@@ -78,6 +81,10 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
 
     const onChangeHeight = (e: any) => {
         setHeight(Number(e.target.value) * gridSize)
+    }
+
+    const onChangeName = (e: any) => {
+        setName(e.target.value)
     }
 
     const onChangeMapDimensions = () => {
@@ -91,14 +98,14 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
         updateBackgroundItems([])
 
         if (isCreateMapMenuChapter) {
-        menuChapters('')
-        createMapDimentionsChapter(true)
-        updateMapDimensions(250, 250)
-        
-    }
-    else {
-        updateMapDimensions(Math.round(width / gridSize) * gridSize, Math.round(height / gridSize) * gridSize)
-    }
+            menuChapters('')
+            createMapDimentionsChapter(true)
+            updateMapDimensions(250, 250)
+
+        }
+        else {
+            updateMapDimensions(Math.round(width / gridSize) * gridSize, Math.round(height / gridSize) * gridSize)
+        }
 
         !borders && onBorders(true)
         !grid && onGrid(true)
@@ -112,12 +119,21 @@ const CreateMapContainer: FC<CreateMapContainerProps> = ({ mapWidth, mapHeight, 
             endChapter(true)
         }
     }
-    
-    return <CreateMap width={width} height={height} gridSize={gridSize}
-    onCreateMap={onCreateMap} onChangeWidth={onChangeWidth} onChangeHeight={onChangeHeight}
+
+    const onSaveClick = () => {
+        const link = document.createElement('a')
+        link.download = name
+        link.href = uri
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
+    return <CreateMap width={width} height={height} gridSize={gridSize} onCreateMap={onCreateMap}
+        onChangeWidth={onChangeWidth} onChangeHeight={onChangeHeight} onChangeName={onChangeName}
         isFixBackgroundItems={isFixBackgroundItems} onFixClick={onFixClick}
-        onChangeMapDimensions={onChangeMapDimensions} onFreeMovement={onFreeMovement} 
-        isFreeMovement={isFreeMovement} />
+        onChangeMapDimensions={onChangeMapDimensions} onFreeMovement={onFreeMovement}
+        isFreeMovement={isFreeMovement} onSaveClick={onSaveClick} />
 }
 
 const MapStateToProps = (state: AppStateType): MapStateToProps => {
@@ -125,6 +141,9 @@ const MapStateToProps = (state: AppStateType): MapStateToProps => {
         mapWidth: getMapWidth(state),
         mapHeight: getMapHeight(state),
         gridSize: getGridSize(state),
+
+        uri: getURI(state),
+
         isFreeMovement: getIsFreeMovement(state),
         isFixBackgroundItems: getIsFixBackgroundItems(state),
         borders: getBorders(state),

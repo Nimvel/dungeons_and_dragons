@@ -1,13 +1,11 @@
 import * as React from 'react'
 import { FC, useEffect } from 'react'
 import { connect } from 'react-redux'
-import Map from './Map'
-
 import { AppStateType } from '../../redux/store'
 
 import {
     BackgroundItemOnMapType, ItemType, updateItems, updateBackgroundItems,
-    updateMapDimensions, addNewBackgroundItemOnMap
+    updateMapDimensions, addNewBackgroundItemOnMap, setURI
 } from '../../redux/map-reducer'
 
 import { BackgroundItemType } from '../../redux/backgrounds-reducer'
@@ -28,6 +26,8 @@ import { getGridSize } from '../../redux/options-selectors'
 
 import { getLineMode, getPaintbrushColor, getPensilMode, getLines, getStrokeWidth } from '../../redux/paint-selectors'
 import { getIsCreateMapFreeButtonChapter, getIsCreateMapItemsChapter, getIsCreateMapMoveItemsChapter } from '../../redux/education-selectors'
+
+import Canvas from './Canvas'
 
 type MapStateToPropsType = {
     map: null | string
@@ -59,6 +59,7 @@ type MapDispatchToPropsType = {
     updateMapDimensions: (mapWidth: number, mapHeight: number) => void
 
     drawLine: (line: LineType) => void
+    setURI: (uri: string) => void
     addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
 
     createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
@@ -71,9 +72,9 @@ type MapDispatchToPropsType = {
 type OwnPropsType = {
 }
 
-type MapContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
+type CanvasContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
-const MapContainer: FC<MapContainerProps> = ({ 
+const CanvasContainer: FC<CanvasContainerProps> = ({ 
     map, mapWidth, mapHeight, gridSize, items, 
 
     backgroundItems, backgroundItemsOnMap, clickedItemId, 
@@ -87,7 +88,7 @@ const MapContainer: FC<MapContainerProps> = ({
     isCreateMapFreeButtonChapter,
 
     updateItems, updateBackgroundItems, updateMapDimensions,
-    drawLine, addNewBackgroundItemOnMap,
+    drawLine, setURI, addNewBackgroundItemOnMap,
 
     createMapItemsChapter, createMapMoveItemsChapter,
     createMapFreeButtonChapter, createMapFixButtonChapter }) => {
@@ -106,12 +107,12 @@ const MapContainer: FC<MapContainerProps> = ({
     useEffect(() => { mapDimensions() }, [map])
 
     return <>
-        <Map map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} isFreeMovement={isFreeMovement}
+        <Canvas map={map} items={items} backgroundItemsOnMap={backgroundItemsOnMap} isFreeMovement={isFreeMovement}
             mapWidth={mapWidth} mapHeight={mapHeight} gridSize={gridSize} updateItems={updateItems}
             updateBackgroundItems={updateBackgroundItems} isFixBackgroundItems={isFixBackgroundItems}
             paintbrushColor={paintbrushColor} pensilMode={pensilMode} lineMode={lineMode} 
             addNewBackgroundItemOnMap={addNewBackgroundItemOnMap} backgroundItems={backgroundItems}
-            lines={lines} drawLine={drawLine} strokeWidth={strokeWidth} clickedItemId={clickedItemId} 
+            lines={lines} drawLine={drawLine} setURI={setURI} strokeWidth={strokeWidth} clickedItemId={clickedItemId} 
 
             isCreateMapItemsChapter={isCreateMapItemsChapter} isCreateMapMoveItemsChapter={isCreateMapMoveItemsChapter}
             isCreateMapFreeButtonChapter={isCreateMapFreeButtonChapter}
@@ -148,6 +149,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 }
 
 export default connect(mapStateToProps, {
-    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap,
+    updateItems, updateMapDimensions, updateBackgroundItems, drawLine, addNewBackgroundItemOnMap, setURI,
     createMapItemsChapter, createMapMoveItemsChapter, createMapFreeButtonChapter, createMapFixButtonChapter
-})(MapContainer)
+})(CanvasContainer)

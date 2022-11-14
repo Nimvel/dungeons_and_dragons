@@ -14,6 +14,7 @@ import { getIsAllDiceMenuChapter } from '../../../redux/education-selectors'
 
 
 import Dice from './Dice'
+import { Layer, Stage } from 'react-konva'
 
 type MapStateToPropsType = {
     D4: boolean
@@ -39,23 +40,27 @@ type MapDispatchToPropsType = {
 }
 
 type OwnPropsType = {
-    width: number
+    // width: number
 }
 
 type DiceContainerProps = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 const DiceContainer: FC<DiceContainerProps> = ({ 
-    width, D4, D6, D8, D10, D12, D20, D100, isTypesOfDice,
+    // width, 
+    D4, D6, D8, D10, D12, D20, D100, isTypesOfDice,
     diceColor, diceColorFace, diceNumberColor,
     isAllDiceMenuChapter, allDiceMenuChapter, changeDiceMenuChapter }) => {
 
-    React.useEffect(() => { }, [width, window.innerWidth])
+    React.useEffect(() => { }, [
+        // width, 
+        window.innerWidth])
 
-    const x = width > window.innerWidth - 105
-        ? width + 30
-        : isTypesOfDice
-            ? window.innerWidth - 105
-            : window.innerWidth - 75
+    // const x = width > window.innerWidth - 105
+    //     ? width + 30
+    //     : isTypesOfDice
+    //         ? window.innerWidth - 105
+    //         : window.innerWidth - 75
+    const x = isTypesOfDice ? 60 : 10
 
     const D4Y = 20
     const D6Y = D4 ? 90 : 20
@@ -161,6 +166,8 @@ const DiceContainer: FC<DiceContainerProps> = ({
     : D4 || D6 || D8 || D10 || D12 || D20 ? 90 : 20
 
         return <>
+        <Stage width={isTypesOfDice ? 120 : 70} height={520} >
+            <Layer>
         {D4 && <Dice number={4} x={x} y={D4Y} width={50} text={'D4'} isTypesOfDice={isTypesOfDice}
             diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
             isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
@@ -195,6 +202,8 @@ const DiceContainer: FC<DiceContainerProps> = ({
             diceColor={diceColor} diceColorFace={diceColorFace} diceNumberColor={diceNumberColor}
             isAllDiceMenuChapter={isAllDiceMenuChapter} allDiceMenuChapter={allDiceMenuChapter}
             changeDiceMenuChapter={changeDiceMenuChapter} />}
+            </Layer>
+            </Stage>
     </>
 }
 

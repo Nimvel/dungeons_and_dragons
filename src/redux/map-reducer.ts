@@ -9,6 +9,8 @@ const ADD_NEW_CIRCLES = 'map/ADD_NEW_CIRCLES'
 const ADD_NEW_ITEM_WITH_IMAGE = 'map/ADD_NEW_CIRCLE_WITH_IMAGE'
 const UPDATE_ITEMS = 'map/UPDATE_ITEMS'
 
+const SET_URI = 'map/SET_URI'
+
 export type BackgroundItemOnMapType = {
     backgroundItemOnMap: string
     x: number
@@ -26,6 +28,7 @@ export type ItemType = {
 
 export type initialStateType = {
     map: null | string
+    uri: string
     mapWidth: number
     mapHeight: number
     backgroundItemsOnMap: Array<BackgroundItemOnMapType>
@@ -36,6 +39,7 @@ export type initialStateType = {
 
 const initialState: initialStateType = {
     map: null,
+    uri: '',
     mapWidth: 300,
     mapHeight: 400,
     backgroundItemsOnMap: [],
@@ -95,8 +99,8 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
             let item = {
                 image: action.itemImage,
                 color: null,
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
+                x: 25,
+                y: 25,
                 id: `itemWithImage-${state.items.length}`
             }
             return {
@@ -110,6 +114,12 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 items: action.items
             }
 
+        case SET_URI:
+            return {
+                ...state,
+                uri: action.uri
+            }
+
         default:
             return state
     }
@@ -117,7 +127,7 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
 
 type ActionsTypes = SetNewMapType | CleanMapType | UpdateMapDimensionsType |
     AddNewBackgroundItemOnMapType | UpdateBackgroundItemsType | 
-    AddNewCircleType | AddNewItemWithImageType | UpdateItemsType 
+    AddNewCircleType | AddNewItemWithImageType | UpdateItemsType |SetURIType
 
 type SetNewMapType = {
     type: typeof SET_NEW_MAP
@@ -172,6 +182,12 @@ type UpdateItemsType = {
     items: Array<ItemType>
 }
 export const updateItems = (items: Array<ItemType>): UpdateItemsType => ({ type: UPDATE_ITEMS, items })
+
+type SetURIType = {
+    type: typeof SET_URI
+    uri: string
+}
+export const setURI = (uri: string): SetURIType => ({ type: SET_URI, uri })
 
 export default mapReducer
 

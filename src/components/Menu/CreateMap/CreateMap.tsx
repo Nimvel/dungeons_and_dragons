@@ -16,15 +16,17 @@ type CreateMapProps = {
 
     onChangeWidth: (e: any) => void
     onChangeHeight: (e: any) => void
+    onChangeName: (e: any) => void
     onCreateMap: () => void
 
     onFreeMovement: (isFreeMovement: boolean) => void
     onFixClick: () => void
+    onSaveClick: () => void
     onChangeMapDimensions: () => void
 }
 
 const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, isFixBackgroundItems, isFreeMovement,
-    onChangeWidth, onChangeHeight, onCreateMap, onFixClick, onFreeMovement, onChangeMapDimensions,
+    onChangeWidth, onChangeHeight, onChangeName, onCreateMap, onFixClick, onFreeMovement, onChangeMapDimensions, onSaveClick
  }) => {
 
     return <div className={s.menu}>
@@ -39,6 +41,9 @@ const CreateMap: FC<CreateMapProps> = ({ width, height, gridSize, isFixBackgroun
         <button className={isFreeMovement ? 'button_on' : 'button_off'} 
         onClick={() => isFreeMovement ? onFreeMovement(false) : onFreeMovement(true)}>Free</button>
         <button className={isFixBackgroundItems ? 'button_on' : 'button_off'} onClick={onFixClick}>Fix</button>
+
+        <input onChange={onChangeName} placeholder={`Enter map's name`} />
+        <button onClick={onSaveClick}>Save Map</button>
 
     </div>
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { connect } from 'react-redux'
 import { getBorders, getBordersColor } from '../../../redux/options-selectors'
 
@@ -17,16 +17,14 @@ type MapDispatchToProps = {}
 type OwnProps = {
     mapWidth: number
     mapHeight: number
-
-    startX: number
-    startY: number
 }
 
 type BordersContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
-const BordersContainer: FC<BordersContainerProps> = ({ borders, bordersColor, mapWidth, mapHeight, startX, startY  }) => {
+const BordersContainer: FC<BordersContainerProps> = ({ borders, bordersColor, mapWidth, mapHeight }) => {
+
     return <>
-        {borders && <Borders bordersColor={bordersColor} mapWidth={mapWidth} mapHeight={mapHeight} startX={startX} startY={startY} />}
+        {borders && <Borders bordersColor={bordersColor} mapWidth={mapWidth} mapHeight={mapHeight} />}
     </>
 }
 

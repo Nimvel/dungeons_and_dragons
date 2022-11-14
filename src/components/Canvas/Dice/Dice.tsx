@@ -62,7 +62,7 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor,
     }
   }
 
-  return <div>
+  return <>
     {number === 4 && <Shape
       sceneFunc={(context, shape) => {
         context.beginPath()
@@ -179,13 +179,13 @@ const Dice: FC<DiceProps> = ({ number, x, y, width, text, diceColor,
     <Text
       fontSize={15}
       text={text}
-      x={x + 50}
+      x={x - 55}
       y={y + 20}
       align='center'
       width={width}
       fill={'#ffffff'}
     />}
-  </div>
+  </>
 }
 
 export default Dice

@@ -8,18 +8,15 @@ import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
 import MapBackground from './MapBackground/MapBackground'
-import DiceContainer from './Dice/DiceContainer'
 import GridContainer from './Grid/GridContainer'
 import BordersContainer from './Borders/BordersContainer'
 
 import { BackgroundItemOnMapType, ItemType } from '../../redux/map-reducer'
 import { LineType } from '../../redux/paint-reducer'
 
-//@ts-ignore
-import s from './Map.module.scss'
 import { BackgroundItemType } from '../../redux/backgrounds-reducer'
 
-type MapProps = {
+type CanvasProps = {
     map: null | string
     mapWidth: number
     mapHeight: number
@@ -43,6 +40,7 @@ type MapProps = {
     isCreateMapFreeButtonChapter: boolean
 
     drawLine: (line: LineType) => void
+    setURI: (uri: string) => void
 
     updateItems: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
@@ -55,34 +53,28 @@ type MapProps = {
     createMapFixButtonChapter: (isCreateMapFixButtonChapter: boolean) => void
 }
 
-const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
+const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
     paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems, clickedItemId,
     lines, drawLine, strokeWidth, addNewBackgroundItemOnMap, backgroundItems, isCreateMapItemsChapter, 
     isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter, createMapItemsChapter, createMapMoveItemsChapter, 
-    createMapFreeButtonChapter, createMapFixButtonChapter }) => {
+    createMapFreeButtonChapter, createMapFixButtonChapter, setURI }) => {
 
     const itemRegExp = /item-/i
     const itemWithImageRegExp = /itemWithImage-/i
     const backgroundItemRegExp = /background-/i
 
-    const startX = (window.innerWidth - mapWidth) / 2
-    const startY = (window.innerHeight - mapHeight) / 2
+    const startX = 0
+    const startY = 0
 
     const [activeItemId, setActiveItemId] = useState(null)
     const [currentLine, setCurrentLine] = useState(null)
 
-    const [x, setX] = useState((window.innerWidth - mapWidth) / 2)
-    const [y, setY] = useState((window.innerHeight - mapHeight) / 2)
-
-    const [canvasX, setCanvasX] = useState(0)
-    const [canvasY, setCanvasY] = useState(0)
-
-    const [draw, setDraw] = useState(false)
+    const [x, setX] = useState(0)
+    const [y, setY] = useState(0)
 
     let [stage, setStage] = useState(null)
 
     React.useEffect(() => { }, [x, y, backgroundItemsOnMap])
-
 
     const { setContextMenu } = useContextMenu()
 
@@ -163,13 +155,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     // }
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
-
             const id = e.target.name()
-            if (id === 'canvas') {
-                setCanvasX(e.target.x())
-                setCanvasY(e.target.y())
-            }
-            
             setActiveItemId(id)
 
             const isItemId = itemRegExp.test(id)
@@ -206,20 +192,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
             const id = e.target.name()
-            setActiveItemId(id)
-            if (id === 'canvas') {
-                setCanvasX(e.target.x())
-                setCanvasY(e.target.y())
-            }
+            setActiveItemId(id) 
     }
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
             const id = e.target.name()
-            if (id === 'canvas') {
-                setCanvasX(e.target.x())
-                setCanvasY(e.target.y())
-            }
-
             setActiveItemId(id)
 
             const isItemId = itemRegExp.test(id)
@@ -272,17 +249,21 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     const backgroundItem = backgroundItemsOnMap.find((i) => i.id === id)
                     const backgroundItemIndex = backgroundItemsOnMap.indexOf(backgroundItem)
 
-                    setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
-                    setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
+                    setX(Math.round(e.target.x() / gridSize) * gridSize)
+                    setY(Math.round(e.target.y() / gridSize) * gridSize)
+                    // setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
+                    // setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
 
                     backgroundItemsOnMap[backgroundItemIndex] = {
                         ...backgroundItem,
-                        x: Math.round((e.target.x() - startX) / gridSize) * gridSize + startX,
-                        y: Math.round((e.target.y() - startY) / gridSize) * gridSize + startY
+                        x: Math.round(e.target.x() / gridSize) * gridSize,
+                        y: Math.round(e.target.y() / gridSize) * gridSize
+                        // x: Math.round((e.target.x() - startX) / gridSize) * gridSize + startX,
+                        // y: Math.round((e.target.y() - startY) / gridSize) * gridSize + startY
                     }
                     updateBackgroundItems(backgroundItemsOnMap)
                 }
-                }       
+                }  
 
             if (isCreateMapMoveItemsChapter) {
                 createMapMoveItemsChapter(false)
@@ -295,6 +276,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     createMapFixButtonChapter(true)
                 }
             }
+            
     }
 
     const getPointerPosition = (e) => {
@@ -309,14 +291,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             const { x, y } = getPointerPosition(e)
 
             setCurrentLine({ points: [x, y], paintbrushColor })
-        }
-        if (clickedItemId) {
-            setDraw(true)
-
-            if (isCreateMapItemsChapter) {
-                createMapItemsChapter(false)
-                createMapMoveItemsChapter(true)
-            }
         }
     }
 
@@ -337,14 +311,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 })
             }
         }
-        if (clickedItemId && draw) {
-            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
-
-            const itemX = Math.floor((e.evt.clientX - startX - canvasX) / gridSize) * gridSize + startX
-            const itemY = Math.floor((e.evt.clientY - startY - canvasY) / gridSize) * gridSize + startY
-
-            addNewBackgroundItemOnMap(item, itemX, itemY)
-        }
     }
 
     const onMouseUp = (e) => {
@@ -359,9 +325,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 strokeWidth: strokeWidth
             })
         }
-        if (clickedItemId) {
-            setDraw(false)
-        }
     }
 
     const setStageRef = ref => {
@@ -370,59 +333,59 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         }
     }
 
-    // const onCanvasClick = (e: any) => {
-    //     if (clickedItemId) {
-    //         const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+    const onCanvasClick = (e: any) => {
+        if (clickedItemId) {
+            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
 
-    //         const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
-    //         const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
+            const itemX = (Math.floor(e.evt.offsetX / gridSize) * gridSize) + startX
+            const itemY = (Math.floor(e.evt.offsetY / gridSize) * gridSize) + startY
 
-    //         addNewBackgroundItemOnMap(item, itemX, itemY)
-    //     }
-    //     // if (isCreateMapItemsChapter) {
-    //     //     createMapItemsChapter(false)
-    //     //     createMapMoveItemsChapter(true)
-    //     // }
-    // }
+            addNewBackgroundItemOnMap(item, itemX, itemY)
+        }
 
-    // const onCanvasTouch = (e: any) => {
-    //     // const touches = e.changedTouches;
-    //     if (clickedItemId) {
-    //         const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+        const uri = e.currentTarget.toDataURL()
+        setURI(uri)
 
-    //         const itemX = Math.floor((e.touches[0].clientX - startX) / gridSize) * gridSize + startX
-    //         const itemY = Math.floor((e.touches[0].clientY - startY) / gridSize) * gridSize + startY
-    //         // const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
-    //         // const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
+        if (isCreateMapItemsChapter) {
+            createMapItemsChapter(false)
+            createMapMoveItemsChapter(true)
+        }
+    }
 
-    //         addNewBackgroundItemOnMap(item, itemX, itemY)
-    //     }
-    //     if (isCreateMapItemsChapter) {
-    //         createMapItemsChapter(false)
-    //         createMapMoveItemsChapter(true)
-    //     }
-    // }
+    const onCanvasTouch = (e: any) => {
+        if (clickedItemId) {
+            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
 
-    return <div id='canvas' className={s.map} >
+            const itemX = (Math.floor(e.touches[0].offsetX / gridSize) * gridSize) + startX
+            const itemY = (Math.floor(e.touches[0].offsetY / gridSize) * gridSize) + startY
 
-        <Stage 
+            addNewBackgroundItemOnMap(item, itemX, itemY)
+        }
+        
+        const uri = e.currentTarget.toDataURL()
+        setURI(uri)
+
+        if (isCreateMapItemsChapter) {
+            createMapItemsChapter(false)
+            createMapMoveItemsChapter(true)
+        }
+    }
+
+    return <Stage id='canvas'
             draggable={(!pensilMode && !lineMode && !clickedItemId) && (mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
             // onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
             name='canvas'
             
-            width={mapWidth > window.innerWidth ? mapWidth : window.innerWidth}
-            height={mapHeight > window.innerHeight ? mapHeight : window.innerHeight}
-            // width={mapWidth}
-            // height={mapHeight}
-            // width={window.innerWidth}
-            // height={window.innerHeight}
+            width={mapWidth}
+            height={mapHeight}
+
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
 
-            onClick={onMouseDown}
-            // onTouch={onCanvasTouch}
+            onClick={onCanvasClick}
+            onTouch={onCanvasTouch}
 
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
@@ -433,6 +396,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             onTouchEnd={onMouseUp}
 
             onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
             onDragEnd={handleDragEnd}
         >
 
@@ -478,8 +442,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 })
                 }
 
-                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} startX={startX} startY={startY} />
-                <GridContainer mapHeight={mapHeight} mapWidth={mapWidth} startX={startX} startY={startY} />
+                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
+                <GridContainer mapHeight={mapHeight} mapWidth={mapWidth} />
 
                 {lines.map((line, index) => (
                     <Line
@@ -519,11 +483,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     />
                 })}
 
-                <DiceContainer width={mapWidth} />
-
             </Layer>
         </Stage>
-    </div>
 }
 
-export default Map
+export default Canvas
