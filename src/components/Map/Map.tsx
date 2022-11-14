@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { FC } from 'react'
 
 import { KonvaEventObject } from 'konva/lib/Node'
-import { Layer, Stage, Circle, Line, Rect, Shape } from 'react-konva'
+import { Layer, Stage, Circle, Line, Rect } from 'react-konva'
 import Konva from 'konva'
 
 import useContextMenu from '../hooks/useContextMenu'
@@ -57,9 +57,8 @@ type MapProps = {
 
 const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgroundItemsOnMap, isFreeMovement,
     paintbrushColor, pensilMode, lineMode, isFixBackgroundItems, updateItems, updateBackgroundItems, clickedItemId,
-    lines, drawLine, strokeWidth, addNewBackgroundItemOnMap, backgroundItems,
-    isCreateMapItemsChapter, isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter,
-    createMapItemsChapter, createMapMoveItemsChapter,
+    lines, drawLine, strokeWidth, addNewBackgroundItemOnMap, backgroundItems, isCreateMapItemsChapter, 
+    isCreateMapMoveItemsChapter, isCreateMapFreeButtonChapter, createMapItemsChapter, createMapMoveItemsChapter, 
     createMapFreeButtonChapter, createMapFixButtonChapter }) => {
 
     const itemRegExp = /item-/i
@@ -74,6 +73,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     const [x, setX] = useState((window.innerWidth - mapWidth) / 2)
     const [y, setY] = useState((window.innerHeight - mapHeight) / 2)
+
+    const [canvasX, setCanvasX] = useState(0)
+    const [canvasY, setCanvasY] = useState(0)
+
+    const [draw, setDraw] = useState(false)
 
     let [stage, setStage] = useState(null)
 
@@ -159,7 +163,13 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     // }
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
+
             const id = e.target.name()
+            if (id === 'canvas') {
+                setCanvasX(e.target.x())
+                setCanvasY(e.target.y())
+            }
+            
             setActiveItemId(id)
 
             const isItemId = itemRegExp.test(id)
@@ -197,11 +207,19 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
             const id = e.target.name()
             setActiveItemId(id)
+            if (id === 'canvas') {
+                setCanvasX(e.target.x())
+                setCanvasY(e.target.y())
+            }
     }
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
-        
             const id = e.target.name()
+            if (id === 'canvas') {
+                setCanvasX(e.target.x())
+                setCanvasY(e.target.y())
+            }
+
             setActiveItemId(id)
 
             const isItemId = itemRegExp.test(id)
@@ -229,7 +247,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 })
             }
             else if (isBackgroundItemId) {
-                if (!clickedItemId) {
                     const boxesX = []
                 for (let i = 0; i <= mapWidth / gridSize; i++) {
                     boxesX.push(i)
@@ -265,17 +282,7 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     }
                     updateBackgroundItems(backgroundItemsOnMap)
                 }
-                }
-                else {
-                    const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
-
-            const itemX = Math.floor((e.target.x() - startX) / gridSize) * gridSize + startX
-            const itemY = Math.floor((e.target.y() - startY) / gridSize) * gridSize + startY
-
-            addNewBackgroundItemOnMap(item, itemX, itemY)
-                }
-                
-            }
+                }       
 
             if (isCreateMapMoveItemsChapter) {
                 createMapMoveItemsChapter(false)
@@ -300,16 +307,11 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
     const onMouseDown = (e) => {
         if (pensilMode || lineMode) {
             const { x, y } = getPointerPosition(e)
-            // let { x, y } = getScaledPoint(stage, 1)
 
             setCurrentLine({ points: [x, y], paintbrushColor })
         }
         if (clickedItemId) {
-            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
-            const itemX = Math.floor((e.evt.clientX - startX) / gridSize) * gridSize + startX
-            const itemY = Math.floor((e.evt.clientY - startY) / gridSize) * gridSize + startY
-
-            addNewBackgroundItemOnMap(item, itemX, itemY)
+            setDraw(true)
 
             if (isCreateMapItemsChapter) {
                 createMapItemsChapter(false)
@@ -322,7 +324,6 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
         if (pensilMode || lineMode) {
             if (currentLine) {
                 const { x, y } = getPointerPosition(e)
-                // let { x, y } = getScaledPoint(stage, 1)
                 const [x0, y0] = currentLine.points
 
                 pensilMode && setCurrentLine({
@@ -335,6 +336,14 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                     points: [x0, y0, x, y]
                 })
             }
+        }
+        if (clickedItemId && draw) {
+            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+
+            const itemX = Math.floor((e.evt.clientX - startX - canvasX) / gridSize) * gridSize + startX
+            const itemY = Math.floor((e.evt.clientY - startY - canvasY) / gridSize) * gridSize + startY
+
+            addNewBackgroundItemOnMap(item, itemX, itemY)
         }
     }
 
@@ -349,6 +358,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 color: paintbrushColor,
                 strokeWidth: strokeWidth
             })
+        }
+        if (clickedItemId) {
+            setDraw(false)
         }
     }
 
@@ -393,13 +405,18 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
 
     return <div id='canvas' className={s.map} >
 
-        <Stage  
+        <Stage 
             draggable={(!pensilMode && !lineMode && !clickedItemId) && (mapWidth > window.innerWidth || mapHeight > window.innerHeight) && true}
             // onWheel={onScaling}
             // onTouchStart={TouchStart} onTouchMove={CheckAction}
-
-            width={window.innerWidth}
-            height={window.innerHeight}
+            name='canvas'
+            
+            width={mapWidth > window.innerWidth ? mapWidth : window.innerWidth}
+            height={mapHeight > window.innerHeight ? mapHeight : window.innerHeight}
+            // width={mapWidth}
+            // height={mapHeight}
+            // width={window.innerWidth}
+            // height={window.innerHeight}
             onContextMenu={handleContextMenu}
 
             ref={setStageRef}
@@ -414,6 +431,9 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
             onTouchStart={onMouseDown}
             onTouchMove={onMouseMove}
             onTouchEnd={onMouseUp}
+
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
         >
 
             <Layer>
@@ -458,8 +478,8 @@ const Map: FC<MapProps> = ({ map, mapWidth, mapHeight, gridSize, items, backgrou
                 })
                 }
 
-                <GridContainer />
-                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} />
+                <BordersContainer mapHeight={mapHeight} mapWidth={mapWidth} startX={startX} startY={startY} />
+                <GridContainer mapHeight={mapHeight} mapWidth={mapWidth} startX={startX} startY={startY} />
 
                 {lines.map((line, index) => (
                     <Line

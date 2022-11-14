@@ -70,7 +70,7 @@ const Education: FC<EducationProps> = ({
 
     return <div className={s.education}>
         {isIntroduction && <div className={`${s.border} ${s.introduction}`} >
-            <p>Hi! My name's Christina and this is my portfolio.</p>
+            <p>Hi! My name is Christina and this is my portfolio.</p>
             <p>I made this site for the opportunity to play the role-playing game "dungeons and dragons". 
             At the moment, here you can create your own map (or upload a ready-made one), 
             make notes on the map, use dice and add "figures" of players, NPCs or mobs.</p>

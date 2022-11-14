@@ -4,34 +4,36 @@ import { connect } from 'react-redux'
 
 import { AppStateType } from '../../../redux/store'
 
-import { getMapHeight, getMapWidth } from '../../../redux/map-selectors'
-
 import { getGrid, getGridColor, getGridSize } from '../../../redux/options-selectors'
 
 import HorizontalLines from './HorizontalLines'
 import VerticalLines from './VerticalLines'
 
-type GridContainerProps = {
-    mapWidth: number
-    mapHeight: number
-
+type MapStateToProps = {
     grid: boolean
     gridColor: string
     gridSize: number
 }
 
-const GridContainer: FC<GridContainerProps> = ({ mapWidth, mapHeight, grid, gridColor, gridSize }) => {
+type OwnProps = {
+    mapWidth: number
+    mapHeight: number
+
+    startX: number
+    startY: number
+}
+
+type GridContainerProps = MapStateToProps & OwnProps
+
+const GridContainer: FC<GridContainerProps> = ({ mapWidth, mapHeight, grid, gridColor, gridSize, startX, startY }) => {
     return grid && <>
-            <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
-            <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} />
+            <HorizontalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} startX={startX} startY={startY} />
+            <VerticalLines gridColor={gridColor} width={mapWidth} height={mapHeight} gridSize={gridSize} startX={startX} startY={startY} />
         </>
 }
 
-const mapStateToProps = (state: AppStateType): GridContainerProps => {
+const mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
-        mapWidth: getMapWidth(state),
-        mapHeight: getMapHeight(state),
-
         grid: getGrid(state),
         gridColor: getGridColor(state),
         gridSize: getGridSize(state)

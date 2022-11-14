@@ -7,19 +7,22 @@ type BordersProps = {
 
     mapWidth: number
     mapHeight: number
+
+    startX: number
+    startY: number
 }
 
-const Borders: FC<BordersProps> = ({ bordersColor, mapWidth, mapHeight }) => {
+const Borders: FC<BordersProps> = ({ bordersColor, mapWidth, mapHeight, startX, startY }) => {
 
-    const x = (window.innerWidth - mapWidth) / 2
-    const y = (window.innerHeight - mapHeight) / 2
+    // const x = (window.innerWidth - mapWidth) / 2
+    // const y = (window.innerHeight - mapHeight) / 2
 
     return <Line key={'borders'}
         points={[
-            x, y, x + mapWidth, y,
-            x + mapWidth, y, x + mapWidth, y + mapHeight,
-            x + mapWidth, y + mapHeight, x, y + mapHeight,
-            x, y + mapHeight, x, y
+            startX, startY, startX + mapWidth, startY,
+            startX + mapWidth, startY, startX + mapWidth, startY + mapHeight,
+            startX + mapWidth, startY + mapHeight, startX, startY + mapHeight,
+            startX, startY + mapHeight, startX, startY
         ]}
         stroke={bordersColor}
     />

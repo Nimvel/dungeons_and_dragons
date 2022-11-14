@@ -13,16 +13,20 @@ type MapStateToProps = {
 }
 
 type MapDispatchToProps = {}
+
 type OwnProps = {
     mapWidth: number
     mapHeight: number
+
+    startX: number
+    startY: number
 }
 
 type BordersContainerProps = MapStateToProps & MapDispatchToProps & OwnProps
 
-const BordersContainer: FC<BordersContainerProps> = ({ borders, bordersColor, mapWidth, mapHeight }) => {
+const BordersContainer: FC<BordersContainerProps> = ({ borders, bordersColor, mapWidth, mapHeight, startX, startY  }) => {
     return <>
-        {borders && <Borders bordersColor={bordersColor} mapWidth={mapWidth} mapHeight={mapHeight} />}
+        {borders && <Borders bordersColor={bordersColor} mapWidth={mapWidth} mapHeight={mapHeight} startX={startX} startY={startY} />}
     </>
 }
 
