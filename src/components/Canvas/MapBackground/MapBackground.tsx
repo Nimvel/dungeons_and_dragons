@@ -58,8 +58,6 @@ class MapBackground extends React.Component<MapBackgroundProps> {
                 width={this.props.mapWidth}
                 height={this.props.mapHeight}
                 resizeMode={'contain'}
-                // this.props.height this.clientHeight
-                // this.props.width this.clientWidth
                 image={this.state.image}
             // ref={(node) => {
             //     console.log(this.state.imageNode)

@@ -272,62 +272,72 @@
 .map {
     @include positionTopLeft(absolute, 45px, 80px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 35px, 50px);
+        display: none;
+        // @include positionTopLeft(absolute, 35px, 50px);
     }
 }
 .createMap {
     @include positionTopLeft(absolute, 95px, 80px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 75px, 50px);
+        display: none;
+        // @include positionTopLeft(absolute, 75px, 50px);
     }
 }
 .items {
     @include positionTopLeft(absolute, 165px, 80px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 120px, 50px);
+        display: none;
+        // @include positionTopLeft(absolute, 120px, 50px);
     }
 }
 .dice {
     @include positionTopLeft(absolute, 235px, 80px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 160px, 50px);
+        display: none;
+        // @include positionTopLeft(absolute, 160px, 50px);
     }
 }
 .paint {
     @include positionTopLeft(absolute, 295px, 80px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 205px, 50px);
+        display: none;
+        // @include positionTopLeft(absolute, 205px, 50px);
     }
 }
 .settings {
     @include positionTopLeft(absolute, 365px, 80px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 250px, 50px);
+        display: none;
+        // @include positionTopLeft(absolute, 250px, 50px);
     }
 }
 
 .diceNames {
     @include positionTopLeft(absolute, 75px, 210px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 85px, 140px);
+        display: none;
+        // @include positionTopLeft(absolute, 85px, 140px);
     }
 }
 .diceColor {
     @include positionTopLeft(absolute, 105px, 210px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 120px, 140px);
+        display: none;
+        // @include positionTopLeft(absolute, 120px, 140px);
     }
 }
 .diceBorderColor {
     @include positionTopLeft(absolute, 135px, 210px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 150px, 140px);
+        display: none;
+        // @include positionTopLeft(absolute, 150px, 140px);
     }
 }
 .diceNumberColor {
     @include positionTopLeft(absolute, 165px, 210px);
     @media (max-width: 600px) {
-        @include positionTopLeft(absolute, 185px, 140px);
+        display: none;
+        // @include positionTopLeft(absolute, 185px, 140px);
     }
 }
 
