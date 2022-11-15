@@ -45,7 +45,7 @@ type CanvasProps = {
     updateItems: (items: Array<ItemType>) => void
     updateBackgroundItems: (backgroundItemsOnMap: Array<BackgroundItemOnMapType>) => void
 
-    addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
+    addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number, clickedItemId: string) => void
 
     createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
     createMapMoveItemsChapter: (isCreateMapMoveItemsChapter: boolean) => void
@@ -63,11 +63,15 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
     const itemWithImageRegExp = /itemWithImage-/i
     const backgroundItemRegExp = /background-/i
 
-    const startX = 0
-    const startY = 0
-
     const [activeItemId, setActiveItemId] = useState(null)
+    const [clickedItemIdOnMap, setClickedItemIdOnMap] = useState(null)
+
     const [currentLine, setCurrentLine] = useState(null)
+
+    const [canvasX, setCanvasX] = useState(0)
+    const [canvasY, setCanvasY] = useState(0)
+
+    const [isDrawMap, setIsDrawMap] = useState(false)
 
     const [x, setX] = useState(0)
     const [y, setY] = useState(0)
@@ -156,6 +160,7 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
 
     const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
             const id = e.target.name()
+
             setActiveItemId(id)
 
             const isItemId = itemRegExp.test(id)
@@ -192,11 +197,16 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
 
     const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
             const id = e.target.name()
+            if (id === 'canvas') {
+                setCanvasX(e.target.x())
+                setCanvasY(e.target.y())
+            }
             setActiveItemId(id) 
     }
 
     const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
             const id = e.target.name()
+
             setActiveItemId(id)
 
             const isItemId = itemRegExp.test(id)
@@ -251,15 +261,11 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
 
                     setX(Math.round(e.target.x() / gridSize) * gridSize)
                     setY(Math.round(e.target.y() / gridSize) * gridSize)
-                    // setX(Math.round((e.target.x() - startX) / gridSize) * gridSize + startX)
-                    // setY(Math.round((e.target.y() - startY) / gridSize) * gridSize + startY)
 
                     backgroundItemsOnMap[backgroundItemIndex] = {
                         ...backgroundItem,
                         x: Math.round(e.target.x() / gridSize) * gridSize,
                         y: Math.round(e.target.y() / gridSize) * gridSize
-                        // x: Math.round((e.target.x() - startX) / gridSize) * gridSize + startX,
-                        // y: Math.round((e.target.y() - startY) / gridSize) * gridSize + startY
                     }
                     updateBackgroundItems(backgroundItemsOnMap)
                 }
@@ -287,6 +293,13 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
     }
 
     const onMouseDown = (e) => {
+        const id = e.target.name()
+        setActiveItemId(id)
+
+        if (activeItemId != clickedItemId || e.target.name() === 'canvas' ) {
+            setIsDrawMap(true)
+        }
+
         if (pensilMode || lineMode) {
             const { x, y } = getPointerPosition(e)
 
@@ -295,6 +308,23 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
     }
 
     const onMouseMove = (e) => {
+        const id = e.target.name()
+        setActiveItemId(id)
+
+        if (isDrawMap && clickedItemId) {
+//=================================(попытка отменить рисование одного и того же элеиента в одной клетке)===================
+            const item = backgroundItemsOnMap.filter(el => el.id === id)
+            item.length ? setClickedItemIdOnMap(item[0].clickedItemId) : setClickedItemIdOnMap(null)
+
+            if (clickedItemIdOnMap != clickedItemId || id === 'canvas') {
+                const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+
+                const itemX = Math.floor((e.evt.offsetX - canvasX) / gridSize) * gridSize
+                const itemY = Math.floor((e.evt.offsetY - canvasY) / gridSize) * gridSize
+    
+                addNewBackgroundItemOnMap(item, itemX, itemY, clickedItemId)
+            }
+    }
         if (pensilMode || lineMode) {
             if (currentLine) {
                 const { x, y } = getPointerPosition(e)
@@ -314,6 +344,8 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
     }
 
     const onMouseUp = (e) => {
+        setIsDrawMap(false)
+
         if (pensilMode || lineMode) {
             const { x, y } = getPointerPosition(e)
             setCurrentLine(null)
@@ -334,13 +366,22 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
     }
 
     const onCanvasClick = (e: any) => {
+        const id = e.target.name()
+        setActiveItemId(id)
+
+        const item = backgroundItemsOnMap.filter(el => el.id === id)
+        item.length ? setClickedItemIdOnMap(item[0].clickedItemId) : setClickedItemIdOnMap(null)
+
         if (clickedItemId) {
-            const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
+            if (clickedItemIdOnMap != clickedItemId) {
+                const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
 
-            const itemX = (Math.floor(e.evt.offsetX / gridSize) * gridSize) + startX
-            const itemY = (Math.floor(e.evt.offsetY / gridSize) * gridSize) + startY
-
-            addNewBackgroundItemOnMap(item, itemX, itemY)
+                const itemX = Math.floor((e.evt.offsetX - canvasX) / gridSize) * gridSize
+                const itemY = Math.floor((e.evt.offsetY - canvasY) / gridSize) * gridSize
+    
+                addNewBackgroundItemOnMap(item, itemX, itemY, clickedItemId)
+                setIsDrawMap(false)
+            }
         }
 
         const uri = e.currentTarget.toDataURL()
@@ -356,10 +397,10 @@ const Canvas: FC<CanvasProps> = ({ map, mapWidth, mapHeight, gridSize, items, ba
         if (clickedItemId) {
             const item = backgroundItems.find(el => el.id === clickedItemId && el).backgroundItem
 
-            const itemX = (Math.floor(e.touches[0].offsetX / gridSize) * gridSize) + startX
-            const itemY = (Math.floor(e.touches[0].offsetY / gridSize) * gridSize) + startY
+            const itemX = Math.floor(e.touches[0].offsetX / gridSize) * gridSize
+            const itemY = Math.floor(e.touches[0].offsetY / gridSize) * gridSize
 
-            addNewBackgroundItemOnMap(item, itemX, itemY)
+            addNewBackgroundItemOnMap(item, itemX, itemY, clickedItemId)
         }
         
         const uri = e.currentTarget.toDataURL()

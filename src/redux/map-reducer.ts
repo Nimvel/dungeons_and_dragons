@@ -16,6 +16,7 @@ export type BackgroundItemOnMapType = {
     x: number
     y: number
     id: string
+    clickedItemId: string
 }
 
 export type ItemType = {
@@ -75,7 +76,8 @@ const mapReducer = (state = initialState, action: ActionsTypes): initialStateTyp
                 backgroundItemOnMap: action.backgroundItemOnMap,
                 x: action.x,
                 y: action.y,
-                id: `background-${state.backgroundItemsOnMap.length}`
+                id: `background-${state.backgroundItemsOnMap.length}`,
+                clickedItemId: action.clickedItemId
             }
             return {
                 ...state,
@@ -152,9 +154,10 @@ type AddNewBackgroundItemOnMapType = {
     backgroundItemOnMap: string
     x: number
     y: number
+    clickedItemId: string
 }
-export const addNewBackgroundItemOnMap = (backgroundItemOnMap: string, x: number, y: number): AddNewBackgroundItemOnMapType =>
-    ({ type: ADD_NEW_BACKGROUND_ITEM, backgroundItemOnMap, x, y })
+export const addNewBackgroundItemOnMap = (backgroundItemOnMap: string, x: number, y: number, clickedItemId: string): AddNewBackgroundItemOnMapType =>
+    ({ type: ADD_NEW_BACKGROUND_ITEM, backgroundItemOnMap, x, y, clickedItemId})
 
 type UpdateBackgroundItemsType = {
     type: typeof UPDATE_BACKGROUND_ITEMS

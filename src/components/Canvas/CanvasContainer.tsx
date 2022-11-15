@@ -60,7 +60,7 @@ type MapDispatchToPropsType = {
 
     drawLine: (line: LineType) => void
     setURI: (uri: string) => void
-    addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number) => void
+    addNewBackgroundItemOnMap: (backgroundItemOnMap: string, x: number, y: number, clickedItemId: string) => void
 
     createMapItemsChapter: (isCreateMapItemsChapter: boolean) => void
     createMapMoveItemsChapter: (isCreateMapMoveItemsChapter: boolean) => void
