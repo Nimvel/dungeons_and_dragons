@@ -53,8 +53,8 @@ class MapBackground extends React.Component<MapBackgroundProps> {
 
         return (
             <Image
-                x={(window.innerWidth - this.props.mapWidth) / 2}
-                y={(window.innerHeight - this.props.mapHeight) / 2}
+                x={0}
+                y={0}
                 width={this.props.mapWidth}
                 height={this.props.mapHeight}
                 resizeMode={'contain'}
